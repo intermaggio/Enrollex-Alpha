@@ -20,6 +20,14 @@ Myturf::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
+  # ActionMailer config
+  config.action_mailer.default_url_options = { host: 'myturf.com' }
+  config.action_mailer.delivery_method = :postmark
+  config.action_mailer.postmark_settings = { api_key: '22873dc4-b292-483c-92a3-d98f3cbc04c3' }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default charset: 'utf-8'
+
   # Defaults to Rails.root.join("public/assets")
   # config.assets.manifest = YOUR_PATH
 

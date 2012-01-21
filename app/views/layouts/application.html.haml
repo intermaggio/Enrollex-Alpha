@@ -1,0 +1,16 @@
+!!!
+%html
+  %head
+    %title= yield :title
+    = include_stylesheets :common, media: :all
+    = include_javascripts :common
+  %body
+    #header
+      #nav
+        - if !logged_in?
+          = form_tag '/users/auth', style: 'display:inline-block' do
+            = email_field_tag :email, '', placeholder: 'email', autocomplete: 'off'
+            = password_field_tag :password, '', placeholder: 'password', autocomplete: 'off'
+            = submit_tag :login
+          = link_to 'signup', '/signup'
+    = yield

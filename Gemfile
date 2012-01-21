@@ -20,6 +20,7 @@ gem 'rmagick'
 gem 'sorcery'
 gem 'jammit'
 gem 'postmark-rails'
+gem 'inherited_resources'
 gem 'pry'
 
 

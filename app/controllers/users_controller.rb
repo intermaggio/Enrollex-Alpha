@@ -6,6 +6,7 @@ class UsersController < InheritedResources::Base
     if @user.save && (defined?(@organization) && @organization.save || !defined?(@organization))
       auto_login @user
       if defined?(@organization)
+        @organization.admins << @user
         redirect_to 'http://' + @organization.subname + '.' + request.domain
       else
         redirect_to '/'

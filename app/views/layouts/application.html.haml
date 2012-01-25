@@ -2,8 +2,7 @@
 %html
   %head
     %title= yield :title
-    = include_stylesheets :common, media: :all
-    = include_javascripts :common
+    = stylesheet_link_tag 'application'
   %body
     #header
       #nav
@@ -13,4 +12,7 @@
             = password_field_tag :password, '', placeholder: 'password', autocomplete: 'off'
             = submit_tag :login
           = link_to 'signup', '/signup'
-    = yield
+        - else
+          Welcome back, #{current_user.first_name}!
+          = link_to 'logout', '/signout'
+    #content= yield

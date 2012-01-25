@@ -1,10 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    POpen4 (0.1.4)
-      Platform (>= 0.4.0)
-      open4
-    Platform (0.4.0)
     actionmailer (3.2.0.rc2)
       actionpack (= 3.2.0.rc2)
       mail (~> 2.3.0)
@@ -63,8 +59,6 @@ GEM
     inherited_resources (1.3.0)
       has_scope (~> 0.5.0)
       responders (~> 0.6.0)
-    jammit (0.6.5)
-      yui-compressor (>= 0.9.3)
     journey (1.0.0)
     jquery-rails (2.0.0)
       railties (>= 3.2.0.beta, < 5.0)
@@ -84,7 +78,6 @@ GEM
     oauth2 (0.5.2)
       faraday (~> 0.7)
       multi_json (~> 1.0)
-    open4 (1.3.0)
     pg (0.12.2)
     polyglot (0.3.3)
     postmark (0.9.8)
@@ -157,8 +150,6 @@ GEM
       kgio (~> 2.4)
       rack
       raindrops (~> 0.6)
-    yui-compressor (0.9.6)
-      POpen4 (>= 0.1.4)
 
 PLATFORMS
   ruby
@@ -169,7 +160,6 @@ DEPENDENCIES
   coffee-rails (~> 3.2.0)
   haml
   inherited_resources
-  jammit
   jquery-rails
   pg
   postmark-rails

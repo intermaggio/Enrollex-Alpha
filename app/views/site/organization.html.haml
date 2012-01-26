@@ -1,2 +1,6 @@
-%h1
-  Welcome to #{@organization.name}!
+%h1 Welcome to #{organization.name}!
+%h2 Courses
+%dl
+  - organization.courses.each do |course|
+    %dt= course.name
+    %dd= '$' + course.price.to_s

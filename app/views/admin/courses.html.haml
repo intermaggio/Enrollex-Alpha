@@ -1,0 +1,36 @@
+%h1 Courses
+%ul.tabs{:'data-tabs' => 'tabs'}
+  %li.active= link_to 'list', '#list'
+  %li= link_to 'create', '#create', id: 'create-link'
+
+.tab-content
+  #list.active
+    %dl
+      - organization.courses.each do |course|
+        %dt= course.name
+        %dd= '$' + course.price.to_s
+  #create
+    - if @course
+      %ul
+      - @course.errors.messages.each do |message|
+        %li
+          = message.first
+          %ul
+            - message.last.each do |reason|
+              %li= reason
+    %h2 Create
+    = form_for :course, url: '/courses/create' do |f|
+      .clearfix= f.text_field :name, placeholder: 'name', autocomplete: 'off'
+      .clearfix= f.text_field :price, placeholder: 'price', autocomplete: 'off'
+      = f.submit :submit
+
+- if @course
+  :javascript
+    $(document).ready(function(){
+      $('#create-link').click()
+    })
+
+:javascript
+  $('.field_with_errors input').each(function(){
+    $(this).parent().parent().addClass('error')
+  })

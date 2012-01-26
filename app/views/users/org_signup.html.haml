@@ -16,9 +16,24 @@
           - message.last.each do |reason|
             %li= reason
   = form_for :user, url: '/users/create' do |f|
-    = f.email_field :email, placeholder: 'email', autocomplete: 'off'
-    = f.password_field :password, placeholder: 'password', autocomplete: 'off'
-    = f.text_field :first_name, placeholder: 'first name', autocomplete: 'off'
-    = f.text_field :last_name, placeholder: 'last name', autocomplete: 'off'
-    = text_field_tag :name, '', id: 'organization_name', name: 'organization[name]', placeholder: 'organization name', autocomplete: 'off'
+    .clearfix= f.email_field :email, placeholder: 'email', autocomplete: 'off'
+    .clearfix= f.password_field :password, placeholder: 'password', autocomplete: 'off'
+    .clearfix= f.text_field :first_name, placeholder: 'first name', autocomplete: 'off'
+    .clearfix= f.text_field :last_name, placeholder: 'last name', autocomplete: 'off'
+    .clearfix= text_field_tag :name, '', id: 'organization_name', name: 'organization[name]', placeholder: 'organization name', autocomplete: 'off'
     = f.submit :signup, style: 'display:inline'
+
+- if @organization
+  :javascript
+    $('#organization_name').val('#{@organization.name}')
+
+- if @organization && @organization.errors.first
+  :javascript
+    $('#organization_name').parent().addClass('error')
+    $('#user_password').parent().addClass('warning')
+
+:javascript
+  $('.field_with_errors input').each(function(){
+    $(this).parent().parent().addClass('error')
+    $('#user_password').parent().addClass('warning')
+  })

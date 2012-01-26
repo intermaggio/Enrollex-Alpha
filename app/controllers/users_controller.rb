@@ -12,7 +12,9 @@ class UsersController < InheritedResources::Base
         redirect_to '/'
       end
     else
+      @user.destroy
       if defined?(@organization)
+        @organization.destroy
         render 'users/org_signup'
       else
         render 'users/signup'

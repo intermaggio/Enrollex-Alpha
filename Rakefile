@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Myturf::Application.load_tasks
+CourseManage::Application.load_tasks

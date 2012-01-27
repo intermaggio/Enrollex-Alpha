@@ -1,4 +1,4 @@
-Myturf::Application.routes.draw do
+CourseManage::Application.routes.draw do
 
   get '/signup' => 'users#signup'
   get '/signout' => 'users#signout'

@@ -4,3 +4,5 @@
   - organization.courses.each do |course|
     %dt= course.name
     %dd= '$' + course.price.to_s
+    - if course.image
+      %dd= image_tag course.image

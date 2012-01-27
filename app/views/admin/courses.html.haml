@@ -22,6 +22,10 @@
     = form_for :course, url: '/courses/create' do |f|
       .clearfix= f.text_field :name, placeholder: 'name', autocomplete: 'off'
       .clearfix= f.text_field :price, placeholder: 'price', autocomplete: 'off'
+      .clearfix
+        %label{for: 'course_image', style: 'width:120px;text-align:left'}
+          %em Upload a picture
+        .input{style: 'margin-left:0'}= f.file_field :image
       = f.submit :submit
 
 - if @course

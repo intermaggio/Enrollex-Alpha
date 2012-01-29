@@ -2,7 +2,9 @@ class AdminController < InheritedResources::Base
 
   before_filter :authorize
 
-  def courses
+  def update_org
+    organization.update_attributes params[:organization]
+    redirect_to request.referer, notice: :success
   end
 
   def authorize

@@ -21,11 +21,16 @@
     %h2 Create
     = form_for :course, url: '/courses/create' do |f|
       .clearfix= f.text_field :name, placeholder: 'name', autocomplete: 'off'
+      .clearfix= f.text_area :description, placeholder: 'description', autocomplete: 'off', style: 'height:100px'
       .clearfix= f.text_field :price, placeholder: 'price', autocomplete: 'off'
       .clearfix
         %label{for: 'course_image', style: 'width:120px;text-align:left'}
           %em Upload a picture
         .input{style: 'margin-left:0'}= f.file_field :image
+      .clearfix= f.text_field :status, placeholder: 'status text', autocomplete: 'off'
+      .clearfix
+        %label{for: 'course_image', style: 'margin-top:-4px;width:75px;text-align:left'} Featured?
+        = f.check_box :featured
       = f.submit :submit
 
 - if @course

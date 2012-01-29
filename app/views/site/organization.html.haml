@@ -1,8 +1,9 @@
 %h1 Welcome to #{organization.name}!
-%h2 Courses
-%dl
-  - organization.courses.each do |course|
-    %dt= course.name
-    %dd= '$' + course.price.to_s
-    - if course.image
-      %dd= image_tag course.image
+%h2 Featured Courses
+- courses = organization.courses.featured.reorder(:created_at)
+- courses.each_with_index do |course, index|
+  - if index % 2 == 0
+    .row
+      = render partial: 'courses/featured', locals: { course: course }
+      - if courses[index+1]
+        = render partial: 'courses/featured', locals: { course: courses[index+1] }

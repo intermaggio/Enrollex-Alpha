@@ -1,0 +1,11 @@
+.span8
+  .course
+    .content
+      %h3= course.name
+      %p= course.description
+      .price
+        %strong= '$' + course.price.to_s
+    .image= image_tag course.image.url || '/images/no-image.jpg'
+    - if course.status.present?
+      .label-container
+        .label.success= course.status

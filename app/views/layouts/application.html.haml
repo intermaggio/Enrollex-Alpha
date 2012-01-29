@@ -12,7 +12,10 @@
             = email_field_tag :email, '', placeholder: 'email', autocomplete: 'off'
             = password_field_tag :password, '', placeholder: 'password', autocomplete: 'off'
             = submit_tag :login
-          = link_to 'signup', '/org_signup'
+          - if request.subdomain.present?
+            = link_to 'signup', '/signup'
+          - else
+            = link_to 'signup', '/org_signup'
         - else
           %ul.tabs
             - if request.subdomain.present?

@@ -4,6 +4,11 @@ class UsersController < InheritedResources::Base
     @user = User.new params[:user]
     @organization = Organization.new params[:organization] if params[:organization]
     if @user.save && (defined?(@organization) && @organization.save || !defined?(@organization))
+      params[:campers].each do |camper|
+        camper = Camper.new camper.last
+        camper.user = @user
+        camper.save
+      end
       auto_login @user
       if defined?(@organization)
         @organization.admins << @user
@@ -33,6 +38,10 @@ class UsersController < InheritedResources::Base
   def signout
     logout
     redirect_to '/'
+  end
+
+  def gen_camper
+    render partial: 'camper', locals: { num: params[:num] }
   end
 
   def signup

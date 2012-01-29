@@ -7,10 +7,29 @@
         %ul
           - message.last.each do |reason|
             %li= reason
-  = form_for :user, url: '/users/create' do |f|
-    = f.email_field :email, placeholder: 'email', autocomplete: 'off'
-    = f.password_field :password, placeholder: 'password', autocomplete: 'off'
-    = f.text_field :first_name, placeholder: 'first name', autocomplete: 'off'
-    = f.text_field :last_name, placeholder: 'last name', autocomplete: 'off'
-    = f.submit :signup, style: 'display:inline'
-  = link_to 'organization?', '/org_signup'
+  = form_for :user, url: '/users/create', html: { id: 'signup_form' } do |f|
+    .clearfix= f.email_field :email, placeholder: 'email', autocomplete: 'off'
+    .clearfix= f.password_field :password, placeholder: 'password', autocomplete: 'off'
+    .clearfix= f.text_field :first_name, placeholder: 'first name', autocomplete: 'off'
+    .clearfix= f.text_field :last_name, placeholder: 'last name', autocomplete: 'off'
+    .clearfix= link_to 'add camper', 'javascript:void(0)', id: 'add_camper', style: 'display:block'
+    .clearfix= f.submit :signup, style: 'display:inline', id: 'submit'
+
+:javascript
+  var camper_num = 0
+  gen_camper = function(){
+    $.post(
+      '/users/gen_camper',
+      { num: camper_num },
+      function(rsp) {
+        $('#signup_form').append(rsp)
+        $('#add_camper').parent().appendTo('#signup_form')
+        $('#submit').parent().appendTo('#signup_form')
+      },
+      'html'
+    )
+  }
+  $('#add_camper').click(function(){
+    gen_camper()
+    camper_num = camper_num + 1
+  })

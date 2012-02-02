@@ -12,7 +12,7 @@
     .clearfix= f.password_field :password, placeholder: 'password', autocomplete: 'off'
     .clearfix= f.text_field :first_name, placeholder: 'first name', autocomplete: 'off'
     .clearfix= f.text_field :last_name, placeholder: 'last name', autocomplete: 'off'
-    .clearfix= link_to 'add ' + organization.unit_name, 'javascript:void(0)', id: 'add_camper', style: 'display:block'
+    .clearfix= link_to 'add ' + organization.unit_name, 'javascript:void(0)', id: 'add_camper'
     .clearfix= f.submit :signup, style: 'display:inline', id: 'submit'
 
 :javascript

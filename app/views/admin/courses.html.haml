@@ -1,37 +1,53 @@
 %h1 Courses
-%ul.tabs{:'data-tabs' => 'tabs'}
-  %li.active= link_to 'list', '#list'
-  %li= link_to 'create', '#create', id: 'create-link'
+.tabbable
+  %ul.nav.nav-tabs{:'data-tabs' => 'tabs'}
+    %li.active= link_to 'list', '#list', :'data-toggle' => 'tab'
+    %li= link_to 'create', '#create', id: 'create-link', :'data-toggle' => 'tab'
 
-.tab-content
-  #list.active
-    %dl
-      - organization.courses.each do |course|
-        %dt= course.name
-        %dd= '$' + course.price.to_s
-  #create
-    - if @course
-      %ul
-      - @course.errors.messages.each do |message|
-        %li
-          = message.first
-          %ul
-            - message.last.each do |reason|
-              %li= reason
-    %h2 Create
-    = form_for :course, url: '/courses/create' do |f|
-      .clearfix= f.text_field :name, placeholder: 'name', autocomplete: 'off'
-      .clearfix= f.text_area :description, placeholder: 'description', autocomplete: 'off', style: 'height:100px'
-      .clearfix= f.text_field :price, placeholder: 'price', autocomplete: 'off'
-      .clearfix
-        %label{for: 'course_image', style: 'width:120px;text-align:left'}
-          %em Upload a picture
-        .input{style: 'margin-left:0'}= f.file_field :image
-      .clearfix= f.text_field :status, placeholder: 'status text', autocomplete: 'off'
-      .clearfix
-        %label{for: 'course_image', style: 'margin-top:-4px;width:75px;text-align:left'} Featured?
-        = f.check_box :featured
-      = f.submit :submit
+  .tab-content
+    #list.tab-pane.active
+      %dl
+        - organization.courses.each do |course|
+          %dt= course.name
+          %dd= '$' + course.price.to_s
+    #create.tab-pane
+      .row
+        .span6
+          - if @course
+            %ul
+            - @course.errors.messages.each do |message|
+              %li
+                = message.first
+                %ul
+                  - message.last.each do |reason|
+                    %li= reason
+          = form_for :course, url: '/courses/create', html: { class: 'form-horizontal' } do |f|
+            %fieldset
+              %legend Create
+              .control-group
+                %label Name
+                .controls= f.text_field :name, placeholder: 'name', autocomplete: 'off'
+              .control-group
+                %label Description
+                .controls= f.text_area :description, placeholder: 'description', autocomplete: 'off', style: 'height:100px'
+              .control-group
+                %label Price
+                .controls
+                  .input-append
+                    = f.text_field :price, placeholder: 'price', autocomplete: 'off'
+                    %span.add-on .00
+              .control-group
+                %label Upload a Picture
+                .controls
+                  .input{style: 'margin-left:0'}= f.file_field :image
+              .control-group
+                %label Status text
+                .controls= f.text_field :status, placeholder: 'status text', autocomplete: 'off'
+              .control-group
+                %label Featured?
+                .controls
+                  = f.check_box :featured
+              .form-actions= f.submit :submit, class: 'btn btn-success', value: 'Submit'
 
 - if @course
   :javascript

@@ -1,4 +1,4 @@
-.span8
+.span6
   .course
     .content
       %h3= course.name
@@ -8,4 +8,4 @@
     .image= image_tag course.image.url || '/images/no-image.jpg'
     - if course.status.present?
       .label-container
-        .label.success= course.status
+        .label.label-success= course.status

@@ -4,10 +4,12 @@ class UsersController < InheritedResources::Base
     @user = User.new params[:user]
     @organization = Organization.new params[:organization] if params[:organization]
     if @user.save && (defined?(@organization) && @organization.save || !defined?(@organization))
-      params[:campers].each do |camper|
-        camper = Camper.new camper.last
-        camper.user = @user
-        camper.save
+      if params[:campers]
+        params[:campers].each do |camper|
+          camper = Camper.new camper.last
+          camper.user = @user
+          camper.save
+        end
       end
       auto_login @user
       if defined?(@organization)

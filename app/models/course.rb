@@ -7,4 +7,8 @@ class Course < ActiveRecord::Base
   mount_uploader :image, CourseImage
 
   scope :featured, where(featured: true)
+
+  before_save do
+    self.lowname = self.name.downcase.gsub(' ', '_')
+  end
 end

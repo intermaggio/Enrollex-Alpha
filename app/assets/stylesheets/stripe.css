@@ -1,0 +1,235 @@
+html {
+  font-family: "helvetica neue", helvetica, arial;
+  margin: 0;
+  padding: 0;
+  background: #C0C1C3 url("/images/noise.png") no-repeat center top;
+}
+body {
+  display: block;
+  margin: 8px;
+}
+
+h2 {
+  width: 500px;
+  margin: 20px auto 0 auto;
+  text-align: center;
+  font-size: 18px;
+  text-shadow: 0 1px 0 white;
+}
+
+#payment_complete { text-align: center; padding: 20px !important }
+
+#recurly-transaction .submit:hover { cursor:pointer }
+
+#recurly-subscribe, #recurly-update-billing-info, #recurly-transaction, #payment_complete {
+  width: 500px;
+  margin: 30px auto;
+  padding: 0px;
+  border: 1px solid #999;
+  border-radius: 8px;
+  background: #FCFCFC url("/images/pulp.jpeg") repeat;
+  box-shadow: 0px 1px 2px rgba(0,0,0,0.20), inset 0 1px 0 #fff;
+}
+
+.recurly {
+  display: block;
+  position: relative;
+  width: 500px;
+}
+
+.recurly .footer {
+  border-radius: 0px 0px 9px 9px;
+  margin: 0px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+.recurly button.submit {
+  height: 46px;
+  max-width: 600px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #302106;
+  text-align: center;
+  margin-left: 0px;
+  border: 1px solid #767674;
+  background: #E7A500;
+  border-radius: 10px;
+  outline: none;
+  box-shadow: inset rgba(255,255,255,0.70) 0px 1px 0px, rgba(0,0,0,0.50) 0px 1px 3px;
+  background-image: -webkit-gradient(linear, 0% 20%, 0% 100%, from(#fecd00), to(#ce7b00));
+  background: -moz-linear-gradient(top, #FECD00, #CE7B00);
+  text-shadow: rgba(255, 255, 255, 0.50) 0 1px 0;
+  padding: 10px 20px;
+}
+.recurly .field.cvv input {
+width: 48px;
+}
+.recurly .contact_info, .recurly .billing_info {
+position: relative;
+padding-top: 20px;
+padding-right: 20px;
+padding-left: 20px;
+overflow: hidden;
+zoom: 1;
+}
+.recurly .contact_info .title, .recurly .billing_info .title {
+font-size: 16px;
+height: 20px;
+font-weight: bold;
+padding-bottom: 20px;
+color: #404041;
+text-shadow: 0 1px 0 white;
+}
+.recurly .accepted_cards {
+position: absolute;
+top: 14px;
+right: 21px;
+width: 160px;
+}
+.recurly .card.american_express {
+background-image: url("/images/amex.png");
+}
+.recurly .card {
+background-position: right top;
+background-repeat: no-repeat;
+text-indent: -3000px;
+width: 40px;
+height: 30px;
+margin: 0;
+padding: 0;
+float: left;
+}
+.recurly .card.discover {
+background-image: url("/images/discover.png");
+}
+.recurly .card.mastercard {
+background-image: url("/images/mastercard.png");
+}
+.recurly .card.visa {
+background-image: url("/images/visa.png");
+}
+.recurly .contact_info .credit_card, .recurly .billing_info .credit_card {
+clear: both;
+}
+.recurly .field.first_name {
+clear: left;
+width: 140px;
+}
+.recurly .field {
+display: inline;
+float: left;
+clear: left;
+width: 300px;
+height: 34px;
+margin-bottom: 20px;
+position: relative;
+}
+.recurly .field .placeholder {
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+padding-left: 9px;
+font-size: 16px;
+font-weight: normal;
+line-height: 34px;
+vertical-align: middle;
+color: #999;
+cursor: text;
+overflow: hidden;
+white-space: nowrap;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-o-user-select: none;
+user-select: none;
+font-weight: 300;
+}
+.recurly .field.first_name input {
+width: 128px;
+}
+.recurly .field input {
+width: 288px;
+}
+.recurly input {
+background: white;
+border: 1px solid #A0A0A5;
+box-shadow: inset 0 2px 3px rgba(0,0,0,0.10);
+display: block;
+font-family: inherit;
+font-size: 16px;
+padding: 5px;
+height: 22px;
+}
+.recurly input, .recurly select {
+vertical-align: middle;
+color: black;
+}
+.recurly .field.last_name {
+width: 140px;
+margin-left: 20px;
+margin-left: 20px;
+clear: none;
+clear: none;
+}
+.recurly .field.expires {
+width: 300px;
+}
+.recurly .field {
+display: inline;
+float: left;
+clear: left;
+width: 300px;
+height: 34px;
+margin-bottom: 20px;
+position: relative;
+}
+.recurly .field.card_number {
+width: 220px;
+}
+.recurly .field.cvv {
+width: 60px;
+margin-left: 97px;
+clear: none;
+}
+.recurly .field.expires .title {
+float: left;
+font-size: 13px;
+line-height: 24px;
+vertical-align: middle;
+}
+.recurly .contact_info .title, .recurly .billing_info .title {
+font-size: 16px;
+height: 20px;
+font-weight: bold;
+padding-bottom: 20px;
+color: #404041;
+text-shadow: 0 1px 0 white;
+}
+.recurly .field.expires .month, .recurly .field.expires .year {
+float: right;
+margin-left: 10px;
+}
+.recurly .field.expires .month {
+width: 130px;
+}
+.recurly select {
+color: inherit;
+font-family: inherit;
+font-size: 13px;
+width: 100%;
+}
+.recurly input, .recurly select {
+vertical-align: middle;
+color: black;
+}
+.recurly select > option {
+color: inherit;
+}
+.recurly .field.expires .month, .recurly .field.expires .year {
+float: right;
+margin-left: 10px;
+}

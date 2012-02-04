@@ -23,6 +23,7 @@ gem 'postmark-rails'
 gem 'inherited_resources'
 gem 'decent_exposure'
 gem 'pry'
+gem 'stripe'
 
 
 # To use ActiveModel has_secure_password

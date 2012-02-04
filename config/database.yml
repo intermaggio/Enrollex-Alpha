@@ -46,6 +46,14 @@ test:
   username: myturf
   password:
 
+staging:
+  adapter: postgresql
+  encoding: unicode
+  database: myturf_staging
+  pool: 5
+  username: myturf
+  password:
+
 production:
   adapter: postgresql
   encoding: unicode

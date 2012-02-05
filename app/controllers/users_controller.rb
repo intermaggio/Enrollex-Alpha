@@ -40,7 +40,8 @@ class UsersController < InheritedResources::Base
   end
 
   def signout
-    logout && cookies[:cm_user_id] = nil
+    logout
+    cookies[:cm_user_id] = nil
     redirect_to '/'
   end
 

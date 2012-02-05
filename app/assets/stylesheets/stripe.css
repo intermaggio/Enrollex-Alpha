@@ -1,22 +1,3 @@
-html {
-  font-family: "helvetica neue", helvetica, arial;
-  margin: 0;
-  padding: 0;
-  background: #C0C1C3 url("/images/noise.png") no-repeat center top;
-}
-body {
-  display: block;
-  margin: 8px;
-}
-
-h2 {
-  width: 500px;
-  margin: 20px auto 0 auto;
-  text-align: center;
-  font-size: 18px;
-  text-shadow: 0 1px 0 white;
-}
-
 #payment_complete { text-align: center; padding: 20px !important }
 
 #recurly-transaction .submit:hover { cursor:pointer }

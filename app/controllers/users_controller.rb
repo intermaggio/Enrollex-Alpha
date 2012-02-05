@@ -31,6 +31,8 @@ class UsersController < InheritedResources::Base
 
   def auth
     if user = login(params[:email], params[:password], true)
+      remember_me!
+      cookies[:cm_user_id] = user.id
       redirect_to '/'
     else
       render inline: 'fail'

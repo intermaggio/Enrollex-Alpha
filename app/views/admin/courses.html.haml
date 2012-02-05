@@ -21,7 +21,7 @@
                 %ul
                   - message.last.each do |reason|
                     %li= reason
-          = form_for :course, url: '/courses/create', html: { class: 'form-horizontal' } do |f|
+          = form_for :course, url: '/courses/create', html: { id: 'course_form', class: 'form-horizontal' } do |f|
             %fieldset
               %legend Create
               .control-group
@@ -45,8 +45,7 @@
                 .controls= f.text_field :status, placeholder: 'status text', autocomplete: 'off'
               .control-group
                 %label Featured?
-                .controls
-                  = f.check_box :featured
+                .controls= f.check_box :featured
               .form-actions= f.submit :submit, class: 'btn btn-success', value: 'Submit'
 
 - if @course

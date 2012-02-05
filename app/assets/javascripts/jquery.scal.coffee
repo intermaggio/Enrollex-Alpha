@@ -12,6 +12,7 @@
     month: new Date().getMonth(),
     year: new Date().getFullYear(),
     padding: '10',
+    popup: true,
     submit: ->
 
   class Plugin
@@ -147,16 +148,20 @@
           end_hour += 12 if $('#time_container select#end').val() == 'PM'
           end_time = end_hour + ':' + $('#time_container #end_min').val()
 
-          daytimes().push {day: month() + '-' + $(this).text() + '-' + year(), start_time: start_time, end_time: end_time}
+          daytimes().push {day: $(this).text() + '-' + month() + '-' + year(), start_time: start_time, end_time: end_time}
 
       $('#cal_submit').click =>
-        $('#calendar').fadeOut()
+        $('#calendar').fadeOut() if @opts.popup
         @opts.submit @daytimes
 
-      $(@element).click =>
-        $('#calendar').css('top', $(@element).offset().top + $(@element).height() + 5)
-        $('#calendar').css('left', $(@element).offset().left)
-        $('#calendar').fadeIn()
+      if @opts.popup
+        $(@element).click =>
+          $('#calendar').css('top', $(@element).offset().top + $(@element).height() + 5)
+          $('#calendar').css('left', $(@element).offset().left)
+          $('#calendar').fadeIn()
+      else
+        $('#calendar').appendTo( $(@element) )
+        $('#calendar').css('display', 'inline-block').css('position', 'relative')
 
   $.fn[pluginName] = (options) ->
     @each ->

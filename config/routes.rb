@@ -5,6 +5,7 @@ CourseManage::Application.routes.draw do
   get '/org_signup' => 'users#org_signup'
 
   match '/course/:lowname/:action' => 'courses'
+  get '/admin/courses/:lowname' => 'admin#manage_course'
 
   match '/:controller/:action'
   match '/:action' => 'site'

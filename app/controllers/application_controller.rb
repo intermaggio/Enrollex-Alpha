@@ -1,9 +1,9 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  before_filter :login
+  before_filter :auth
 
-  def login
+  def auth
     auto_login(User.find(cookies[:cm_user_id])) if cookies[:cm_user_id]
   end
 

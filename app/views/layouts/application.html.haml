@@ -30,8 +30,8 @@
                       admin
                       %b.caret
                     %ul.dropdown-menu
-                      %li= link_to 'organization', '/admin/organization'
-                      %li= link_to 'courses', '/admin/courses'
+                      %li= link_to 'Administrator Console', '/admin/organization'
+                      %li= link_to 'Course Management', '/admin/courses'
               - else
                 %li.dropdown{:'data-dropdown' => 'dropdown'}
                   = link_to 'my organizations', 'javascript:void(0)', class: 'dropdown-toggle'

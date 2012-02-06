@@ -10,14 +10,8 @@
 :javascript
   $('#cal_container').scal({
     popup: false,
+    persistent_time: true,
     submit: function(daytimes) {
-      $.post(
-        '/course/#{course.lowname}/schedule',
-        { daytimes: JSON.stringify(daytimes) },
-        function(){
-          window.location = '/admin/courses'
-        },
-        'json'
-      )
+      console.log(daytimes)
     }
   })

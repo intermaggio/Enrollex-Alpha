@@ -13,6 +13,7 @@
     year: new Date().getFullYear(),
     padding: '10',
     popup: true,
+    persistent_time: false,
     submit: ->
 
   class Plugin
@@ -31,7 +32,9 @@
           <table border="1" cellpadding="' + @opts.padding + '">
             <thead>
               <tr id="month_header">
-                <th colspan="7">
+                <td direction="prev"><</td>
+                <th colspan="5">
+                <td direction="next">></td>
                 </th>
               </tr>
               <tr id="days_header">' +
@@ -71,9 +74,12 @@
               <option value="AM">AM</option>
               <option value="PM">PM</option>
             </select>
-          </div>
-          <button class="btn btn-success">Schedule</button>
-        </div>
+          </div>' +
+          (unless @opts.persistent_time
+            '<button class="btn btn-success">Schedule</button>'
+           else
+             '') +
+        '</div>
       '
 
       @daytimes = []
@@ -81,78 +87,128 @@
       @init()
 
     init: ->
-      daytimes = => @daytimes
-      month = => @opts.month + 1
-      year = => @opts.year
 
-      first_day = new Date(@opts.year, @opts.month, 1).getDay()
-      month_name = @months[@opts.month]
-      month_days = @month_days[@opts.month]
-      month_length =
-        if @opts.month == 1 && (@opts.year % 4 == 0 && @opts.year % 100 != 0 || @opts.year % 400 == 0)
-          29
-        else
-          month_days
-      num_rows =
-        if month_days + first_day >= 35
-          6
-        else if first_day == 0 && month_days == 28
-          4
-        else
-          5
+      persistent_time = @opts.persistent_time
+      daytimes = => @daytimes
+
+      push_time = (day) =>
+        start_hour = parseInt( $('#time_container #start_hour').val() )
+        start_hour += 12 if $('#time_container select#start').val() == 'PM'
+        start_time = start_hour + ':' + $('#time_container #start_min').val()
+        end_hour = parseInt( $('#time_container #end_hour').val() )
+        end_hour += 12 if $('#time_container select#end').val() == 'PM'
+        end_time = end_hour + ':' + $('#time_container #end_min').val()
+
+        @daytimes = _.filter(@daytimes, (obj) -> obj.day != day)
+        @daytimes.push {day: day, start_time: start_time, end_time: end_time}
+
+      remove_time = (day) => @daytimes = _.filter(@daytimes, (obj) -> obj.day != day)
+
+      gen_cal = (month, year) =>
+        $('#calendar thead th').attr('month', month)
+        $('#calendar thead th').attr('year', year)
+        first_day = new Date(year, month, 1).getDay()
+        month_name = @months[month]
+        month_days = @month_days[month]
+        month_days =
+          if month == 1 && (year % 4 == 0 && year % 100 != 0 || year % 400 == 0)
+            29
+          else
+            month_days
+        num_rows =
+          if month_days + first_day > 35
+            6
+          else if first_day == 0 && month_days == 28
+            4
+          else
+            5
+
+        $('#calendar tbody').html('')
+        $('#calendar #month_header th').text(month_name + ' ' + year)
+
+        current_day = 0
+        for row in [1..num_rows]
+          $('#calendar tbody').append('<tr class="week">')
+          for day, i in @days
+            day = (current_day + 1) + '-' + month + '-' + year
+            html =
+              (if _.find(@daytimes, (obj) -> obj.day == day)
+                '<td selected="selected" style="background-color:rgba(204,255,153,0.65)" '
+              else
+                '<td ') +
+              (if row == 1 && i < first_day || current_day >= month_days
+                '<td class="day">'
+              else
+                '<td class="day day' + i + '">' + ++current_day) + '</td>'
+            $('#calendar tbody').append(html)
+          $('#calendar tbody').append('</tr>')
+
+        $('#calendar td').hover(
+          -> $(this).css('background-color', 'rgba(204,255,153,0.65)'),
+          -> $(this).css('background-color', 'transparent') if $(this).attr('selected') != 'selected'
+        )
+        $('#calendar th.day').hover(
+          (->
+            $(this).css('background-color', 'rgba(204,204,255,0.5)')
+            $( '.day' + $(this).attr('day') ).css('background-color', 'rgba(204,255,153,0.65)')
+          ),
+          (->
+            $(this).css('background-color', 'transparent')
+            $( '.day' + $(this).attr('day') ).each ->
+              $(this).css('background-color', 'transparent') if $(this).attr('selected') != 'selected'
+          )
+        )
+
+        $('#calendar tbody td.day').click ->
+          daytiems = daytimes()
+          day = $(this).text() + '-' + month + '-' + year
+          if persistent_time
+            if $(this).attr('selected') == 'selected'
+              $(this).removeAttr('selected')
+              $(this).css('background-color', 'transparent')
+              remove_time day
+            else
+              $(this).attr('selected', 'true')
+              $(this).css('background-color', 'rgba(204,255,153,0.65)')
+              push_time day
+          else
+            if $(this).attr('selected') == 'selected'
+              obj = _.find(daytiems, (obj) -> obj.day == day)
+              $('#time_container #start_min').val(obj.start_time.replace(/\d*:/, ''))
+              $('#time_container #start_hour').val(obj.start_time.replace(/:\d*/, ''))
+              $('#time_container #end_min').val(obj.end_time.replace(/\d*:/, ''))
+              $('#time_container #end_hour').val(obj.end_time.replace(/:\d*/, ''))
+            else
+              $(this).attr('selected', 'true')
+            $('#time_container').fadeIn()
+
+            $('#time_container .btn').click =>
+              $('#time_container .btn').unbind()
+              $('#time_container').fadeOut()
+              push_time day
+
+      ## end function helpers ##
 
       $('body').prepend(@calendar_skeleton).prepend(@time_skeleton)
-      $('#calendar #month_header th').text(month_name + ' ' + @opts.year)
-
-      current_day = 0
-      for row in [1..num_rows]
-        $('#calendar tbody').append('<tr class="week">')
-        for day, i in @days
-          html =
-            if row == 1 && i < first_day || current_day > month_days
-              '<td class="day">'
-            else
-              '<td class="day day' + i + '">' + ++current_day
-          html += '</td>'
-          $('#calendar tbody').append(html)
-        $('#calendar tbody').append('</tr>')
-
-      $('#calendar td').hover(
-        -> $(this).css('background-color', 'rgba(204,255,153,0.65)'),
-        -> $(this).css('background-color', 'transparent')
-      )
-      $('#calendar th.day').hover(
-        (->
-          $(this).css('background-color', 'rgba(204,204,255,0.5)')
-          $( '.day' + $(this).attr('day') ).css('background-color', 'rgba(204,255,153,0.65)')
-        ),
-        (->
-          $(this).css('background-color', 'transparent')
-          $( '.day' + $(this).attr('day') ).css('background-color', 'transparent')
-        )
-      )
-
-      $('#calendar td.day').click ->
-        $('#time_container').css('top', $('#calendar').offset().top)
-        $('#time_container').css('left', $('#calendar').offset().left + $('#calendar').width() + 5)
-        $('#time_container').fadeIn()
-
-        $('#time_container .btn').click =>
-          $('#time_container .btn').unbind()
-          $('#time_container').fadeOut()
-
-          start_hour = parseInt( $('#time_container #start_hour').val() )
-          start_hour += 12 if $('#time_container select#start').val() == 'PM'
-          start_time = start_hour + ':' + $('#time_container #start_min').val()
-          end_hour = parseInt( $('#time_container #start_hour').val() )
-          end_hour += 12 if $('#time_container select#end').val() == 'PM'
-          end_time = end_hour + ':' + $('#time_container #end_min').val()
-
-          daytimes().push {day: $(this).text() + '-' + month() + '-' + year(), start_time: start_time, end_time: end_time}
+      gen_cal(@opts.month, @opts.year)
 
       $('#cal_submit').click =>
         $('#calendar').fadeOut() if @opts.popup
         @opts.submit @daytimes
+
+      $('#calendar thead td').click ->
+        month = parseInt($('#calendar thead th').attr('month')) + 1
+        year = parseInt($('#calendar thead th').attr('year'))
+        if $(this).attr('direction') == 'next'
+          if month == 12
+            gen_cal(0, year + 1)
+          else
+            gen_cal(month, year)
+        else
+          if month == 1
+            gen_cal(11, year - 1)
+          else
+            gen_cal(month - 2, year)
 
       if @opts.popup
         $(@element).click =>
@@ -162,6 +218,9 @@
       else
         $('#calendar').appendTo( $(@element) )
         $('#calendar').css('display', 'inline-block').css('position', 'relative')
+        $('#time_container').css('top', $('#calendar').offset().top)
+        $('#time_container').css('left', $('#calendar').offset().left + $('#calendar').width() + 5)
+        $('#time_container').fadeIn(0) if @opts.persistent_time
 
   $.fn[pluginName] = (options) ->
     @each ->

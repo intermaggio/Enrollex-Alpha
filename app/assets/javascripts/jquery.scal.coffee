@@ -58,18 +58,18 @@
         <div id="time_container">
           <div id="time_picker">
             From
-            <input type="text" id="start_hour"/>
+            <input type="text" class="hour" id="start_hour"/>
             :
-            <input type="text" id="start_min"/>
+            <input type="text" class="minute" id="start_min"/>
             <select id="start">
               <option value="AM">AM</option>
               <option value="PM">PM</option>
             </select>
             <br/>
             To&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="text" id="end_hour"/>
+            <input type="text" class="hour" id="end_hour"/>
             :
-            <input type="text" id="end_min"/>
+            <input type="text" class="minute" id="end_min"/>
             <select id="end">
               <option value="AM">AM</option>
               <option value="PM">PM</option>
@@ -78,7 +78,7 @@
           (unless @opts.persistent_time
             '<button class="btn btn-success">Schedule</button>'
            else
-             '') +
+             '<dl></dl>') +
         '</div>
       '
 
@@ -103,6 +103,41 @@
         @daytimes.push {day: day, start_time: start_time, end_time: end_time}
 
       remove_time = (day) => @daytimes = _.filter(@daytimes, (obj) -> obj.day != day)
+
+      toggle = (day, element) =>
+        daytiems = daytimes()
+        month = $('#calendar thead th').attr('month')
+        year = $('#calendar thead th').attr('year')
+        month_name = @months[month]
+        if persistent_time
+          selector = '#time_container div#month' + month
+          if element.attr('selected') == 'selected'
+            element.removeAttr('selected')
+            element.css('background-color', 'transparent')
+            $('#day' + element.text()).remove()
+            $(selector).remove() unless $(selector + ' dd').html()
+            remove_time day
+          else
+            element.attr('selected', 'true')
+            element.css('background-color', 'rgba(204,255,153,0.65)')
+            $('#time_container dl').append('<div id="month' + month + '"><dt>' + month_name + '</dt><dd></dd></div>') unless $(selector)[0]
+            $('#month' + month + ' dd').append('<span id="day' + element.text() + '">' + element.text() + ', </span>')
+            push_time day
+        else
+          if element.attr('selected') == 'selected'
+            obj = _.find(daytiems, (obj) -> obj.day == day)
+            $('#time_container #start_min').val(obj.start_time.replace(/\d*:/, ''))
+            $('#time_container #start_hour').val(obj.start_time.replace(/:\d*/, ''))
+            $('#time_container #end_min').val(obj.end_time.replace(/\d*:/, ''))
+            $('#time_container #end_hour').val(obj.end_time.replace(/:\d*/, ''))
+          else
+            element.attr('selected', 'true')
+          $('#time_container').fadeIn()
+
+          $('#time_container .btn').click =>
+            $('#time_container .btn').unbind()
+            $('#time_container').fadeOut()
+            push_time day
 
       gen_cal = (month, year) =>
         $('#calendar thead th').attr('month', month)
@@ -137,9 +172,9 @@
               else
                 '<td ') +
               (if row == 1 && i < first_day || current_day >= month_days
-                '<td class="day">'
+                'class="day">'
               else
-                '<td class="day day' + i + '">' + ++current_day) + '</td>'
+                'class="day day' + i + '">' + ++current_day) + '</td>'
             $('#calendar tbody').append(html)
           $('#calendar tbody').append('</tr>')
 
@@ -150,42 +185,25 @@
         $('#calendar th.day').hover(
           (->
             $(this).css('background-color', 'rgba(204,204,255,0.5)')
-            $( '.day' + $(this).attr('day') ).css('background-color', 'rgba(204,255,153,0.65)')
+            $( '.day' + $(this).attr('day') ).each ->
+              if $(this).attr('selected') != 'selected'
+                $(this).css('background-color', 'rgba(204,255,153,0.65)')
+              else
+                $(this).css('background-color', 'transparent')
           ),
           (->
             $(this).css('background-color', 'transparent')
             $( '.day' + $(this).attr('day') ).each ->
-              $(this).css('background-color', 'transparent') if $(this).attr('selected') != 'selected'
+              if $(this).attr('selected') != 'selected'
+                $(this).css('background-color', 'transparent')
+              else
+                $(this).css('background-color', 'rgba(204,255,153,0.65)')
           )
         )
 
         $('#calendar tbody td.day').click ->
-          daytiems = daytimes()
-          day = $(this).text() + '-' + month + '-' + year
-          if persistent_time
-            if $(this).attr('selected') == 'selected'
-              $(this).removeAttr('selected')
-              $(this).css('background-color', 'transparent')
-              remove_time day
-            else
-              $(this).attr('selected', 'true')
-              $(this).css('background-color', 'rgba(204,255,153,0.65)')
-              push_time day
-          else
-            if $(this).attr('selected') == 'selected'
-              obj = _.find(daytiems, (obj) -> obj.day == day)
-              $('#time_container #start_min').val(obj.start_time.replace(/\d*:/, ''))
-              $('#time_container #start_hour').val(obj.start_time.replace(/:\d*/, ''))
-              $('#time_container #end_min').val(obj.end_time.replace(/\d*:/, ''))
-              $('#time_container #end_hour').val(obj.end_time.replace(/:\d*/, ''))
-            else
-              $(this).attr('selected', 'true')
-            $('#time_container').fadeIn()
-
-            $('#time_container .btn').click =>
-              $('#time_container .btn').unbind()
-              $('#time_container').fadeOut()
-              push_time day
+          day = $(this).text() + '-' + (month + 1) + '-' + year
+          toggle(day, $(this))
 
       ## end function helpers ##
 
@@ -195,6 +213,13 @@
       $('#cal_submit').click =>
         $('#calendar').fadeOut() if @opts.popup
         @opts.submit @daytimes
+
+      $('#calendar thead th.day').click ->
+        $('#calendar tbody td.day' + $(this).attr('day')).each ->
+          month = parseInt($('#calendar thead th').attr('month'))
+          year = $('#calendar thead th').attr('year')
+          day = $(this).text() + '-' + (month + 1) + '-' + year
+          toggle(day, $(this))
 
       $('#calendar thead td').click ->
         month = parseInt($('#calendar thead th').attr('month')) + 1
@@ -209,6 +234,22 @@
             gen_cal(11, year - 1)
           else
             gen_cal(month - 2, year)
+
+      $('#time_container input.hour').keyup ->
+        if parseInt($(this).val()) > 12 || isNaN(parseInt($(this).val()))
+          $(this).attr('style', 'border: thin solid rgb(149, 59, 57)')
+          $('#cal_submit').attr('disabled', 'true').addClass('disabled')
+        else
+          $(this).attr('style', '')
+          $('#cal_submit').removeAttr('disabled').removeClass('disabled')
+
+      $('#time_container input.minute').keyup ->
+        if parseInt($(this).val()) > 59 || isNaN(parseInt($(this).val()))
+          $(this).attr('style', 'border: thin solid rgb(149, 59, 57)')
+          $('#cal_submit').attr('disabled', 'true').addClass('disabled')
+        else
+          $(this).attr('style', '')
+          $('#cal_submit').removeAttr('disabled').removeClass('disabled')
 
       if @opts.popup
         $(@element).click =>

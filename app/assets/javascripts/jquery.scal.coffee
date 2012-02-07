@@ -109,6 +109,7 @@
         month = $('#calendar thead th').attr('month')
         year = $('#calendar thead th').attr('year')
         month_name = @months[month]
+        element.removeClass('deselecting')
         if persistent_time
           selector = '#time_container div#month' + month
           if element.attr('selected') == 'selected' && _switch != 'on' || _switch == 'off'
@@ -177,10 +178,22 @@
           $('#calendar tbody').append('</tr>')
 
         $('#calendar tbody td.day').hover(
-          -> $(this).addClass('hover') if $(this).text() != '',
-          -> $(this).removeClass('hover') if $(this).text() != ''
+          (->
+            if $(this).text() != ''
+              if $(this).attr('selected')
+                $(this).removeClass('selected').removeClass('hover').addClass('deselecting')
+              else
+                $(this).addClass('hover')
+          ),
+          (->
+            if $(this).text() != ''
+              if $(this).attr('selected')
+                $(this).addClass('selected')
+              else
+                $(this).removeClass('hover')
+          )
         )
-        $('#calendar th.day').hover(
+        $('#calendar thead th.day').hover(
           (->
             all_selected = _.all($('#calendar tbody td.day' + $(this).attr('day')), (t) -> $(t).attr('selected'))
             $(this).addClass('hover')
@@ -218,7 +231,6 @@
       $('#calendar thead th.day').click ->
         all_selected = _.all($('#calendar tbody td.day' + $(this).attr('day')), (t) -> $(t).attr('selected'))
         $('#calendar tbody td.day' + $(this).attr('day')).each ->
-          $(this).removeClass('deselecting')
           month = parseInt($('#calendar thead th').attr('month'))
           year = $('#calendar thead th').attr('year')
           day = $(this).text() + '-' + (month + 1) + '-' + year

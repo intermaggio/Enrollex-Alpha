@@ -78,7 +78,7 @@
           (unless @opts.persistent_time
             '<button class="btn btn-success">Schedule</button>'
            else
-             '<dl></dl>') +
+             '<dl style="width:150px"></dl>') +
         '</div>
       '
 
@@ -104,34 +104,32 @@
 
       remove_time = (day) => @daytimes = _.filter(@daytimes, (obj) -> obj.day != day)
 
-      toggle = (day, element) =>
+      toggle = (day, element, _switch = 'toggle') =>
         daytiems = daytimes()
         month = $('#calendar thead th').attr('month')
         year = $('#calendar thead th').attr('year')
         month_name = @months[month]
         if persistent_time
           selector = '#time_container div#month' + month
-          if element.attr('selected') == 'selected'
-            element.removeAttr('selected')
-            element.css('background-color', 'transparent')
+          if element.attr('selected') == 'selected' && _switch != 'on' || _switch == 'off'
+            element.removeAttr('selected').removeClass('selected')
             $('#day' + element.text()).remove()
             $(selector).remove() unless $(selector + ' dd').html()
             remove_time day
-          else
-            element.attr('selected', 'true')
-            element.css('background-color', 'rgba(204,255,153,0.65)')
+          else unless _.find(daytiems, (obj) -> obj.day == day)
+            element.attr('selected', 'true').addClass('selected')
             $('#time_container dl').append('<div id="month' + month + '"><dt>' + month_name + '</dt><dd></dd></div>') unless $(selector)[0]
             $('#month' + month + ' dd').append('<span id="day' + element.text() + '">' + element.text() + ', </span>')
             push_time day
         else
-          if element.attr('selected') == 'selected'
+          if element.attr('selected') == 'selected' && _switch != 'on' || _switch == 'off'
             obj = _.find(daytiems, (obj) -> obj.day == day)
             $('#time_container #start_min').val(obj.start_time.replace(/\d*:/, ''))
             $('#time_container #start_hour').val(obj.start_time.replace(/:\d*/, ''))
             $('#time_container #end_min').val(obj.end_time.replace(/\d*:/, ''))
             $('#time_container #end_hour').val(obj.end_time.replace(/:\d*/, ''))
           else
-            element.attr('selected', 'true')
+            element.attr('selected', 'true').addClass('selected')
           $('#time_container').fadeIn()
 
           $('#time_container .btn').click =>
@@ -168,7 +166,7 @@
             day = (current_day + 1) + '-' + month + '-' + year
             html =
               (if _.find(@daytimes, (obj) -> obj.day == day)
-                '<td selected="selected" style="background-color:rgba(204,255,153,0.65)" '
+                '<td class="selected" selected="selected" '
               else
                 '<td ') +
               (if row == 1 && i < first_day || current_day >= month_days
@@ -178,32 +176,25 @@
             $('#calendar tbody').append(html)
           $('#calendar tbody').append('</tr>')
 
-        $('#calendar td').hover(
-          -> $(this).css('background-color', 'rgba(204,255,153,0.65)'),
-          -> $(this).css('background-color', 'transparent') if $(this).attr('selected') != 'selected'
+        $('#calendar tbody td.day').hover(
+          -> $(this).addClass('hover') if $(this).text() != '',
+          -> $(this).removeClass('hover') if $(this).text() != ''
         )
         $('#calendar th.day').hover(
           (->
-            $(this).css('background-color', 'rgba(204,204,255,0.5)')
-            $( '.day' + $(this).attr('day') ).each ->
-              if $(this).attr('selected') != 'selected'
-                $(this).css('background-color', 'rgba(204,255,153,0.65)')
-              else
-                $(this).css('background-color', 'transparent')
+            $(this).addClass('hover')
+            $( '.day' + $(this).attr('day') ).each -> $(this).addClass('hover')
           ),
           (->
-            $(this).css('background-color', 'transparent')
-            $( '.day' + $(this).attr('day') ).each ->
-              if $(this).attr('selected') != 'selected'
-                $(this).css('background-color', 'transparent')
-              else
-                $(this).css('background-color', 'rgba(204,255,153,0.65)')
+            $(this).removeClass('hover')
+            $( '.day' + $(this).attr('day') ).each -> $(this).removeClass('hover')
           )
         )
 
         $('#calendar tbody td.day').click ->
-          day = $(this).text() + '-' + (month + 1) + '-' + year
-          toggle(day, $(this))
+          if $(this).text() != ''
+            day = $(this).text() + '-' + (month + 1) + '-' + year
+            toggle(day, $(this))
 
       ## end function helpers ##
 
@@ -215,11 +206,15 @@
         @opts.submit @daytimes
 
       $('#calendar thead th.day').click ->
+        all_selected = _.all($('#calendar tbody td.day' + $(this).attr('day')), (t) -> $(t).hasClass('selected'))
         $('#calendar tbody td.day' + $(this).attr('day')).each ->
           month = parseInt($('#calendar thead th').attr('month'))
           year = $('#calendar thead th').attr('year')
           day = $(this).text() + '-' + (month + 1) + '-' + year
-          toggle(day, $(this))
+          if all_selected
+            toggle(day, $(this), 'off')
+          else
+            toggle(day, $(this), 'on')
 
       $('#calendar thead td').click ->
         month = parseInt($('#calendar thead th').attr('month')) + 1

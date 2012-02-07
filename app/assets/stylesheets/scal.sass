@@ -2,12 +2,19 @@
   z-index: 1
   display: none
   position: absolute
+  .selected
+    background-color: rgba(204, 255, 153, 0.65)
+    border: 2px dashed rgb(000, 102, 051)
   table
     background-color: whiteSmoke
     td
       cursor: pointer
+      &.hover
+        background-color: rgba(204, 255, 153, 0.65)
     th.day
       cursor: pointer
+      &.hover
+        background-color: rgba(204, 204, 255, 0.5)
 
 #time_container
   z-index: 2

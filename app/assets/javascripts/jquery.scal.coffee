@@ -182,12 +182,22 @@
         )
         $('#calendar th.day').hover(
           (->
+            all_selected = _.all($('#calendar tbody td.day' + $(this).attr('day')), (t) -> $(t).attr('selected'))
             $(this).addClass('hover')
-            $( '.day' + $(this).attr('day') ).each -> $(this).addClass('hover')
+            if all_selected
+              $('.day' + $(this).attr('day')).each ->
+                $(this).removeClass('hover')
+                $(this).removeClass('selected')
+                $(this).addClass('deselecting')
+            else
+              $('.day' + $(this).attr('day')).each -> $(this).addClass('hover')
           ),
           (->
+            all_selected = _.all($('#calendar tbody td.day' + $(this).attr('day')), (t) -> $(t).attr('selected'))
             $(this).removeClass('hover')
-            $( '.day' + $(this).attr('day') ).each -> $(this).removeClass('hover')
+            $('.day' + $(this).attr('day')).each ->
+              $(this).removeClass('hover')
+              $(this).addClass('selected') if all_selected
           )
         )
 
@@ -206,8 +216,9 @@
         @opts.submit @daytimes
 
       $('#calendar thead th.day').click ->
-        all_selected = _.all($('#calendar tbody td.day' + $(this).attr('day')), (t) -> $(t).hasClass('selected'))
+        all_selected = _.all($('#calendar tbody td.day' + $(this).attr('day')), (t) -> $(t).attr('selected'))
         $('#calendar tbody td.day' + $(this).attr('day')).each ->
+          $(this).removeClass('deselecting')
           month = parseInt($('#calendar thead th').attr('month'))
           year = $('#calendar thead th').attr('year')
           day = $(this).text() + '-' + (month + 1) + '-' + year

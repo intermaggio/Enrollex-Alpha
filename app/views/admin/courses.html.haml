@@ -11,9 +11,8 @@
           %dt= link_to course.name, "/admin/courses/#{course.lowname}"
           %dd= '$' + course.price.to_s
           %ul
-            - course.scheduled_courses.each do |scheduled_course|
-              - days = scheduled_course.days.reorder(:date)
-              %li #{days.first.date} - #{days.last.date}
+            - days = course.days.reorder(:date)
+            %li #{days.first.date} - #{days.last.date}
     #create.tab-pane
       .row
         .span6

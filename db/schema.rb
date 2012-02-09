@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120205102340) do
+ActiveRecord::Schema.define(:version => 20120209020425) do
 
   create_table "campers", :force => true do |t|
     t.string   "name"
@@ -21,32 +21,31 @@ ActiveRecord::Schema.define(:version => 20120205102340) do
   end
 
   create_table "charges", :force => true do |t|
-    t.string   "charge_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "course_id"
   end
 
   create_table "courses", :force => true do |t|
     t.string   "name"
-    t.text     "desc"
     t.integer  "price"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-    t.integer  "organization_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.string   "image"
     t.text     "description"
-    t.string   "status"
     t.boolean  "featured"
     t.string   "lowname"
+    t.string   "status"
+    t.integer  "template_id"
   end
 
   create_table "days", :force => true do |t|
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
     t.time     "start_time"
     t.time     "end_time"
     t.date     "date"
-    t.integer  "scheduled_course_id"
+    t.integer  "course_id"
   end
 
   create_table "organizations", :force => true do |t|
@@ -68,10 +67,14 @@ ActiveRecord::Schema.define(:version => 20120205102340) do
     t.integer "user_id"
   end
 
-  create_table "scheduled_courses", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.integer  "course_id"
+  create_table "templates", :force => true do |t|
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "name"
+    t.text     "description"
+    t.integer  "price"
+    t.string   "image"
+    t.integer  "organization_id"
   end
 
   create_table "users", :force => true do |t|

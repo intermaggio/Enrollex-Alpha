@@ -10,6 +10,6 @@ class Organization < ActiveRecord::Base
   end
 
   before_create do
-    self.subname = self.name.downcase.gsub(' ', '-')
+    self.subname = self.name.downcase.gsub(' ', '-').gsub(/\W/, '')
   end
 end

@@ -9,4 +9,5 @@ class ApplicationController < ActionController::Base
 
   expose(:organization) { Organization.find_by_subdomain request.subdomain }
   expose(:course) { Course.where(lowname: params[:lowname]).first }
+  expose(:courses) { organization.templates.map{|t|t.courses.featured}.flatten.compact.sort_by(&:created_at) }
 end

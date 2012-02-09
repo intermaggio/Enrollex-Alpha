@@ -7,7 +7,7 @@
   .tab-content
     #list.tab-pane.active
       %dl
-        - organization.courses.each do |course|
+        - courses.each do |course|
           %dt= link_to course.name, "/admin/courses/#{course.lowname}"
           %dd= '$' + course.price.to_s
           %ul

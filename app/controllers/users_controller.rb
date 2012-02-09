@@ -1,31 +1,31 @@
 class UsersController < InheritedResources::Base
 
-  def create
+  def create_organization
     @user = User.new params[:user]
-    @organization = Organization.new params[:organization] if params[:organization]
-    if @user.save && (defined?(@organization) && @organization.save || !defined?(@organization))
-      if params[:campers]
-        params[:campers].each do |camper|
-          camper = Camper.new camper.last
-          camper.user = @user
-          camper.save
-        end
-      end
+    @organization = Organization.new params[:organization]
+    if @user.save && @organization.save
       auto_login @user
-      if defined?(@organization)
-        @organization.admins << @user
-        redirect_to 'http://' + @organization.subname + '.' + request.domain
-      else
-        redirect_to '/'
-      end
+      remember_me!
+      @organization.admins << @user
+      redirect_to 'http://' + @organization.subname + '.' + request.domain
     else
       @user.destroy
-      if defined?(@organization)
-        @organization.destroy
-        render 'users/org_signup'
+      @organization.destroy
+      render 'users/signup_organization'
+    end
+  end
+
+  def create_adult
+    @user = User.new params[:user]
+    if @user.save
+      auto_login @user
+      remember_me!
+      if params[:type] == 'adult'
+        redirect_to '/'
       else
-        render 'users/signup'
       end
+    else
+      render inline: 'You wanted awesome, and we gave you fail :(.'
     end
   end
 
@@ -50,6 +50,11 @@ class UsersController < InheritedResources::Base
   end
 
   def signup
+    if params[:type] == 'adult'
+      render 'signup_adult'
+    elsif params[:type] == 'children'
+      render 'signup_children'
+    end
   end
 
   def org_signup

@@ -1,13 +1,15 @@
 %h1 Organization
 %ul.nav.nav-tabs{:'data-tabs' => 'tabs'}
-  %li.active= link_to 'general', '#general'
+  %li.active= link_to 'general', '#general', :'data-toggle' => 'tab'
+  %li= link_to 'signup', '#signup', :'data-toggle' => 'tab'
 
 .tab-content
-  #general.active
+  #general.tab-pane.active
     = form_for :organization, url: '/admin/update_org' do |f|
       .clearfix
         %label{for: 'unit_name'} Camper unit name:
         .input= f.text_field :unit_name, placeholder: 'camper, student, etc.'
-      = f.submit
+      = f.submit, class: 'btn btn-primary'
       - if flash[:notice] == :success
         .label.success{style: 'margin-left:20px;display:inline-block'} success!
+  #signup.tab-pane

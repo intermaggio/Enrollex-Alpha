@@ -9,6 +9,12 @@
       = stylesheet_link_tag 'application'
       = javascript_include_tag 'application'
   %body
+    #signup-modal.modal.hide.fade
+      .modal-header
+        I am an adult signing up for..
+      .modal-body
+        = link_to 'Myself', '/signup?type=adult', class: 'btn btn-success'
+        = link_to 'Children', '/signup?type=children', class: 'btn btn-success'
     - unless request.path =~ /\/course\/\w*\/register/
       #header
         #nav
@@ -18,9 +24,9 @@
               = password_field_tag :password, '', placeholder: 'password', autocomplete: 'off'
               = submit_tag :login
             - if request.subdomain.present?
-              = link_to 'signup', '/signup'
+              = link_to 'signup', '#signup-modal', :'data-toggle' => 'modal'
             - else
-              = link_to 'signup', '/org_signup'
+              = link_to 'signup', '/signup_organization'
           - else
             %ul.nav-tabs.nav
               - if request.subdomain.present?

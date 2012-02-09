@@ -11,13 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120209033245) do
+ActiveRecord::Schema.define(:version => 20120209050116) do
 
   create_table "campers", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.integer  "user_id"
+    t.text     "health_info"
+    t.date     "birthday"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "street"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
   end
 
   create_table "charges", :force => true do |t|
@@ -80,6 +87,12 @@ ActiveRecord::Schema.define(:version => 20120209033245) do
     t.datetime "reset_password_email_sent_at"
     t.string   "first_name"
     t.string   "last_name"
+    t.date     "birthday"
+    t.string   "phone"
+    t.string   "street"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
   end
 
   add_index "users", ["remember_me_token"], :name => "index_users_on_remember_me_token"

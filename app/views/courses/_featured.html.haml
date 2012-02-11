@@ -3,7 +3,7 @@
     .content
       %h3= course.name
       %p= course.description
-      .register= link_to 'Register', 'javascript:void(0)', class: 'btn btn-primary', course_name: "#{course.lowname}"
+      .register= link_to 'Register', 'javascript:void(0)', class: 'btn btn-primary', course_id: "#{course.id}"
       .price
         %strong= '$' + course.price.to_s
     .image= image_tag course.image.url || '/images/no-image.jpg'

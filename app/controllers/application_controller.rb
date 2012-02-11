@@ -8,6 +8,6 @@ class ApplicationController < ActionController::Base
   end
 
   expose(:organization) { Organization.find_by_subdomain request.subdomain }
-  expose(:course) { Course.where(lowname: params[:lowname]).first }
+  expose(:course) { begin Course.find(params[:id]) rescue end }
   expose(:courses) { organization.courses.featured.reorder(:created_at) }
 end

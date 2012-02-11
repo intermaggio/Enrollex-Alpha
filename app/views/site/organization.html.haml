@@ -18,6 +18,6 @@
 
 :javascript
   $('.register a').click(function(){
-    $('#campers form').attr('action', '/course/' + $(this).attr('course_name') + '/register')
+    $('#campers form').attr('action', '/courses/' + $(this).attr('course_id') + '/register')
     $('#campers').bPopup()
   })

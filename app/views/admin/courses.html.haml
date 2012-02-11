@@ -8,7 +8,7 @@
     #list.tab-pane.active
       %dl
         - courses.each do |course|
-          %dt= link_to course.name, "/admin/courses/#{course.lowname}"
+          %dt= link_to course.name, "/admin/courses/#{course.id}/#{course.lowname}"
           %dd= '$' + course.price.to_s
           %ul
             - days = course.days.reorder(:date)

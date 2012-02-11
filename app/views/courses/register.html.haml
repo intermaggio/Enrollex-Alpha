@@ -23,7 +23,7 @@
 #payment_complete{style: 'display:none'} Payment complete!
 
 #recurly-transaction
-  = form_tag "/course/#{course.lowname}/charge", remote: true, class: 'recurly', id: 'pay_form' do
+  = form_tag "/courses/#{course.id}/charge", remote: true, class: 'recurly', id: 'pay_form' do
     .billing_info
       .title Billing Info
       .accepted_cards
@@ -106,7 +106,7 @@
             var token = response["id"];
             $.ajax({
               type: 'POST',
-              url: '/course/#{course.lowname}/charge',
+              url: '/courses/#{course.id}/charge',
               data: { stripeToken: token, amount: amount, utf8: $('#pay_form input[name=utf8]').val(), authenticity_token: $('#pay_form input[name=authenticity_token]').val() }
             });
           }

@@ -17,15 +17,31 @@ class UsersController < InheritedResources::Base
 
   def create_adult
     @user = User.new params[:user]
+    @user.birthday = Date.parse params[:user][:birthday].gsub(/\W/, '-') if params[:user][:birthday]
     if @user.save
       auto_login @user
       remember_me!
       if params[:type] == 'adult'
         redirect_to '/'
       else
+        redirect_to '/signup/add_child', flash: { info: { street: @user.street, city: @user.city, state: @user.state, zip: @user.zip } }
       end
     else
-      render inline: 'You wanted awesome, and we gave you fail :(.'
+      render 'signup'
+    end
+  end
+
+  def create_camper
+    @camper = current_user.campers.new params[:camper]
+    @camper.birthday = Date.parse params[:camper][:birthday]
+    if @camper.save
+      if params[:submission_type] == 'complete'
+        redirect_to '/'
+      else
+        redirect_to '/signup/add_child', flash: { info: { street: current_user.street, city: current_user.city, state: current_user.state, zip: current_user.zip } }
+      end
+    else
+      render 'add_child'
     end
   end
 

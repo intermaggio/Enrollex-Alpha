@@ -2,7 +2,7 @@
   #campers{style: 'display:none;background-color:whiteSmoke;padding:25px'}
     = form_tag do
       - current_user.campers.each_with_index do |camper, i|
-        %label{style: 'display:inline-block'}= camper.name
+        %label{style: 'display:inline-block'}= camper.first_name
         = check_box_tag :"campers[#{i}]", camper.id
         %br/
       = submit_tag :Continue, class: 'btn btn-success'

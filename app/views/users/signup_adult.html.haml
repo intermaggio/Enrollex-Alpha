@@ -1,0 +1,74 @@
+.row
+  .span12
+    #signup
+      - if @user
+        %ul
+        - @user.errors.messages.each do |message|
+          %li
+            = message.first
+            %ul
+              - message.last.each do |reason|
+                %li= reason
+      = form_for :user, url: '/users/create_adult', html: { id: 'signup_form', class: 'form-horizontal' } do |f|
+        %fieldset
+          %legend Signup
+          .row{style: 'padding-top: 30px'}
+            = hidden_field_tag :type, 'adult'
+            .span6
+              .control-group
+                %label Email
+                .controls= f.text_field :email, placeholder: 'email', autocomplete: 'off'
+              .control-group
+                %label Password
+                .controls= f.password_field :password, placeholder: 'password', autocomplete: 'off'
+              .control-group
+                %label First Name
+                .controls= f.text_field :first_name, placeholder: 'first name', autocomplete: 'off'
+              .control-group
+                %label Last Name
+                .controls= f.text_field :last_name, placeholder: 'last name', autocomplete: 'off'
+              .control-group
+                %label Birthdate
+                .controls= f.text_field :birthday, placeholder: 'DD/MM/YYYY', autocomplete: 'off'
+            .span6
+              .control-group
+                %label Phone Number
+                .controls= f.text_field :phone, placeholder: '10-digit phone number', autocomplete: 'off'
+              .control-group
+                %label Street
+                .controls= f.text_field :street, placeholder: 'street name and number', autocomplete: 'off'
+              .control-group
+                %label City
+                .controls= f.text_field :city, placeholder: 'city', autocomplete: 'off'
+              .control-group
+                %label State
+                .controls= f.text_field :state, placeholder: 'two-letter state abbreviation', autocomplete: 'off'
+              .control-group
+                %label Zip
+                .controls= f.text_field :zip, placeholder: 'zip code', autocomplete: 'off'
+          .form-actions{style: 'text-align:center;padding-left:0'}= f.submit :signup, style: 'display:inline', id: 'submit', class: 'btn btn-success'
+
+:javascript
+  $.validator.addMethod('phone_number', function(value) {
+    if (value.replace(/\D/g, '').search(/\d{10}/) == 0) { return true }
+    else { return false }
+  }, 'Please enter a valid ten-digit phone number.')
+  $.validator.addMethod('birthday', function(value) {
+    var date = value.replace(/\D/g, '')
+    var month = parseInt(date.slice(2,4))
+    if (date.length < 8) { return false }
+    else if (month > 12) { return false }
+    else { return true }
+  }, 'Please enter a properly formatted birthdate. (DD/MM/YYYY)')
+  $(document).ready(function(){
+    $('#signup_form').validate({
+      rules: {
+        'user[email]': { required: true, email: true },
+        'user[password]': { required: true },
+        'user[first_name]': { required: true },
+        'user[last_name]': { required: true},
+        'user[birthday]': { birthday: true},
+        'user[phone]': { phone_number: true },
+      }
+    })
+  })

@@ -1,0 +1,97 @@
+.row
+  .span12
+    #signup
+      - if @camper
+        %ul
+        - @camper.errors.messages.each do |message|
+          %li
+            = message.first
+            %ul
+              - message.last.each do |reason|
+                %li= reason
+      = form_for :camper, url: '/users/create_camper', html: { id: 'signup_form', class: 'form-horizontal' } do |f|
+        %fieldset
+          %legend Signup
+          .row{style: 'padding-top: 30px'}
+            .span6
+              .control-group
+                %label First Name
+                .controls= f.text_field :first_name, placeholder: 'first name', autocomplete: 'off'
+              .control-group
+                %label Last Name
+                .controls= f.text_field :last_name, placeholder: 'last name', autocomplete: 'off'
+              .control-group
+                %label Birthdate
+                .controls= f.text_field :birthday, placeholder: 'DD/MM/YYYY', autocomplete: 'off'
+              .control-group
+                %label Health Info
+                .controls= f.text_area :health_info, placeholder: 'Enter any health-related information we should know about here.', autocomplete: 'off', style: 'height: 125px'
+            .span6
+              .control-group
+                %label Same as parent
+                .controls= check_box_tag :same_address
+              .control-group
+                %label Street
+                .controls= f.text_field :street, placeholder: 'street name and number', autocomplete: 'off'
+              .control-group
+                %label City
+                .controls= f.text_field :city, placeholder: 'city', autocomplete: 'off'
+              .control-group
+                %label State
+                .controls= f.text_field :state, placeholder: 'two-letter state abbreviation', autocomplete: 'off'
+              .control-group
+                %label Zip
+                .controls= f.text_field :zip, placeholder: 'zip code', autocomplete: 'off'
+          .form-actions{style: 'text-align:center;padding-left:0'}
+            = f.submit "add another #{organization.unit_name}", style: 'display:inline', id: 'submit_another', class: 'btn btn-success'
+            = f.submit 'complete signup', style: 'display:inline', id: 'submit_complete', class: 'btn btn-success'
+
+:javascript
+  var flashed_attrs = {}
+- flash[:info] && flash[:info].each do |attr|
+  :javascript
+    flashed_attrs['#{attr.first}'] = '#{attr.last}'
+
+:javascript
+  $('#submit_another').click(function(){
+    $('#signup_form').append('<input type="hidden" name="submission_type" value="another">')
+  })
+  $('#submit_complete').click(function(){
+    $('#signup_form').append('<input type="hidden" name="submission_type" value="complete">')
+  })
+
+  $.validator.addMethod('phone_number', function(value) {
+    if (value.replace(/\D/g, '').search(/\d{10}/) == 0) { return true }
+    else { return false }
+  }, 'Please enter a valid ten-digit phone number.')
+  $.validator.addMethod('birthday', function(value) {
+    var date = value.replace(/\D/g, '')
+    var month = parseInt(date.slice(2,4))
+    if (date.length < 8) { return false }
+    else if (month > 12) { return false }
+    else { return true }
+  }, 'Please enter a properly formatted birthdate. (DD/MM/YYYY)')
+  $(document).ready(function(){
+    $('#signup_form').validate({
+      rules: {
+        'user[first_name]': { required: true },
+        'user[last_name]': { required: true},
+        'user[birthday]': { birthday: true},
+      }
+    })
+
+    $('#same_address').click(function(){
+      var attrs = ['street', 'city', 'state', 'zip']
+      if ($('#same_address').is(':checked')) {
+        for (var i=0; i < attrs.length; i++) {
+          $('#camper_' + attrs[i]).attr('readonly', 'true')
+          $('#camper_' + attrs[i]).val(flashed_attrs[attrs[i]])
+        }
+      } else {
+        for (var i=0; i < attrs.length; i++) {
+          $('#camper_' + attrs[i]).removeAttr('readonly')
+          $('#camper_' + attrs[i]).val('')
+        }
+      }
+    })
+  })

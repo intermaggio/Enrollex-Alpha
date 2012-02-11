@@ -9,7 +9,7 @@
       .clearfix
         %label{for: 'unit_name'} Camper unit name:
         .input= f.text_field :unit_name, placeholder: 'camper, student, etc.'
-      = f.submit, class: 'btn btn-primary'
+      = f.submit :update, class: 'btn btn-success'
       - if flash[:notice] == :success
         .label.success{style: 'margin-left:20px;display:inline-block'} success!
   #signup.tab-pane

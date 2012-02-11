@@ -1,3 +1,15 @@
+#template-modal.modal.hide.fade
+  .modal-header
+    %a.close{:'data-dismiss' => 'modal'} ×
+    %h3 Existing Courses
+  .modal-body
+    - organization.courses.each do |course|
+      .controls
+        %label.radio= content_tag :input, course.name, type: 'radio', course_id: course.id
+  .modal-footer
+    = link_to 'Close', 'javascript:void(0)', class: 'btn', :'data-dismiss' => 'modal'
+    = link_to 'Choose', 'javascript:void(0)', id: 'template-choose', class: 'btn btn-success', :'data-dismiss' => 'modal'
+
 %h1 Courses
 .tabbable
   %ul.nav.nav-tabs{:'data-tabs' => 'tabs'}
@@ -11,8 +23,9 @@
           %dt= link_to course.name, "/admin/courses/#{course.id}/#{course.lowname}"
           %dd= '$' + course.price.to_s
           %ul
-            - days = course.days.reorder(:date)
-            %li #{days.first.date} - #{days.last.date}
+            - if course.days.first
+              - days = course.days.reorder(:date)
+              %li #{days.first.date} - #{days.last.date}
     #create.tab-pane
       .row
         .span6
@@ -26,7 +39,9 @@
                     %li= reason
           = form_for :course, url: '/courses/create', html: { class: 'form-horizontal' } do |f|
             %fieldset
-              %legend Create
+              %legend{style: 'position:relative'}
+                Create
+                %div{style: 'position:absolute;top:-3px;left:80px'}= link_to 'Choose template..', '#template-modal', class: 'btn btn-info', :'data-toggle' => 'modal'
               .control-group
                 %label Name
                 .controls= f.text_field :name, placeholder: 'name', autocomplete: 'off'
@@ -60,4 +75,23 @@
 :javascript
   $('.field_with_errors input').each(function(){
     $(this).parent().parent().addClass('error')
+  })
+
+  $('#template-choose').click(function(){
+    var id = $('.radio input:checked').attr('course_id')
+    $.post(
+      '/courses/' + id + '/template',
+      {},
+      function(rsp) {
+        var fields = ['name', 'description', 'price', 'status', 'featured']
+        for (var i=0; i < fields.length; i++) {
+          element = $('#course_' + fields[i])
+          element.val(rsp[fields[i]])
+          if (element.attr('type') == 'checkbox' && rsp[fields[i]]) {
+            element.attr('checked', 'true')
+          }
+        }
+      },
+      'json'
+    )
   })

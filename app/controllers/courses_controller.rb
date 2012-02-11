@@ -10,6 +10,10 @@ class CoursesController < InheritedResources::Base
     end
   end
 
+  def template
+    render json: course.to_json
+  end
+
   def schedule
     scheduled_course = course.scheduled_courses.new
     JSON.parse(params[:daytimes]).each do |daytime|

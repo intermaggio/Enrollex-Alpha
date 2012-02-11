@@ -2,7 +2,7 @@ CourseManage::Application.routes.draw do
 
   get '/signup' => 'users#signup'
   get '/signout' => 'users#signout'
-  get '/org_signup' => 'users#org_signup'
+  get '/signup_organization' => 'users#signup_organization'
 
   get '/signup/:action' => 'users'
 

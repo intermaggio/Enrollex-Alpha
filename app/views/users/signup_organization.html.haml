@@ -15,7 +15,7 @@
         %ul
           - message.last.each do |reason|
             %li= reason
-  = form_for :user, url: '/users/create' do |f|
+  = form_for :user, url: '/users/create_organization' do |f|
     .clearfix= f.email_field :email, placeholder: 'email', autocomplete: 'off'
     .clearfix= f.password_field :password, placeholder: 'password', autocomplete: 'off'
     .clearfix= f.text_field :first_name, placeholder: 'first name', autocomplete: 'off'

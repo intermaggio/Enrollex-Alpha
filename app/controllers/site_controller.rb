@@ -1,7 +1,13 @@
 class SiteController < ApplicationController
 
   def index
-    render 'organization' if organization
+    if request.subdomain.present?
+      if organization
+        render 'organization'
+      else
+        render '/site/404'
+      end
+    end
   end
 
 end

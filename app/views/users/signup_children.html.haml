@@ -16,32 +16,32 @@
             = hidden_field_tag :type, 'children'
             .span6
               .control-group
-                %label Email
+                %label Email:
                 .controls= f.text_field :email, placeholder: 'email', autocomplete: 'off'
               .control-group
-                %label Password
+                %label Password:
                 .controls= f.password_field :password, placeholder: 'password', autocomplete: 'off'
               .control-group
-                %label First Name
-                .controls= f.text_field :first_name, placeholder: 'first name', autocomplete: 'off'
+                %label First Name:
+                .controls= f.text_field :first_name, placeholder: 'parent/guardian first name', autocomplete: 'off'
               .control-group
-                %label Last Name
-                .controls= f.text_field :last_name, placeholder: 'last name', autocomplete: 'off'
+                %label Last Name:
+                .controls= f.text_field :last_name, placeholder: 'parent/guardian last name', autocomplete: 'off'
             .span6
               .control-group
-                %label Phone Number
+                %label Phone Number:
                 .controls= f.text_field :phone, placeholder: '10-digit phone number', autocomplete: 'off'
               .control-group
-                %label Street
+                %label Street:
                 .controls= f.text_field :street, placeholder: 'street name and number', autocomplete: 'off'
               .control-group
-                %label City
+                %label City:
                 .controls= f.text_field :city, placeholder: 'city', autocomplete: 'off'
               .control-group
-                %label State
+                %label State:
                 .controls= f.text_field :state, placeholder: 'two-letter state abbreviation', autocomplete: 'off'
               .control-group
-                %label Zip
+                %label Zip:
                 .controls= f.text_field :zip, placeholder: 'zip code', autocomplete: 'off'
           .form-actions{style: 'text-align:center;padding-left:0'}= f.submit "add #{organization.unit_name}", style: 'display:inline', id: 'submit', class: 'btn btn-success'
 

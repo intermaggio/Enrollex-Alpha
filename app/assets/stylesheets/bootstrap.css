@@ -970,7 +970,7 @@ input:focus:required:invalid:focus, textarea:focus:required:invalid:focus, selec
   text-align: right;
 }
 .form-horizontal .controls {
-  margin-left: 160px;
+  margin-left: 150px;
 }
 .form-horizontal .form-actions {
   padding-left: 160px;

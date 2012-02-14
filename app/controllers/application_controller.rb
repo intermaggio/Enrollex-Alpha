@@ -16,4 +16,5 @@ class ApplicationController < ActionController::Base
   expose(:course) { Course.where(id: params[:id]).first }
   expose(:courses) { organization.courses.reorder(:created_at) }
   expose(:featured_courses) { organization.courses.featured.reorder(:created_at) }
+  expose(:instructors) { organization.instructors.reorder('created_at DESC') }
 end

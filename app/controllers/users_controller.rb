@@ -1,5 +1,18 @@
 class UsersController < InheritedResources::Base
 
+  def create_instructor
+    @user = User.where(email: params[:user][:email]).first || User.new(params[:user])
+    @user.instructing_for << Organization.find(params[:oid])
+    params[:courses].each do |course_hash|
+      @user.instructing << Course.find(course_hash.first) if course_hash.last == '1'
+    end
+    if @user.save
+      redirect_to '/admin/instructors'
+    else
+      render 'admin/instructors'
+    end
+  end
+
   def create_organization
     @user = User.new params[:user]
     @organization = Organization.new params[:organization]

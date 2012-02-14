@@ -1,0 +1,59 @@
+%h1 Instructors
+.tabbable
+  %ul.nav.nav-tabs{:'data-tabs' => 'tabs'}
+    %li.active= link_to 'list', '#list', :'data-toggle' => 'tab'
+    %li= link_to 'create', '#create', id: 'create-link', :'data-toggle' => 'tab'
+
+  .tab-content
+    #list.tab-pane.active
+      %dl
+        - instructors.each do |instructor|
+          %dt= instructor.name
+          - instructor.instructing.each do |course|
+            %dd= course.name
+    #create.tab-pane
+      .row
+        .span6
+          - if @user
+            %ul
+            - @user.errors.messages.each do |message|
+              %li
+                = message.first
+                %ul
+                  - message.last.each do |reason|
+                    %li= reason
+          = form_for :user, url: '/users/create_instructor', html: { class: 'form-horizontal' } do |f|
+            %fieldset
+              %legend Create
+              = hidden_field_tag :oid, organization.id
+              .control-group
+                %label First Name
+                .controls= f.text_field :first_name, placeholder: 'first name', autocomplete: 'off'
+              .control-group
+                %label Last Name
+                .controls= f.text_field :last_name, placeholder: 'last name', autocomplete: 'off'
+              .control-group
+                %label Phone Number
+                .controls= f.text_field :phone, placeholder: 'ten-digit phone number', autocomplete: 'off'
+              .control-group
+                %label Email
+                .controls= f.text_field :email, placeholder: 'email', autocomplete: 'off'
+              .control-group
+                %label Course Assignments
+                .controls
+                  - organization.courses.each do |course|
+                    %label.checkbox
+                      = check_box_tag :"courses[#{course.id}]"
+                      = course.name
+              .form-actions= f.submit :submit, class: 'btn btn-success', value: 'Submit'
+
+- if @user
+  :javascript
+    $(document).ready(function(){
+      $('#create-link').click()
+    })
+
+:javascript
+  $('.field_with_errors input').each(function(){
+    $(this).parent().parent().addClass('error')
+  })

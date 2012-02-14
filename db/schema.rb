@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120209050116) do
+ActiveRecord::Schema.define(:version => 20120214071331) do
 
   create_table "campers", :force => true do |t|
     t.datetime "created_at",  :null => false
@@ -55,13 +55,24 @@ ActiveRecord::Schema.define(:version => 20120209050116) do
     t.integer  "course_id"
   end
 
+  create_table "instructors_courses", :force => true do |t|
+    t.integer "course_id"
+    t.integer "user_id"
+  end
+
+  create_table "instructors_organizations", :force => true do |t|
+    t.integer "user_id"
+    t.integer "organization_id"
+  end
+
   create_table "organizations", :force => true do |t|
     t.string   "name"
     t.text     "desc"
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
     t.string   "subname"
-    t.string   "unit_name",  :default => "camper"
+    t.string   "unit_name",      :default => "camper"
+    t.string   "signup_options"
   end
 
   create_table "organizations_admins", :force => true do |t|
@@ -93,6 +104,7 @@ ActiveRecord::Schema.define(:version => 20120209050116) do
     t.string   "city"
     t.string   "state"
     t.string   "zip"
+    t.text     "health_info"
   end
 
   add_index "users", ["remember_me_token"], :name => "index_users_on_remember_me_token"

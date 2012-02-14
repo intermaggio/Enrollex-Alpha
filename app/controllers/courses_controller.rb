@@ -2,8 +2,10 @@ class CoursesController < InheritedResources::Base
 
   def create
     @course = Course.new(params[:course])
+    params[:instructors].each do |hash|
+      @course.instructors << Instructor.find(hash.first) if hash.last == '1'
+    end
     if @course.save
-      binding.pry
       organization.courses << @course
       redirect_to '/admin/courses'
     else

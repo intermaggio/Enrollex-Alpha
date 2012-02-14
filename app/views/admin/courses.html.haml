@@ -64,6 +64,13 @@
               .control-group
                 %label Featured?
                 .controls= f.check_box :featured
+              .control-group
+                %label Instructors
+                .controls
+                  - instructors.each do |instructor|
+                    %label.checkbox
+                      = check_box_tag :"instructors[#{instructor.id}]"
+                      = instructor.name
               .form-actions= f.submit :submit, class: 'btn btn-success', value: 'Submit'
 
 - if @course

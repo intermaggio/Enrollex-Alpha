@@ -1,0 +1,25 @@
+.row
+  .span12
+    #signup
+      = form_tag '/users/create_password', id: 'signup_form', class: 'form-horizontal' do
+        %fieldset
+          %legend Signup
+          .row{style: 'padding-top: 30px'}
+            .span6
+              .control-group
+                %label Password:
+                .controls= text_field_tag :password, '', placeholder: 'password', autocomplete: 'off'
+              .control-group
+                %label Password confirmation:
+                .controls= password_field_tag :password_confirmation, '', placeholder: 'password confirmation', autocomplete: 'off'
+          .form-actions{style: 'text-align:center;padding-left:0'}= f.submit :signup, style: 'display:inline', id: 'submit', class: 'btn btn-success'
+
+:javascript
+  $(document).ready(function(){
+    $('#signup_form').validate({
+      rules: {
+        'user[password]': { required: true },
+        'password_confirmation': { required: true }
+      }
+    })
+  })

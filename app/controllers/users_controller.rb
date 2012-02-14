@@ -1,5 +1,15 @@
 class UsersController < InheritedResources::Base
 
+  def create_password
+    user = User.find params[:id]
+    unless
+      auto_login user
+      remember_me!
+      user.update_attribute(:password, params[:password])
+    end
+    redirect_to '/'
+  end
+  
   def create_instructor
     @user = User.where(email: params[:user][:email]).first || User.new(params[:user])
     @user.instructing_for << Organization.find(params[:oid])
@@ -34,10 +44,10 @@ class UsersController < InheritedResources::Base
     if @user.save
       auto_login @user
       remember_me!
-      if params[:type] == 'adult'
-        redirect_to '/'
-      else
+      if params[:type] == 'children'
         redirect_to '/signup/add_child', flash: { info: { street: @user.street, city: @user.city, state: @user.state, zip: @user.zip } }
+      else
+        redirect_to '/'
       end
     else
       render 'signup'
@@ -75,10 +85,13 @@ class UsersController < InheritedResources::Base
   end
 
   def signup
-    if params[:type] == 'adult'
-      render 'signup_adult'
-    elsif params[:type] == 'children'
-      render 'signup_children'
+    case params[:type]
+      when 'adult'
+        render 'signup_adult'
+      when 'children'
+        render 'signup_children'
+      when 'email'
+        render 'signup_email'
     end
   end
 

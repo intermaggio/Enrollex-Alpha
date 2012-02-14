@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
       from: 'robot@teslaprime.com',
       subject: 'CourseManage invitation',
       body: "Hey there! #{self.organizations.last} has just listed you as an instructor. <<
-             To complete your registration, just visit the following link: http://#{self.organizations.last.subname}.teslaprime.com/signup?type=email. Thanks!",
+             To complete your registration, just visit the following link: http://#{self.organizations.last.subname}.teslaprime.com/signup?type=email&id=#{self.id}. Thanks!",
       via: :smtp,
       via_options: {
         address: 'smtp.gmail.com',

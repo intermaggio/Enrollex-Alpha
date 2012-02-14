@@ -10,6 +10,6 @@ class Course < ActiveRecord::Base
   has_many :days
 
   before_save do
-    self.lowname = self.name.downcase.gsub(' ', '_').gsub("'", '')
+    self.lowname = self.name.downcase.gsub(/[ .]/, '_').gsub("'", '')
   end
 end

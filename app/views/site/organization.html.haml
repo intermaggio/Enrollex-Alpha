@@ -9,7 +9,7 @@
 
 %h1 Welcome to #{organization.name}!
 %h2 Featured Courses
-- courses.each_with_index do |course, index|
+- featured_courses.each_with_index do |course, index|
   - if index % 2 == 0
     .row
       = render partial: 'courses/featured', locals: { course: course }

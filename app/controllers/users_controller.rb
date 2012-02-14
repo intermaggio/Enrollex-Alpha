@@ -61,19 +61,12 @@ class UsersController < InheritedResources::Base
     redirect_to '/'
   end
 
-  def gen_camper
-    render partial: 'camper', locals: { num: params[:num] }
-  end
-
   def signup
     if params[:type] == 'adult'
       render 'signup_adult'
     elsif params[:type] == 'children'
       render 'signup_children'
     end
-  end
-
-  def org_signup
   end
 
 end

@@ -20,7 +20,7 @@
     #list.tab-pane.active
       %dl
         - courses.each do |course|
-          %dt= link_to course.name, "/admin/courses/#{course.id}/#{course.lowname}"
+          %dt= link_to course.name, course_admin_path(course)
           %dd= '$' + course.price.to_s
           %ul
             - if course.days.first

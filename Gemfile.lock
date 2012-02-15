@@ -85,7 +85,7 @@ GEM
     method_source (0.7.0)
     mime-types (1.17.2)
     multi_json (1.0.4)
-    multipart-post (1.1.4)
+    multipart-post (1.1.5)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-ssh (2.3.0)
@@ -94,8 +94,10 @@ GEM
     oauth2 (0.5.2)
       faraday (~> 0.7)
       multi_json (~> 1.0)
-    pg (0.13.0)
+    pg (0.13.1)
     polyglot (0.3.3)
+    pony (1.4)
+      mail (> 2.0)
     postmark (0.9.10)
     postmark-rails (0.4.1)
       actionmailer
@@ -181,6 +183,7 @@ DEPENDENCIES
   inherited_resources
   jquery-rails
   pg
+  pony
   postmark-rails
   pry
   rails

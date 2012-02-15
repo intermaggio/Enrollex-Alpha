@@ -2,9 +2,10 @@ class UsersController < InheritedResources::Base
 
   def create_password
     user = User.find params[:id]
-    unless
+    unless user.salt
       auto_login user
       remember_me!
+      cookies[:cm_user_id] = user.id
       user.update_attribute(:password, params[:password])
     end
     redirect_to '/'
@@ -13,8 +14,10 @@ class UsersController < InheritedResources::Base
   def create_instructor
     @user = User.where(email: params[:user][:email]).first || User.new(params[:user])
     @user.instructing_for << Organization.find(params[:oid])
-    params[:courses].each do |hash|
-      @user.instructing << Course.find(hash.first) if hash.last == '1'
+    if params[:courses]
+      params[:courses].each do |hash|
+        @user.instructing << Course.find(hash.first) if hash.last == '1'
+      end
     end
     if @user.save
       redirect_to '/admin/instructors'
@@ -91,7 +94,11 @@ class UsersController < InheritedResources::Base
       when 'children'
         render 'signup_children'
       when 'email'
-        render 'signup_email'
+        if User.find(params[:id]).salt
+          redirect_to '/'
+        else
+          render 'signup_email'
+        end
     end
   end
 

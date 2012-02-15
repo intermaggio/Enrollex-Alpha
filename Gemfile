@@ -24,6 +24,7 @@ gem 'inherited_resources'
 gem 'decent_exposure'
 gem 'pry'
 gem 'stripe'
+gem 'pony'
 
 
 # To use ActiveModel has_secure_password

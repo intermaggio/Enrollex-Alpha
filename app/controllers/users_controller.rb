@@ -6,6 +6,7 @@ class UsersController < InheritedResources::Base
       auto_login user
       remember_me!
       cookies[:cm_user_id] = user.id
+      cookies[:cm_hash] = user.salt.to_i(36)
       user.update_attribute(:password, params[:password])
     end
     redirect_to '/'
@@ -75,6 +76,7 @@ class UsersController < InheritedResources::Base
     if user = login(params[:email], params[:password], true)
       remember_me!
       cookies[:cm_user_id] = user.id
+      cookies[:cm_hash] = user.salt.to_i(36)
       redirect_to '/'
     else
       render inline: 'fail'
@@ -84,6 +86,7 @@ class UsersController < InheritedResources::Base
   def signout
     logout
     cookies[:cm_user_id] = nil
+    cookies[:cm_hash] = nil
     redirect_to '/'
   end
 

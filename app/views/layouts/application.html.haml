@@ -48,3 +48,4 @@
               %li.tab-text Welcome back, #{current_user.first_name}!
               %li= link_to 'logout', '/signout'
     .container-fluid= yield
+    = yield :scripts

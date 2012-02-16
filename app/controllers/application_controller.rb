@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  helper_method :course_admin_path
+  helper_method :course_admin_path, :gmaps
 
   before_filter :auth_from_cookie
 
@@ -13,6 +13,10 @@ class ApplicationController < ActionController::Base
 
   def course_admin_path course
     "/admin/courses/#{course.id}/#{URI::escape course.lowname}"
+  end
+
+  def gmaps address
+    "http://maps.google.com/maps/api/staticmap?center=#{address}&zoom=15&format=png&maptype=roadmap&mobile=true&markers=|color:red|#{address}&size=300x300&key=&sensor=false"
   end
 
   expose(:organization) { Organization.find_by_subdomain request.subdomain }

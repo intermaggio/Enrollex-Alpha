@@ -1,0 +1,14 @@
+%h1= course.name
+- if course.image.present?
+  = image_tag course.image
+%p= course.description
+$#{number_with_precision(course.price, precision: 2)}
+%p
+  = course.address
+  = course.city
+  = course.state
+  = course.zip
+%p= course.notes
+%p #{course.range_type} range: #{course.start_range} - #{course.end_range}
+= link_to "http://maps.google.com/maps?q=#{course.full_address}", target: '_blank' do
+  = image_tag gmaps(course.full_address)

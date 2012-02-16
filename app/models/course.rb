@@ -1,4 +1,8 @@
 class Course < ActiveRecord::Base
+  def full_address
+    "#{self.address} #{self.city} #{self.state} #{self.zip}"
+  end
+
   belongs_to :organization
 
   validates_presence_of :name

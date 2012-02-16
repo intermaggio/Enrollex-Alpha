@@ -43,8 +43,7 @@
                 .controls= f.text_area :bio, placeholder: 'bio', autocomplete: 'off', style: 'height: 150px'
               .control-group
                 %label Headshot
-                .controls
-                  .input{style: 'margin-left:0'}= f.file_field :image
+                .controls= f.file_field :image
               .control-group
                 %label Course Assignments
                 .controls

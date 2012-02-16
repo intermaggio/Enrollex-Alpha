@@ -1,9 +1,12 @@
 class CoursesController < InheritedResources::Base
 
   def create
-    @course = Course.new(params[:course])
-    params[:instructors].each do |hash|
-      @course.instructors << Instructor.find(hash.first) if hash.last == '1'
+    @course = Course.new params[:course]
+    @course.price = params[:price] + (params[:price].count('.') == 0 && '00' || '')
+    if params[:instructors]
+      params[:instructors].each do |hash|
+        @course.instructors << User.find(hash.first) if hash.last == '1'
+      end
     end
     if @course.save
       organization.courses << @course

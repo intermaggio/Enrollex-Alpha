@@ -1,6 +1,6 @@
 class Organization < ActiveRecord::Base
   validates_presence_of :name
-  validates_uniqueness_of :name
+  validates_uniqueness_of :subname
 
   has_many :courses
   has_and_belongs_to_many :admins, class_name: 'User', join_table: 'organizations_admins'

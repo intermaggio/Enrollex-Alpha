@@ -1,4 +1,4 @@
-CourseManage::Application.routes.draw do
+Enrollex::Application.routes.draw do
 
   get '/signup' => 'users#signup'
   get '/signout' => 'users#signout'

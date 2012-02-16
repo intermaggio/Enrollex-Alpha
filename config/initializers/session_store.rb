@@ -1,1 +1,1 @@
-CourseManage::Application.config.session_store :cookie_store, key: '_myturf_session', domain: :all
+Enrollex::Application.config.session_store :cookie_store, key: '_enrollex_session', domain: :all

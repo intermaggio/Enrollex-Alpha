@@ -5,18 +5,18 @@ class User < ActiveRecord::Base
     unless self.salt
       Pony.mail(
       to: self.email,
-      from: 'robot@teslaprime.com',
-      subject: 'CourseManage invitation',
-      body: "Hey there! #{self.instructing_for.last.name} has just listed you as an instructor. To complete your registration, just visit the following link: http://#{self.instructing_for.last.subname}.teslaprime.com/signup?type=email&id=#{self.id}. Thanks!",
+      from: 'robot@enrollex.org',
+      subject: 'Enrollex invitation',
+      body: "Hey there! #{self.instructing_for.last.name} has just listed you as an instructor. To complete your registration, just visit the following link: http://#{self.instructing_for.last.subname}.enrollex.org/signup?type=email&id=#{self.id}. Thanks!",
       via: :smtp,
       via_options: {
         address: 'smtp.gmail.com',
         port: '587',
         enable_starttls_auto: true,
-        user_name: 'robot@teslaprime.com',
+        user_name: 'robot@enrollex.org',
         password: 'b0wserFire',
         authentication: :plain,
-        domain: 'teslaprime.com'
+        domain: 'enrollex.org'
       }
     )
     end

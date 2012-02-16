@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120214071331) do
+ActiveRecord::Schema.define(:version => 20120216004324) do
 
   create_table "campers", :force => true do |t|
     t.datetime "created_at",  :null => false
@@ -105,6 +105,8 @@ ActiveRecord::Schema.define(:version => 20120214071331) do
     t.string   "state"
     t.string   "zip"
     t.text     "health_info"
+    t.string   "image"
+    t.text     "bio"
   end
 
   add_index "users", ["remember_me_token"], :name => "index_users_on_remember_me_token"

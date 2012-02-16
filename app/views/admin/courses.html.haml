@@ -37,7 +37,7 @@
                 %ul
                   - message.last.each do |reason|
                     %li= reason
-          = form_for :course, url: '/courses/create', html: { class: 'form-horizontal' } do |f|
+          = form_for :course, url: '/courses/create', html: { class: 'form-horizontal', id: 'course_form' } do |f|
             %fieldset
               %legend{style: 'position:relative'}
                 Create
@@ -53,9 +53,10 @@
                   .control-group
                     %label Price
                     .controls= f.text_field :price, placeholder: 'price', autocomplete: 'off'
-                  .control-group
-                    %label Upload a Picture
-                    .controls= f.file_field :image
+                  #pics
+                    .control-group
+                      %label Upload a Picture
+                      .controls= f.file_field :image
                   .control-group
                     %label Status text
                     .controls= f.text_field :status, placeholder: 'status text', autocomplete: 'off'
@@ -116,15 +117,32 @@
       '/courses/' + id + '/template',
       {},
       function(rsp) {
-        var fields = ['name', 'description', 'price', 'status', 'featured']
+        var fields = ['name', 'description', 'price', 'status', 'featured', 'image']
         for (var i=0; i < fields.length; i++) {
           element = $('#course_' + fields[i])
           element.val(rsp[fields[i]])
           if (element.attr('type') == 'checkbox' && rsp[fields[i]]) {
             element.attr('checked', 'true')
           }
+          if (fields[i] == 'image') {
+            if (rsp.image.url) {
+              $('#course_image').attr('disabled', 'true')
+              $('#pics').prepend('<div class="control-group" id="previous_pic"><label style="position:absolute;margin-top:25px">Use previous image?</label><div class="controls" style="position:absolute;margin-top:27px"> <input checked="true" type="checkbox" id="previous_image"> </div> <img style="margin-left:175px;height:75px" src="' + rsp.image.url + '"> </div>')
+              $('#course_form').append('<input id="upload_pic" type="hidden" name="course[remote_image_url]" value="' + rsp.image.url + '">')
+            }
+          }
         }
       },
       'json'
     )
+  })
+
+  $('#previous_pic').live('click', function(){
+    if ($('#previous_pic input').is(':checked')) {
+      $('#course_image').attr('disabled', 'true')
+      $('#upload_pic').removeAttr('disabled')
+    } else {
+      $('#course_image').removeAttr('disabled')
+      $('#upload_pic').attr('disabled', 'true')
+    }
   })

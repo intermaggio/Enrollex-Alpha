@@ -13,7 +13,7 @@
   - if index % 2 == 0
     .row
       = render partial: 'courses/featured', locals: { course: course }
-      - if courses[index+1]
+      - if featured_courses[index+1]
         = render partial: 'courses/featured', locals: { course: featured_courses[index+1] }
 
 :javascript

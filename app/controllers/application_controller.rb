@@ -5,9 +5,9 @@ class ApplicationController < ActionController::Base
   before_filter :auth_from_cookie
 
   def auth_from_cookie
-    if cookies[:cm_user_id]
+    if cookies[:cm_user_id].present?
       user = User.find cookies[:cm_user_id]
-      auto_login(user) if cookies[:cm_hash] == user.salt.to_i(36)
+      auto_login(user) if cookies[:cm_hash].to_i == user.salt.to_i(36)
     end
   end
 

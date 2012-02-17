@@ -9,7 +9,7 @@ class CoursesController < InheritedResources::Base
     end
     if @course.save
       organization.courses << @course
-      redirect_to '/admin/courses'
+      redirect_to "/admin/courses/#{@course.id}/schedule"
     else
       render 'admin/courses'
     end
@@ -20,15 +20,18 @@ class CoursesController < InheritedResources::Base
   end
 
   def schedule
-    scheduled_course = course.scheduled_courses.new
+    course = Course.find params[:id]
     JSON.parse(params[:daytimes]).each do |daytime|
-      day = scheduled_course.days.new
+      day = course.days.new
       day.date = daytime['day']
       day.start_time = daytime['start_time']
       day.end_time = daytime['end_time']
     end
-    scheduled_course.save
-    render json: { success: true }
+    if course.save
+      render json: { success: true, tiems: course.days.reorder(:date) }
+    else
+      render json: { success: false }
+    end
   end
 
   def charge

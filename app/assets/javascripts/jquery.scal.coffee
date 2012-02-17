@@ -104,6 +104,8 @@
 
       remove_time = (day) => @daytimes = _.filter(@daytimes, (obj) -> obj.day != day)
 
+      push = (hash) => @daytimes.push hash
+
       toggle = (day, element, _switch = 'toggle') =>
         daytiems = daytimes()
         month = $('#calendar thead th').attr('month')
@@ -121,7 +123,6 @@
             element.attr('selected', 'true').addClass('selected')
             $('#time_container dl').append('<div id="month' + month + '"><dt>' + month_name + '</dt><dd></dd></div>') unless $(selector)[0]
             $('#month' + month + ' dd').append('<span id="day' + element.text() + '">' + element.text() + ', </span>')
-            push_time day
         else
           if element.attr('selected') == 'selected' && _switch != 'on' || _switch == 'off'
             obj = _.find(daytiems, (obj) -> obj.day == day)
@@ -226,6 +227,20 @@
 
       $('#cal_submit').click =>
         $('#calendar').fadeOut() if @opts.popup
+        if persistent_time
+          $('#calendar tbody td.day[selected]').each ->
+            month = parseInt($('#calendar thead th').attr('month'))
+            year = $('#calendar thead th').attr('year')
+            day = $(this).text() + '-' + (month + 1) + '-' + year
+
+            start_hour = parseInt( $('#time_container #start_hour').val() )
+            start_hour += 12 if $('#time_container select#start').val() == 'PM'
+            start_time = start_hour + ':' + $('#time_container #start_min').val()
+            end_hour = parseInt( $('#time_container #end_hour').val() )
+            end_hour += 12 if $('#time_container select#end').val() == 'PM'
+            end_time = end_hour + ':' + $('#time_container #end_min').val()
+
+            push {day: day, start_time: start_time, end_time: end_time}
         @opts.submit @daytimes
 
       $('#calendar thead th.day').click ->

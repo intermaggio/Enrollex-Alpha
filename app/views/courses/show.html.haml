@@ -1,7 +1,7 @@
 %h1= course.name
 - if course.image.present?
   = image_tag course.image
-%p= course.description
+%p= course.description.html_safe
 $#{number_with_precision(course.price, precision: 2)}
 %p
   = course.address

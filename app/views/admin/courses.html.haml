@@ -98,7 +98,7 @@
                   .control-group
                     %label Important notes
                     .controls= f.text_area :notes, placeholder: 'important notes', autocomplete: 'off', style: 'height: 150px'
-              .form-actions= f.submit :submit, class: 'btn btn-success', value: 'Submit'
+              .form-actions= f.submit 'Schedule', class: 'btn btn-success'
 
 - if @course
   :javascript

@@ -1,7 +1,9 @@
 !!!
 %html
   %head
-    %title= yield :title
+    %title
+      Enrollex | 
+      = yield :title
     - if request.path =~ /\/course\/\w*\/register/
       = stylesheet_link_tag 'stripe'
       = javascript_include_tag 'stripe'

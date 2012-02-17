@@ -121,8 +121,15 @@
             remove_time day
           else unless _.find(daytiems, (obj) -> obj.day == day)
             element.attr('selected', 'true').addClass('selected')
-            $('#time_container dl').append('<div id="month' + month + '"><dt>' + month_name + '</dt><dd></dd></div>') unless $(selector)[0]
+            $('#time_container dl').append('<div id="month' + month + '"><dt>' + month_name + ' ' + year + '</dt><dd></dd></div>') unless $(selector)[0]
             $('#month' + month + ' dd').append('<span id="day' + element.text() + '">' + element.text() + ', </span>')
+            array = []
+            $('#month' + month + ' dd span').each ->
+              array.push parseInt($(this).text())
+            array.sort((n1,n2) -> n1 - n2)
+            $('#month' + month + ' dd').html('')
+            for n in array
+              $('#month' + month + ' dd').append('<span id="day' + n + '">' + n + ', </span>')
         else
           if element.attr('selected') == 'selected' && _switch != 'on' || _switch == 'off'
             obj = _.find(daytiems, (obj) -> obj.day == day)

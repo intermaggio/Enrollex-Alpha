@@ -21,17 +21,16 @@ class CoursesController < InheritedResources::Base
 
   def schedule
     course = Course.find params[:id]
+    days = []
     JSON.parse(params[:daytimes]).each do |daytime|
       day = course.days.new
       day.date = daytime['day']
       day.start_time = daytime['start_time']
       day.end_time = daytime['end_time']
+      days.push day
     end
-    if course.save
-      render json: { success: true, tiems: course.days.reorder(:date) }
-    else
-      render json: { success: false }
-    end
+    course.save if params[:finalize]
+    render json: { success: true, tiems: days.map {|d| { date: (d.date.to_time.to_i.to_s + '000').to_i, start: (d.start_time.to_i.to_s + '000').to_i, end: (d.end_time.to_i.to_s + '000').to_i } } }
   end
 
   def charge

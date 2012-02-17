@@ -1,5 +1,11 @@
 class CoursesController < InheritedResources::Base
 
+  def update
+    course = Course.find params[:id]
+    course.update_attributes params[:course]
+    respond_to :js
+  end
+
   def create
     @course = Course.new params[:course]
     if params[:instructors]

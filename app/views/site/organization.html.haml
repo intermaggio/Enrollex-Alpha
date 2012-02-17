@@ -1,12 +1,3 @@
-- if logged_in?
-  #campers{style: 'display:none;background-color:whiteSmoke;padding:25px'}
-    = form_tag do
-      - current_user.campers.each_with_index do |camper, i|
-        %label{style: 'display:inline-block'}= camper.first_name
-        = check_box_tag :"campers[#{i}]", camper.id
-        %br/
-      = submit_tag :Continue, class: 'btn btn-success'
-
 %h1 Welcome to #{organization.name}!
 %h2 Featured Courses
 - featured_courses.each_with_index do |course, index|
@@ -15,9 +6,3 @@
       = render partial: 'courses/featured', locals: { course: course }
       - if featured_courses[index+1]
         = render partial: 'courses/featured', locals: { course: featured_courses[index+1] }
-
-:javascript
-  $('.register a').click(function(){
-    $('#campers form').attr('action', '/courses/' + $(this).attr('course_id') + '/register')
-    $('#campers').bPopup()
-  })

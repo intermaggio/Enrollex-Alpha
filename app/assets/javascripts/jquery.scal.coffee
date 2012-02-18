@@ -15,6 +15,7 @@
     popup: true,
     persistent_time: false,
     submit: ->
+    preset_data: []
 
   class Plugin
     constructor: (@element, options) ->
@@ -92,19 +93,23 @@
       daytimes = => @daytimes
 
       push_time = (day) =>
-        start_hour = parseInt( $('#time_container #start_hour').val() )
-        start_hour += 12 if $('#time_container select#start').val() == 'PM'
-        start_time = start_hour + ':' + $('#time_container #start_min').val()
-        end_hour = parseInt( $('#time_container #end_hour').val() )
-        end_hour += 12 if $('#time_container select#end').val() == 'PM'
-        end_time = end_hour + ':' + $('#time_container #end_min').val()
-
         @daytimes = _.filter(@daytimes, (obj) -> obj.day != day)
-        @daytimes.push {day: day, start_time: start_time, end_time: end_time}
+        if persistent_time
+          @daytimes.push {day: day}
+        else
+          start_hour = parseInt( $('#time_container #start_hour').val() )
+          start_hour += 12 if $('#time_container select#start').val() == 'PM'
+          start_time = start_hour + ':' + $('#time_container #start_min').val()
+          end_hour = parseInt( $('#time_container #end_hour').val() )
+          end_hour += 12 if $('#time_container select#end').val() == 'PM'
+          end_time = end_hour + ':' + $('#time_container #end_min').val()
+          @daytimes.push {day: day, start_time: start_time, end_time: end_time}
 
       remove_time = (day) => @daytimes = _.filter(@daytimes, (obj) -> obj.day != day)
 
       push = (hash) => @daytimes.push hash
+
+      push_time(obj.day) for day in @opts.preset_data
 
       toggle = (day, element, _switch = 'toggle') =>
         daytiems = daytimes()
@@ -116,20 +121,21 @@
           selector = '#time_container div#month' + month
           if element.attr('selected') == 'selected' && _switch != 'on' || _switch == 'off'
             element.removeAttr('selected').removeClass('selected')
-            $('#day' + element.text()).remove()
+            $('#selected-day' + element.text()).remove()
             $(selector).remove() unless $(selector + ' dd').html()
             remove_time day
           else unless _.find(daytiems, (obj) -> obj.day == day)
+            push_time day
             element.attr('selected', 'true').addClass('selected')
             $('#time_container dl').append('<div id="month' + month + '"><dt>' + month_name + ' ' + year + '</dt><dd></dd></div>') unless $(selector)[0]
-            $('#month' + month + ' dd').append('<span id="day' + element.text() + '">' + element.text() + ', </span>')
+            $('#month' + month + ' dd').append('<span>' + element.text() + ', </span>')
             array = []
             $('#month' + month + ' dd span').each ->
               array.push parseInt($(this).text())
             array.sort((n1,n2) -> n1 - n2)
             $('#month' + month + ' dd').html('')
             for n in array
-              $('#month' + month + ' dd').append('<span id="day' + n + '">' + n + ', </span>')
+              $('#month' + month + ' dd').append('<span id="selected-day' + n + '">' + n + ', </span>')
         else
           if element.attr('selected') == 'selected' && _switch != 'on' || _switch == 'off'
             obj = _.find(daytiems, (obj) -> obj.day == day)
@@ -173,17 +179,21 @@
           $('#calendar tbody').append('<tr class="week">')
           for day, i in @days
             day = (current_day + 1) + '-' + month + '-' + year
-            html =
-              (if _.find(@daytimes, (obj) -> obj.day == day)
-                '<td class="selected" selected="selected" '
-              else
-                '<td ') +
+            html = '<td ' +
               (if row == 1 && i < first_day || current_day >= month_days
                 'class="day">'
               else
-                'class="day day' + i + '">' + ++current_day) + '</td>'
+                ++current_day
+                'id="day' + current_day + '" class="day day' + i + '">' + current_day) + '</td>'
             $('#calendar tbody').append(html)
           $('#calendar tbody').append('</tr>')
+
+        for daytime in @daytimes
+          this_day = daytime.day.split('-')[0]
+          this_month = daytime.day.split('-')[1]
+          this_year = daytime.day.split('-')[2]
+          if parseInt(this_month) == month + 1 && parseInt(this_year) == year
+            element = $('#day' + this_day).attr('selected', 'true').addClass('selected')
 
         $('#calendar tbody td.day').hover(
           (->
@@ -298,6 +308,7 @@
           $('#calendar').fadeIn()
       else
         $('#calendar').appendTo( $(@element) )
+        $('#time_container').appendTo( $(@element) )
         $('#calendar').css('display', 'inline-block').css('position', 'relative')
         $('#time_container').css('top', $('#calendar').offset().top)
         $('#time_container').css('left', $('#calendar').offset().left + $('#calendar').width() + 5)

@@ -1,6 +1,7 @@
 $('#cal_container').scal({
     popup: false,
     persistent_time: true,
+    preset_data: $.parseJSON('<%= raw @json %>'),
     submit: function(daytimes) {
       $.post(
         '/courses/<%= course.id %>/schedule',

@@ -11,10 +11,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def course_admin_path course
-    "/admin/courses/#{course.id}/#{URI::escape course.lowname}"
-  end
-
   def gmaps address
     "http://maps.google.com/maps/api/staticmap?center=#{address}&zoom=15&format=png&maptype=roadmap&mobile=true&markers=|color:red|#{address}&size=300x300&key=&sensor=false"
   end

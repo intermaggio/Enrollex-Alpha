@@ -2,7 +2,7 @@
 .tabbable
   %ul.nav.nav-tabs{:'data-tabs' => 'tabs'}
     %li.active= link_to 'info', '#info', :'data-toggle' => 'tab'
-    %li= link_to 'schedule', '#schedule', :'data-toggle' => 'tab'
+    %li= link_to 'schedule', '#schedule', id: 'schedule-link', :'data-toggle' => 'tab'
     %li= link_to 'instructors', '#instructors', :'data-toggle' => 'tab'
   .tab-content
     #info.tab-pane.active
@@ -70,3 +70,13 @@
       #cal_container
       #new_content.hide
     #instructors.pab-pane
+
+%script= render partial: 'cal.js'
+
+:javascript
+  $('#schedule-link').click(function(){
+    setTimeout(function(){
+      $('#time_container').css('left', $('#calendar').offset().left + $('#calendar').width() + 5)
+      $('#time_container').css('top', $('#calendar').offset().top)
+    }, 1)
+  })

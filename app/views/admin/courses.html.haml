@@ -65,7 +65,12 @@
                     .controls= f.check_box :featured
                   .control-group
                     %label Instructors
-                    .controls= select :course, :instructor, instructors.all.map{|i|i.name}, prompt: 'Select instructor'
+                    .controls
+                      = select :c, :instructor, instructors.all.map{|i|[i.name,i.id]}, prompt: 'Select instructor'
+                      = content_tag :button, 'Add', id: 'add_instructor', class: 'btn'
+                  .control-group
+                    .controls
+                      #instructors
                 .span6
                   .control-group
                     %label Address
@@ -105,6 +110,26 @@
 :javascript
   $('.field_with_errors input').each(function(){
     $(this).parent().parent().addClass('error')
+  })
+
+  $('#add_instructor').click(function(){
+    iname = $('#c_instructor option:selected').text()
+    id = $('#c_instructor').val()
+    if ( $('#instructor' + id).length == 0 && iname != 'Select instructor') {
+      $('#instructors').append('<div id="instructor' + id + '" class="instructor"></div>')
+      $('#instructor' + id).append('<span class="iname">' + iname + '</span>')
+      $('#instructor' + id).append('<input type="hidden" name="instructor[' + id + ']" value="' + id + '">')
+      $('#instructor' + id).append('<div class="iclose"><a>×</a></div>')
+    }
+    return false
+  })
+
+  $('.instructor .iclose a').live('click', function(){
+    id = $(this).parent().parent().attr('iid')
+    $('#instructor' + id).fadeOut()
+    setTimeout(function(){
+      $('#instructor' + id).remove()
+    }, 600)
   })
 
   $('#template-choose').click(function(){

@@ -3,7 +3,6 @@
   %ul.nav.nav-tabs{:'data-tabs' => 'tabs'}
     %li.active= link_to 'info', '#info', :'data-toggle' => 'tab'
     %li= link_to 'schedule', '#schedule', id: 'schedule-link', :'data-toggle' => 'tab'
-    %li= link_to 'instructors', '#instructors', :'data-toggle' => 'tab'
   .tab-content
     #info.tab-pane.active
       = form_for :course, url: '/courses/update', html: { remote: true, class: 'form-horizontal', id: 'course_form' } do |f|
@@ -34,6 +33,20 @@
                     = f.check_box :featured, checked: 'checked'
                   - else
                     = f.check_box :featured
+              .control-group
+                %label Instructors
+                .controls
+                  = select :c, :instructor, instructors.all.map{|i|[i.name,i.id]}, prompt: 'Select instructor'
+                  = content_tag :button, 'Add', id: 'add_instructor', class: 'btn'
+              .control-group
+                .controls
+                  #instructors
+                    - course.instructors.each do |i|
+                      %div{id: "instructor#{i.id}", class: 'instructor', iid: "#{i.id}"}
+                        %span.iname= i.name
+                        = hidden_field_tag :"instructor[#{i.id}]", i.id
+                        .iclose
+                          %a ×
             .span6
               .control-group
                 %label Address
@@ -69,7 +82,6 @@
     #schedule.tab-pane
       #cal_container
       #new_content.hide
-    #instructors.pab-pane
 
 %script= render partial: 'cal.js', locals: { course: course, json: @json }
 
@@ -79,4 +91,24 @@
       $('#time_container').css('left', $('#calendar').offset().left + $('#calendar').width() + 5)
       $('#time_container').css('top', $('#calendar').offset().top)
     }, 1)
+  })
+
+  $('#add_instructor').click(function(){
+    iname = $('#c_instructor option:selected').text()
+    id = $('#c_instructor').val()
+    if ( $('#instructor' + id).length == 0 && iname != 'Select instructor') {
+      $('#instructors').append('<div id="instructor' + id + '" class="instructor"></div>')
+      $('#instructor' + id).append('<span class="iname">' + iname + '</span>')
+      $('#instructor' + id).append('<input type="hidden" name="instructor[' + id + ']" value="' + id + '">')
+      $('#instructor' + id).append('<div class="iclose"><a>×</a></div>')
+    }
+    return false
+  })
+
+  $('.instructor .iclose a').live('click', function(){
+    id = $(this).parent().parent().attr('iid')
+    $('#instructor' + id).fadeOut()
+    setTimeout(function(){
+      $('#instructor' + id).remove()
+    }, 600)
   })

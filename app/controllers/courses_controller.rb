@@ -3,14 +3,21 @@ class CoursesController < InheritedResources::Base
   def update
     course = Course.find params[:id]
     course.update_attributes params[:course]
+    course.instructors = []
+    if params[:instructor]
+      params[:instructor].each do |hash|
+        course.instructors << User.find(hash.last)
+      end
+      course.save
+    end
     respond_to :js
   end
 
   def create
     @course = Course.new params[:course]
-    if params[:instructors]
-      params[:instructors].each do |hash|
-        @course.instructors << User.find(hash.first) if hash.last == '1'
+    if params[:instructor]
+      params[:instructor].each do |hash|
+        @course.instructors << User.find(hash.last)
       end
     end
     if @course.save

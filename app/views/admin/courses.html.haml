@@ -65,11 +65,7 @@
                     .controls= f.check_box :featured
                   .control-group
                     %label Instructors
-                    .controls
-                      - instructors.each do |instructor|
-                        %label.checkbox
-                          = check_box_tag :"instructors[#{instructor.id}]"
-                          = instructor.name
+                    .controls= select :course, :instructor, instructors.all.map{|i|i.name}, prompt: 'Select instructor'
                 .span6
                   .control-group
                     %label Address

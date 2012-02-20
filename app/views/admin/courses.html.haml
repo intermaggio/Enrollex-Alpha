@@ -46,20 +46,20 @@
                 .span6
                   .control-group
                     %label Name
-                    .controls= f.text_field :name, placeholder: 'name', autocomplete: 'off'
+                    .controls= f.text_field :name, placeholder: 'name',
                   .control-group
                     %label Description
-                    .controls= f.text_area :description, placeholder: 'description', autocomplete: 'off', style: 'height:100px'
+                    .controls= f.text_area :description, placeholder: 'description', style: 'height:100px'
                   .control-group
                     %label Price
-                    .controls= f.text_field :price, placeholder: 'price', autocomplete: 'off'
+                    .controls= f.text_field :price, placeholder: 'price'
                   #pics
                     .control-group
                       %label Upload a Picture
                       .controls= f.file_field :image
                   .control-group
                     %label Status text
-                    .controls= f.text_field :status, placeholder: 'status text', autocomplete: 'off'
+                    .controls= f.text_field :status, placeholder: 'status text'
                   .control-group
                     %label Featured?
                     .controls= f.check_box :featured
@@ -74,31 +74,31 @@
                 .span6
                   .control-group
                     %label Address
-                    .controls= f.text_field :address, placeholder: 'address', autocomplete: 'off'
+                    .controls= f.text_field :address, placeholder: 'address'
                   .control-group
                     %label City
-                    .controls= f.text_field :city, placeholder: 'city', autocomplete: 'off'
+                    .controls= f.text_field :city, placeholder: 'city'
                   .control-group
                     %label State
-                    .controls= f.text_field :state, placeholder: 'state', autocomplete: 'off'
+                    .controls= f.text_field :state, placeholder: 'state'
                   .control-group
                     %label Zip
-                    .controls= f.text_field :zip, placeholder: 'zip', autocomplete: 'off'
+                    .controls= f.text_field :zip, placeholder: 'zip'
                   .control-group{style: 'position: relative'}
                     = f.select :range_type, options_for_select({:'Age Range' => :age, :'Grade Range' => :grade}), {}, style: 'width: 120px;position: absolute; left: 10px'
                     .controls
-                      = f.text_field :start_range, autocomplete: 'off', style: 'display: inline-block; width: 20px'
+                      = f.text_field :start_range, style: 'display: inline-block; width: 20px'
                       = ' - '
-                      = f.text_field :end_range, autocomplete: 'off', style: 'display: inline-block; width: 20px'
+                      = f.text_field :end_range, style: 'display: inline-block; width: 20px'
                   .control-group
                     %label Suite #
-                    .controls= f.text_field :suite, autocomplete: 'off', style: 'width: 20px'
+                    .controls= f.text_field :suite, style: 'width: 20px'
                   .control-group
                     %label Room #
-                    .controls= f.text_field :room, autocomplete: 'off', style: 'width: 20px'
+                    .controls= f.text_field :room, style: 'width: 20px'
                   .control-group
                     %label Important notes
-                    .controls= f.text_area :notes, placeholder: 'important notes', autocomplete: 'off', style: 'height: 150px'
+                    .controls= f.text_area :notes, placeholder: 'important notes', style: 'height: 150px'
               .form-actions= f.submit 'Schedule', class: 'btn btn-success'
 
 - if @course

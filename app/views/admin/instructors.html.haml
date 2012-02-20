@@ -28,19 +28,19 @@
               = hidden_field_tag :oid, organization.id
               .control-group
                 %label First Name
-                .controls= f.text_field :first_name, placeholder: 'first name', autocomplete: 'off'
+                .controls= f.text_field :first_name, placeholder: 'first name'
               .control-group
                 %label Last Name
-                .controls= f.text_field :last_name, placeholder: 'last name', autocomplete: 'off'
+                .controls= f.text_field :last_name, placeholder: 'last name'
               .control-group
                 %label Phone Number
-                .controls= f.text_field :phone, placeholder: 'ten-digit phone number', autocomplete: 'off'
+                .controls= f.text_field :phone, placeholder: 'ten-digit phone number'
               .control-group
                 %label Email
-                .controls= f.text_field :email, placeholder: 'email', autocomplete: 'off'
+                .controls= f.text_field :email, placeholder: 'email'
               .control-group
                 %label Bio
-                .controls= f.text_area :bio, placeholder: 'bio', autocomplete: 'off', style: 'height: 150px'
+                .controls= f.text_area :bio, placeholder: 'bio', style: 'height: 150px'
               .control-group
                 %label Headshot
                 .controls= f.file_field :image

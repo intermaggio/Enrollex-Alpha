@@ -76,6 +76,16 @@
               <option value="PM">PM</option>
             </select>
           </div>' +
+          (if @opts.preset_data.length > 0
+            '<div id="date-selection" style="text-align:left">
+               <div id="date-selection-header" style="text-align:center">
+                 Apply this time to:
+               </div>
+               <input id="new-dates" type="radio" name="date-selection" checked="checked"> Newly-selected dates only<br/>
+               <input id="all-dates" type="radio" name="date-selection"> All dates
+             </div>'
+           else
+             '') +
           (unless @opts.persistent_time
             '<button class="btn btn-success">Schedule</button>'
            else
@@ -84,6 +94,7 @@
       '
 
       @daytimes = []
+      @pretimes = []
 
       @init()
 
@@ -92,10 +103,29 @@
       persistent_time = @opts.persistent_time
       daytimes = => @daytimes
 
+      filter = (array, key) =>
+        _.filter array, (obj) ->
+          if typeof key == 'string'
+            obj.day != key
+          else
+            obj.day != key.day
+
+      find = (array, key) ->
+        _.find array, (obj) ->
+          if typeof key == 'string'
+            obj.day == key
+          else
+            obj.day == key.day
+
       push_time = (day) =>
-        @daytimes = _.filter(@daytimes, (obj) -> obj.day != day)
+        @daytimes = filter @daytimes, day
+        @pretimes = filter @pretimes, day
         if persistent_time
-          @daytimes.push {day: day}
+          if typeof day == 'string'
+            @daytimes.push {day: day}
+          else
+            @daytimes.push day
+            @pretimes.push day if day.preselected
         else
           start_hour = parseInt( $('#time_container #start_hour').val() )
           start_hour += 12 if $('#time_container select#start').val() == 'PM'
@@ -103,32 +133,39 @@
           end_hour = parseInt( $('#time_container #end_hour').val() )
           end_hour += 12 if $('#time_container select#end').val() == 'PM'
           end_time = end_hour + ':' + $('#time_container #end_min').val()
-          @daytimes.push {day: day, start_time: start_time, end_time: end_time}
+          if typeof day == 'string'
+            @daytimes.push {day: day, start_time: start_time, end_time: end_time}
+          else
+            @daytimes.push {day: day.day, start_time: start_time, end_time: end_time}
 
-      remove_time = (day) => @daytimes = _.filter(@daytimes, (obj) -> obj.day != day)
+      remove_time = (day) => @daytimes = filter @daytimes, day
 
       push = (hash) => @daytimes.push hash
 
-      push_time(obj.day) for day in @opts.preset_data
+      push_time(obj) for obj in @opts.preset_data
 
-      toggle = (day, element, _switch = 'toggle') =>
+      toggle = (day, element, _switch = 'toggle', persist = true) =>
         daytiems = daytimes()
         month = $('#calendar thead th').attr('month')
         year = $('#calendar thead th').attr('year')
         month_name = @months[month]
         element.removeClass('deselecting')
+        exists = find daytiems, day
+        remove_time day if persist == false
         if persistent_time
           selector = '#time_container div#month' + month
           if element.attr('selected') == 'selected' && _switch != 'on' || _switch == 'off'
             element.removeAttr('selected').removeClass('selected')
+            element.addClass('preselected') if day.preselected
             $('#selected-day' + element.text()).remove()
             $(selector).remove() unless $(selector + ' dd').html()
             remove_time day
-          else unless _.find(daytiems, (obj) -> obj.day == day)
-            push_time day
+          else unless exists && _switch != 'on' || persist == false
+            push_time day unless exists
+            element.removeClass('preselected')
             element.attr('selected', 'true').addClass('selected')
             $('#time_container dl').append('<div id="month' + month + '"><dt>' + month_name + ' ' + year + '</dt><dd></dd></div>') unless $(selector)[0]
-            $('#month' + month + ' dd').append('<span>' + element.text() + ', </span>')
+            $('#month' + month + ' dd').append('<span>' + element.text() + ', </span>') unless $('#selected-day' + element.text()).length > 0
             array = []
             $('#month' + month + ' dd span').each ->
               array.push parseInt($(this).text())
@@ -138,7 +175,7 @@
               $('#month' + month + ' dd').append('<span id="selected-day' + n + '">' + n + ', </span>')
         else
           if element.attr('selected') == 'selected' && _switch != 'on' || _switch == 'off'
-            obj = _.find(daytiems, (obj) -> obj.day == day)
+            obj = find daytiems, day
             $('#time_container #start_min').val(obj.start_time.replace(/\d*:/, ''))
             $('#time_container #start_hour').val(obj.start_time.replace(/:\d*/, ''))
             $('#time_container #end_min').val(obj.end_time.replace(/\d*:/, ''))
@@ -151,6 +188,16 @@
             $('#time_container .btn').unbind()
             $('#time_container').fadeOut()
             push_time day
+
+      setTimeout (=>
+        $('#all-dates').click =>
+          toggle(obj, $('#day' + obj.day.split('-')[0]), 'on') for obj in @pretimes
+        ), 500
+
+      setTimeout (=>
+        $('#new-dates').click =>
+          toggle(obj, $('#day' + obj.day.split('-')[0]), 'off') for obj in @pretimes
+        ), 500
 
       gen_cal = (month, year) =>
         $('#calendar thead th').attr('month', month)
@@ -193,7 +240,8 @@
           this_month = daytime.day.split('-')[1]
           this_year = daytime.day.split('-')[2]
           if parseInt(this_month) == month + 1 && parseInt(this_year) == year
-            element = $('#day' + this_day).attr('selected', 'true').addClass('selected')
+            toggle(daytime, $('#day' + this_day), 'on', false)
+            $('#day' + this_day).addClass('preselected') if daytime.preselected
 
         $('#calendar tbody td.day').hover(
           (->
@@ -245,11 +293,7 @@
       $('#cal_submit').click =>
         $('#calendar').fadeOut() if @opts.popup
         if persistent_time
-          $('#calendar tbody td.day[selected]').each ->
-            month = parseInt($('#calendar thead th').attr('month'))
-            year = $('#calendar thead th').attr('year')
-            day = $(this).text() + '-' + (month + 1) + '-' + year
-
+          for daytime, i in @daytimes
             start_hour = parseInt( $('#time_container #start_hour').val() )
             start_hour += 12 if $('#time_container select#start').val() == 'PM'
             start_time = start_hour + ':' + $('#time_container #start_min').val()
@@ -257,8 +301,12 @@
             end_hour += 12 if $('#time_container select#end').val() == 'PM'
             end_time = end_hour + ':' + $('#time_container #end_min').val()
 
-            push {day: day, start_time: start_time, end_time: end_time}
-        @opts.submit @daytimes
+            @daytimes[i].start_time = start_time
+            @daytimes[i].end_time = end_time
+        daytimes = []
+        daytimes.push @daytimes
+        daytimes.push @pretimes
+        @opts.submit _.flatten(daytimes)
 
       $('#calendar thead th.day').click ->
         all_selected = _.all($('#calendar tbody td.day' + $(this).attr('day')), (t) -> $(t).attr('selected'))

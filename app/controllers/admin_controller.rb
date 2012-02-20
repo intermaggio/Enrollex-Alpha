@@ -12,7 +12,7 @@ class AdminController < InheritedResources::Base
   end
 
   def manage_course
-    @json = course.days.reorder(:date).map {|d| { day: d.date, start_time: d.start_time, end_time: d.end_time } }.to_json
+    @json = course.days.reorder(:date).map {|d| { day: (d.date.to_time.to_i.to_s + '000').to_i, start_time: (d.start_time.to_i.to_s + '000').to_i, end_time: (d.end_time.to_i.to_s + '000').to_i } }.to_json
   end
 
 end

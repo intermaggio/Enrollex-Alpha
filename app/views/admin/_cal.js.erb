@@ -1,76 +1,86 @@
-$('#cal_container').scal({
-    popup: false,
-    persistent_time: true,
-    preset_data: $.parseJSON('<%= raw @json %>'),
-    submit: function(daytimes) {
-      $.post(
-        '/courses/<%= course.id %>/schedule',
-        { daytimes: JSON.stringify(daytimes) },
-        function(rsp){
-          if (rsp.success == true) {
-            $('#cal_container').fadeOut('slow')
-            $('#time_container').fadeOut('slow')
-            $('#new_content').prepend('<dl>')
-            for (var i=0; i < rsp.tiems.length; i++){
-              m = moment(rsp.tiems[i].date)
-              m = m.add('m', m.zone())
-              month = m.format('MMMM')
-              month_year = m.format('MMMM YYYY')
-              year = m.format('YYYY')
-              month_num = m.format('M')
-              day = m.format('Do')
-              day_num = m.format('D')
-              m = moment(rsp.tiems[i].start)
-              m = m.add('m', m.zone())
-              start = m.format('HH:mm')
-              start_time_hour = m.format('h')
-              start_time_minute = m.format('mm')
-              start_offset = m.format('A')
-              start_offset2 = (start_offset == 'AM' && 'PM' || 'AM')
-              m = moment(rsp.tiems[i].end)
-              m = m.add('m', m.zone())
-              end = m.format('HH:mm')
-              end_time_hour = m.format('h')
-              end_time_minute = m.format('mm')
-              end_offset = m.format('A')
-              end_offset2 = (end_offset == 'AM' && 'PM' || 'AM')
-              if ( $('#' + month).length == 0 ) {
-                $('#new_content dl').append('<div id="' + month + '"><dt>' + month_year + '</dt></div>')
-              }
-              $('#' + month).append('<dd start="' + start + '" end="' + end + '" year="' + year + '" month="' + month_num + '" day="' + day_num + '" id="day' + day + '">' + day + ': </dd>')
-              $('#' + month + ' #day' + day).append('<input style="width:20px" class="start_time_hour" type="text" value="' + start_time_hour + '">')
-              $('#' + month + ' #day' + day).append(' : ')
-              $('#' + month + ' #day' + day).append('<input style="width:20px" class="start_time_minute" type="text" value="' + start_time_minute + '">')
-              $('#' + month + ' #day' + day).append('<select class="start_offset" style="width:60px;margin-left:5px"> <option value="' + start_offset + '">' + start_offset + '</option> <option value="' + start_offset2 + '">' + start_offset2 + '</option> </select>')
-              $('#' + month + ' #day' + day).append(' To ')
-              $('#' + month + ' #day' + day).append('<input class="end_time_hour" style="width:20px" type="text" value="' + end_time_hour + '">')
-              $('#' + month + ' #day' + day).append(' : ')
-              $('#' + month + ' #day' + day).append('<input class="end_time_minute" style="width:20px" type="text" value="' + end_time_minute + '">')
-              $('#' + month + ' #day' + day).append('<select class="end_time_offset" style="width:60px;margin-left:5px"> <option value="' + end_offset + '">' + end_offset + '</option> <option value="' + end_offset2 + '">' + end_offset2 + '</option> </select>')
-            }
-            $('#new_content').append('</dl>')
-            $('#new_content').append('<button id="finalize" class="btn btn-success">Finalize</button>')
-            $('#new_content').delay(600).fadeIn('slow')
-            $('#finalize').click(function(){
-              daytimes = []
-              $('#new_content dd').each(function(){
-                day = $(this).attr('day') + '-' + $(this).attr('month') + '-' + $(this).attr('year')
-                start = $(this).attr('start')
-                end = $(this).attr('end')
-                daytimes.push({ day: day, start_time: start, end_time: end })
-              })
-              $.post(
-                '/courses/<%= course.id %>}/schedule',
-                { finalize: true, daytimes: JSON.stringify(daytimes) },
-                function(rsp) {
-                  window.location = '/admin/courses'
-                },
-                'json'
-              )
-            })
-          }
-        },
-        'json'
-      )
-    }
+parsed_json = []
+json = $.parseJSON('<%= raw json %>')
+for (var i=0; i < json.length; i++) {
+  parsed_json.push({
+    day: moment(json[i].day).format('DD-M-YYYY'),
+    start_time: moment(json[i].start_time).format('HH:mm'),
+    end_time: moment(json[i].end_time).format('HH:mm'),
+    preselected: true
   })
+}
+$('#cal_container').scal({
+  popup: false,
+  persistent_time: true,
+  preset_data: parsed_json,
+  submit: function(daytimes) {
+    $.post(
+      '/courses/<%= course.id %>/schedule',
+      { daytimes: JSON.stringify(daytimes) },
+      function(rsp){
+        if (rsp.success == true) {
+          $('#cal_container').fadeOut('slow')
+          $('#time_container').fadeOut('slow')
+          $('#new_content').prepend('<dl>')
+          for (var i=0; i < rsp.tiems.length; i++){
+            m = moment(rsp.tiems[i].date)
+            m = m.add('m', m.zone())
+            month = m.format('MMMM')
+            month_year = m.format('MMMM YYYY')
+            year = m.format('YYYY')
+            month_num = m.format('M')
+            day = m.format('Do')
+            day_num = m.format('D')
+            m = moment(rsp.tiems[i].start)
+            m = m.add('m', m.zone())
+            start = m.format('HH:mm')
+            start_time_hour = m.format('h')
+            start_time_minute = m.format('mm')
+            start_offset = m.format('A')
+            start_offset2 = (start_offset == 'AM' && 'PM' || 'AM')
+            m = moment(rsp.tiems[i].end)
+            m = m.add('m', m.zone())
+            end = m.format('HH:mm')
+            end_time_hour = m.format('h')
+            end_time_minute = m.format('mm')
+            end_offset = m.format('A')
+            end_offset2 = (end_offset == 'AM' && 'PM' || 'AM')
+            if ( $('#' + month).length == 0 ) {
+              $('#new_content dl').append('<div id="' + month + '"><dt>' + month_year + '</dt></div>')
+            }
+            $('#' + month).append('<dd start="' + start + '" end="' + end + '" year="' + year + '" month="' + month_num + '" day="' + day_num + '" id="day' + day + '">' + day + ': </dd>')
+            $('#' + month + ' #day' + day).append('<input style="width:20px" class="start_time_hour" type="text" value="' + start_time_hour + '">')
+            $('#' + month + ' #day' + day).append(' : ')
+            $('#' + month + ' #day' + day).append('<input style="width:20px" class="start_time_minute" type="text" value="' + start_time_minute + '">')
+            $('#' + month + ' #day' + day).append('<select class="start_offset" style="width:60px;margin-left:5px"> <option value="' + start_offset + '">' + start_offset + '</option> <option value="' + start_offset2 + '">' + start_offset2 + '</option> </select>')
+            $('#' + month + ' #day' + day).append(' To ')
+            $('#' + month + ' #day' + day).append('<input class="end_time_hour" style="width:20px" type="text" value="' + end_time_hour + '">')
+            $('#' + month + ' #day' + day).append(' : ')
+            $('#' + month + ' #day' + day).append('<input class="end_time_minute" style="width:20px" type="text" value="' + end_time_minute + '">')
+            $('#' + month + ' #day' + day).append('<select class="end_time_offset" style="width:60px;margin-left:5px"> <option value="' + end_offset + '">' + end_offset + '</option> <option value="' + end_offset2 + '">' + end_offset2 + '</option> </select>')
+          }
+          $('#new_content').append('</dl>')
+          $('#new_content').append('<button id="finalize" class="btn btn-success">Finalize</button>')
+          $('#new_content').delay(600).fadeIn('slow')
+          $('#finalize').click(function(){
+            daytimes = []
+            $('#new_content dd').each(function(){
+              day = $(this).attr('day') + '-' + $(this).attr('month') + '-' + $(this).attr('year')
+              start = $(this).attr('start')
+              end = $(this).attr('end')
+              daytimes.push({ day: day, start_time: start, end_time: end })
+            })
+            $.post(
+              '/courses/<%= course.id %>/schedule',
+              { finalize: true, daytimes: JSON.stringify(daytimes) },
+              function(rsp) {
+                window.location = '/admin/courses'
+              },
+              'json'
+            )
+          })
+        }
+      },
+      'json'
+    )
+  }
+})

@@ -11,7 +11,7 @@ class UsersController < InheritedResources::Base
     end
     redirect_to '/'
   end
-  
+
   def create_instructor
     @user = User.where(email: params[:user][:email]).first || User.new(params[:user])
     @user.instructing_for << Organization.find(params[:oid])

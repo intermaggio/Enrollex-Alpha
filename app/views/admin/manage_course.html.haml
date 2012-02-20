@@ -71,7 +71,7 @@
       #new_content.hide
     #instructors.pab-pane
 
-%script= render partial: 'cal.js'
+%script= render partial: 'cal.js', locals: { course: course, json: @json }
 
 :javascript
   $('#schedule-link').click(function(){

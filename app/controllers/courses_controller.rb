@@ -29,7 +29,7 @@ class CoursesController < InheritedResources::Base
     course = Course.find params[:id]
     days = []
     JSON.parse(params[:daytimes]).each do |daytime|
-      course.where(date: daytime['day'].to_date).destroy_all
+      course.days.where(date: daytime['day'].to_date).destroy_all
       day = course.days.new
       day.date = daytime['day']
       day.start_time = daytime['start_time']

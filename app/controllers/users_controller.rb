@@ -5,9 +5,9 @@ class UsersController < InheritedResources::Base
     unless user.salt
       auto_login user
       remember_me!
+      user.update_attribute(:password, params[:password])
       cookies[:cm_user_id] = user.id
       cookies[:cm_hash] = user.salt.to_i(36)
-      user.update_attribute(:password, params[:password])
     end
     redirect_to '/'
   end

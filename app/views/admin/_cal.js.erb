@@ -20,7 +20,6 @@ $('#cal_container').scal({
         if (rsp.success == true) {
           $('#cal_container').fadeOut('slow')
           $('#time_container').fadeOut('slow')
-          $('#new_content').prepend('<dl>')
           for (var i=0; i < rsp.tiems.length; i++){
             m = moment(rsp.tiems[i].date)
             m = m.add('m', m.zone())
@@ -45,25 +44,26 @@ $('#cal_container').scal({
             end_offset = m.format('A')
             end_offset2 = (end_offset == 'AM' && 'PM' || 'AM')
             if ( $('#' + month).length == 0 ) {
-              $('#new_content dl').append('<div id="' + month + '"><dt>' + month_year + '</dt></div>')
+              $('#new_content').append('<div id="' + month + '"><h4>' + month_year + '</h4><table class="table table-striped"><thead><th class="date">Date</th><th class="start">Start Time</th><th class="end">End Time</th></thead><tbody></tbody></table></div>')
             }
-            $('#' + month).append('<dd start="' + start + '" end="' + end + '" year="' + year + '" month="' + month_num + '" day="' + day_num + '" id="day' + day + '">' + day + ': </dd>')
-            $('#' + month + ' #day' + day).append('<input style="width:20px" class="start_time_hour" type="text" value="' + start_time_hour + '">')
-            $('#' + month + ' #day' + day).append(' : ')
-            $('#' + month + ' #day' + day).append('<input style="width:20px" class="start_time_minute" type="text" value="' + start_time_minute + '">')
-            $('#' + month + ' #day' + day).append('<select class="start_offset" style="width:60px;margin-left:5px"> <option value="' + start_offset + '">' + start_offset + '</option> <option value="' + start_offset2 + '">' + start_offset2 + '</option> </select>')
-            $('#' + month + ' #day' + day).append(' To ')
-            $('#' + month + ' #day' + day).append('<input class="end_time_hour" style="width:20px" type="text" value="' + end_time_hour + '">')
-            $('#' + month + ' #day' + day).append(' : ')
-            $('#' + month + ' #day' + day).append('<input class="end_time_minute" style="width:20px" type="text" value="' + end_time_minute + '">')
-            $('#' + month + ' #day' + day).append('<select class="end_time_offset" style="width:60px;margin-left:5px"> <option value="' + end_offset + '">' + end_offset + '</option> <option value="' + end_offset2 + '">' + end_offset2 + '</option> </select>')
+            $('#' + month + ' table tbody').append('<tr id="day' + day + '" start="' + start + '" end="' + end + '" year="' + year + '" month="' + month + '" day="' + day_num + '"></tr>')
+            $('#' + month + ' #day' + day).append('<td class="date"></td> <td class="start"></td> <td class="end"></td>')
+            $('#' + month + ' #day' + day + ' td.date').append(day)
+            $('#' + month + ' #day' + day + ' td.start').append('<input style="width:20px" class="start_time_hour" type="text" value="' + start_time_hour + '">')
+            $('#' + month + ' #day' + day + ' td.start').append('<div>:</div>')
+            $('#' + month + ' #day' + day + ' td.start').append('<input style="width:20px" class="start_time_minute" type="text" value="' + start_time_minute + '">')
+            $('#' + month + ' #day' + day + ' td.start').append('<select class="start_offset" style="width:60px;margin-left:5px"> <option value="' + start_offset + '">' + start_offset + '</option> <option value="' + start_offset2 + '">' + start_offset2 + '</option> </select>')
+            $('#' + month + ' #day' + day + ' td.start').append('<div class="to">To</div>')
+            $('#' + month + ' #day' + day + ' td.end').append('<input class="end_time_hour" style="width:20px" type="text" value="' + end_time_hour + '">')
+            $('#' + month + ' #day' + day + ' td.end').append('<div>:</div>')
+            $('#' + month + ' #day' + day + ' td.end').append('<input class="end_time_minute" style="width:20px" type="text" value="' + end_time_minute + '">')
+            $('#' + month + ' #day' + day + ' td.end').append('<select class="end_time_offset" style="width:60px;margin-left:5px"> <option value="' + end_offset + '">' + end_offset + '</option> <option value="' + end_offset2 + '">' + end_offset2 + '</option> </select>')
           }
-          $('#new_content').append('</dl>')
           $('#new_content').append('<button id="finalize" class="btn btn-success">Finalize</button>')
           $('#new_content').delay(600).fadeIn('slow')
           $('#finalize').click(function(){
             daytimes = []
-            $('#new_content dd').each(function(){
+            $('#new_content tbody tr').each(function(){
               day = $(this).attr('day') + '-' + $(this).attr('month') + '-' + $(this).attr('year')
               start = $(this).attr('start')
               end = $(this).attr('end')

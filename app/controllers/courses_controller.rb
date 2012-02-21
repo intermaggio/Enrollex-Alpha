@@ -1,5 +1,37 @@
 class CoursesController < InheritedResources::Base
 
+  def daily course
+    falsey = course.days.each_with_index.map { |day,i|
+      if day == course.days.last && day.date == course.days[i - 1].date + 1.day
+        true
+      elsif day != course.days.last && day.date == course.days[i + 1].date - 1.day
+        true
+      else
+        false
+      end
+    }.index false
+    if falsey then false else true end
+  end
+
+  def find_days course
+    days = {'0' => 'sunday', '1' => 'monday', '2' => 'tuesday', '3' => 'wednesday', '4' => 'thursday', '5' => 'friday', '6' => 'saturday'}
+    results = {}
+    course.days.each do |obj|
+      day = obj.date.wday
+      results[days[day.to_s]] = 0 unless results[days[day.to_s]]
+      results[days[day.to_s]] += 1
+    end
+    results
+  end
+
+  def update_times
+    course.date_string = params[:date_string]
+    course.time_string = params[:time_string]
+    course.time_exceptions = params[:time_exceptions]
+    course.save
+    render json: { success: true }
+  end
+
   def update
     course = Course.find params[:id]
     course.update_attributes params[:course]
@@ -34,8 +66,12 @@ class CoursesController < InheritedResources::Base
 
   def schedule
     course = Course.find params[:id]
-    days = []
+    if !params[:finalize]
+      course.default_start = params[:start][:hour] + ':' + params[:start][:min]
+      course.default_end = params[:end][:hour] + ':' + params[:end][:min]
+    end
     course.days.destroy_all
+    days = []
     JSON.parse(params[:daytimes]).each do |daytime|
       day = course.days.new
       day.date = daytime['day']
@@ -43,8 +79,23 @@ class CoursesController < InheritedResources::Base
       day.end_time = daytime['end_time']
       days.push day
     end
+    course.which_days = find_days course
+    course.daily = daily course
     course.save
-    render json: { success: true, tiems: days.map {|d| { date: (d.date.to_time.to_i.to_s + '000').to_i, start: (d.start_time.to_i.to_s + '000').to_i, end: (d.end_time.to_i.to_s + '000').to_i } } }
+    #days = {'sunday' => 0, 'monday' => 1, 'tuesday' => 2, 'wednesday' => 3, 'thursday' => 4, 'friday' => 5, 'saturday' => 6}
+    total = course.which_days.reduce(0) { |sum, day| sum += day.last }
+    rdays = course.which_days.map { |day| day.last > total / 4 && day.first.capitalize || nil }.compact
+    #exception_days = course.which_days.map { |day| day.last <= total / 4 && day.first || nil }.compact
+    #course.days.each do |day|
+      #day.date.wday ==
+    #end
+    exceptions = []
+    if params[:finalize]
+      days = course.days.reorder(:date)
+      render json: { start_time: (course.default_start.to_i.to_s + '000').to_i, end_time: (course.default_end.to_i.to_s + '000').to_i, rdays: rdays, exceptions: exceptions, start_date: (days.first.date.to_time.to_i.to_s + '000').to_i, end_date: (days.last.date.to_time.to_i.to_s + '000').to_i }
+    else
+      render json: { tiems: days.map {|d| { date: (d.date.to_time.to_i.to_s + '000').to_i, start: (d.start_time.to_i.to_s + '000').to_i, end: (d.end_time.to_i.to_s + '000').to_i } } }
+    end
   end
 
   def charge

@@ -3,6 +3,8 @@ class Course < ActiveRecord::Base
     "#{self.address} #{self.city} #{self.state} #{self.zip}"
   end
 
+  serialize :which_days, Hash
+
   belongs_to :organization
 
   validates_presence_of :name

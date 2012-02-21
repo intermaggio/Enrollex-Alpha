@@ -33,6 +33,7 @@
             %ul.nav-tabs.nav
               - if request.subdomain.present? && organization
                 - if current_user.admin_organizations.include?(organization)
+                  %li= link_to 'catalog', '/catalog'
                   %li.dropdown{:'data-dropdown' => 'dropdown'}
                     = link_to 'javascript:void(0)', class: 'dropdown-toggle', :'data-toggle' => 'dropdown' do
                       admin

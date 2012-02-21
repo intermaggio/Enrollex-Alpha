@@ -10,4 +10,7 @@ class SiteController < ApplicationController
     end
   end
 
+  def catalog
+  end
+
 end

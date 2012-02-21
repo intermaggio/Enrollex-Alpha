@@ -65,7 +65,7 @@ class CoursesController < InheritedResources::Base
 
   def schedule
     course = Course.find params[:id]
-    if !params[:finalize] && params[:start][:hour]
+    if !params[:finalize] && params[:start][:hour] != 'NaN'
       course.default_start = params[:start][:hour] + ':' + params[:start][:min]
       course.default_end = params[:end][:hour] + ':' + params[:end][:min]
     end

@@ -11,6 +11,7 @@ class Course < ActiveRecord::Base
   mount_uploader :image, CourseImage
 
   scope :featured, where(featured: true)
+  scope :published, where(published: true)
 
   has_many :days
   has_and_belongs_to_many :instructors, class_name: 'User', join_table: 'instructors_courses'

@@ -27,6 +27,13 @@
                 %label Status text
                 .controls= f.text_field :status, placeholder: 'status text', value: course.status
               .control-group
+                %label Publish?
+                .controls
+                  - if course.published
+                    = f.check_box :published, checked: 'checked'
+                  - else
+                    = f.check_box :published
+              .control-group
                 %label Featured?
                 .controls
                   - if course.featured

@@ -18,6 +18,6 @@ class ApplicationController < ActionController::Base
   expose(:organization) { Organization.find_by_subdomain request.subdomain }
   expose(:course) { Course.where(id: params[:id]).first }
   expose(:courses) { organization.courses.reorder(:created_at) }
-  expose(:featured_courses) { organization.courses.featured.reorder(:created_at) }
+  expose(:featured_courses) { organization.courses.featured.published.reorder(:created_at) }
   expose(:instructors) { organization.instructors.reorder('created_at DESC') }
 end

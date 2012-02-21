@@ -61,6 +61,9 @@
                     %label Status text
                     .controls= f.text_field :status, placeholder: 'status text'
                   .control-group
+                    %label Publish?
+                    .controls= f.check_box :published
+                  .control-group
                     %label Featured?
                     .controls= f.check_box :featured
                   .control-group

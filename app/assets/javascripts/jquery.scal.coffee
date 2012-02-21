@@ -130,10 +130,10 @@
               @daytimes.push day
         else
           start_hour = parseInt( $('#time_container #start_hour').val() )
-          start_hour += 12 if $('#time_container select#start').val() == 'PM'
+          start_hour += 12 if $('#time_container select#start').val() == 'PM' && start_hour != 12
           start_time = start_hour + ':' + $('#time_container #start_min').val()
           end_hour = parseInt( $('#time_container #end_hour').val() )
-          end_hour += 12 if $('#time_container select#end').val() == 'PM'
+          end_hour += 12 if $('#time_container select#end').val() == 'PM' && start_hour != 12
           end_time = end_hour + ':' + $('#time_container #end_min').val()
           if typeof day == 'string'
             @daytimes.push {day: day, start_time: start_time, end_time: end_time}
@@ -298,12 +298,8 @@
 
       $('#cal_submit').click =>
         $('#calendar').fadeOut() if @opts.popup
-        daytimes = []
-        daytimes.push @daytimes
-        daytimes.push _.filter @pretimes, (obj) -> return !find(@daytimes, obj)
-        daytimes = _.flatten daytimes
         if persistent_time
-          for daytime in daytimes
+          for daytime in @daytimes
             start_hour = parseInt( $('#time_container #start_hour').val() )
             start_hour += 12 if $('#time_container select#start').val() == 'PM'
             start_time = start_hour + ':' + $('#time_container #start_min').val()
@@ -313,7 +309,10 @@
 
             daytime.start_time = start_time
             daytime.end_time = end_time
-        @opts.submit daytimes
+        daytimes = []
+        daytimes.push @daytimes
+        daytimes.push @pretimes
+        @opts.submit _.flatten(daytimes)
 
       $('#calendar thead th.day').click ->
         all_selected = _.all($('#calendar tbody td.day' + $(this).attr('day')), (t) -> $(t).attr('selected'))

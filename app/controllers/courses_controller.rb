@@ -43,7 +43,7 @@ class CoursesController < InheritedResources::Base
       day.end_time = daytime['end_time']
       days.push day
     end
-    course.save if params[:finalize]
+    course.save
     render json: { success: true, tiems: days.map {|d| { date: (d.date.to_time.to_i.to_s + '000').to_i, start: (d.start_time.to_i.to_s + '000').to_i, end: (d.end_time.to_i.to_s + '000').to_i } } }
   end
 

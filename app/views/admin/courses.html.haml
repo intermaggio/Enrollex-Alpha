@@ -73,6 +73,9 @@
                       #instructors
                 .span6
                   .control-group
+                    %label Location Name
+                    .controls= f.text_field :location_name, placeholder: 'location name'
+                  .control-group
                     %label Address
                     .controls= f.text_field :address, placeholder: 'address'
                   .control-group

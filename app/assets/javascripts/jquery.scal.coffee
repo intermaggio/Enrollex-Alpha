@@ -133,7 +133,7 @@
           start_hour += 12 if $('#time_container select#start').val() == 'PM' && start_hour != 12
           start_time = start_hour + ':' + $('#time_container #start_min').val()
           end_hour = parseInt( $('#time_container #end_hour').val() )
-          end_hour += 12 if $('#time_container select#end').val() == 'PM' && start_hour != 12
+          end_hour += 12 if $('#time_container select#end').val() == 'PM' && end_hour != 12
           end_time = end_hour + ':' + $('#time_container #end_min').val()
           if typeof day == 'string'
             @daytimes.push {day: day, start_time: start_time, end_time: end_time}

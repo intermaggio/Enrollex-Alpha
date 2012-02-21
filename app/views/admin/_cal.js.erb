@@ -47,10 +47,10 @@ $('#cal_container').scal({
             end_offset = m.format('A')
             end_offset2 = (end_offset == 'AM' && 'PM' || 'AM')
             if ( $('#' + month).length == 0 ) {
-              $('#new_content').append('<div id="' + month + '"><h4>' + month_year + '</h4><table class="table table-striped"><thead><th class="date">Date</th><th class="start">Start Time</th><th class="end">End Time</th></thead><tbody></tbody></table></div>')
+              $('#new_content').append('<div id="' + month + '"><h4>' + month_year + '</h4><table class="table table-striped"><thead><th class="date">Date</th><th class="start">Start Time</th><th class="end">End Time</th><th class="remove"></th></thead><tbody></tbody></table></div>')
             }
             $('#' + month + ' table tbody').append('<tr id="day' + day + '" start="' + start + '" end="' + end + '" year="' + year + '" month="' + month + '" day="' + day_num + '"></tr>')
-            $('#' + month + ' #day' + day).append('<td class="date"></td> <td class="start"></td> <td class="end"></td>')
+            $('#' + month + ' #day' + day).append('<td class="date"></td> <td class="start"></td> <td class="end"></td> <td class="remove"></td>')
             $('#' + month + ' #day' + day + ' td.date').append(day)
             $('#' + month + ' #day' + day + ' td.start').append('<input style="width:20px" class="start_time_hour" type="text" value="' + start_time_hour + '">')
             $('#' + month + ' #day' + day + ' td.start').append('<div>:</div>')
@@ -61,9 +61,17 @@ $('#cal_container').scal({
             $('#' + month + ' #day' + day + ' td.end').append('<div>:</div>')
             $('#' + month + ' #day' + day + ' td.end').append('<input class="end_time_minute" style="width:20px" type="text" value="' + end_time_minute + '">')
             $('#' + month + ' #day' + day + ' td.end').append('<select class="end_time_offset" style="width:60px;margin-left:5px"> <option value="' + end_offset + '">' + end_offset + '</option> <option value="' + end_offset2 + '">' + end_offset2 + '</option> </select>')
+            $('#' + month + ' #day' + day + ' td.remove').append('<div><a>×</a></div>')
           }
           $('#new_content').append('<button id="finalize" class="btn btn-success">Finalize</button>')
           $('#new_content').delay(600).fadeIn('slow')
+          $('td.remove a').click(function(){
+            element = $(this).parent().parent().parent()
+            element.fadeOut()
+            setTimeout(function(){
+              element.remove()
+            }, 600)
+          })
           $('#finalize').click(function(){
             daytimes = []
             $('#new_content tbody tr').each(function(){

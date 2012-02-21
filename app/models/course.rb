@@ -6,6 +6,7 @@ class Course < ActiveRecord::Base
   belongs_to :organization
 
   validates_presence_of :name
+  validates_presence_of :price
 
   mount_uploader :image, CourseImage
 

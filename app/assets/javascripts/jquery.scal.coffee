@@ -319,9 +319,7 @@
         daytimes = []
         daytimes.push @daytimes
         daytimes.push @pretimes
-        console.log @daytimes
-        console.log @pretimes
-        #@opts.submit _.flatten(daytimes)
+        @opts.submit _.flatten(daytimes)
 
       $('#calendar thead th.day').click ->
         all_selected = _.all($('#calendar tbody td.day' + $(this).attr('day')), (t) -> $(t).attr('selected'))

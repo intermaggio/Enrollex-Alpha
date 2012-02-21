@@ -2,7 +2,7 @@ parsed_json = []
 json = $.parseJSON('<%= raw json %>')
 for (var i=0; i < json.length; i++) {
   parsed_json.push({
-    day: moment(json[i].day).format('DD-M-YYYY'),
+    day: moment(json[i].day).format('D-M-YYYY'),
     start_time: moment(json[i].start_time).format('HH:mm'),
     end_time: moment(json[i].end_time).format('HH:mm'),
     preselected: true

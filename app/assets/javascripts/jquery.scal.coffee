@@ -117,14 +117,14 @@
           else
             obj.day == key.day
 
-      push_time = (day) =>
+      push_time = (day, group = false) =>
         @daytimes = filter @daytimes, day
         @pretimes = filter @pretimes, day
         if persistent_time
           if typeof day == 'string'
             @daytimes.push {day: day}
           else
-            if day.preselected
+            if day.preselected && (group != 'day' || !group)
               @pretimes.push day
             else
               @daytimes.push day
@@ -191,12 +191,19 @@
 
       setTimeout (=>
         $('#all-dates').click =>
-          toggle(obj, $('#day' + obj.day.split('-')[0]), 'on') for obj in @pretimes
+          for obj in @pretimes
+            toggle(obj, $('#day' + obj.day.split('-')[0]), 'on')
+            push_time obj, 'day'
+          @pretimes = []
         ), 500
 
       setTimeout (=>
         $('#new-dates').click =>
-          toggle(obj, $('#day' + obj.day.split('-')[0]), 'off') for obj in @pretimes
+          for obj in @daytimes
+            if obj.preselected
+              toggle(obj, $('#day' + obj.day.split('-')[0]), 'off')
+              @daytimes = _.reject(@daytimes, (day) -> day == obj)
+              @pretimes.push obj
         ), 500
 
       gen_cal = (month, year) =>
@@ -312,7 +319,9 @@
         daytimes = []
         daytimes.push @daytimes
         daytimes.push @pretimes
-        @opts.submit _.flatten(daytimes)
+        console.log @daytimes
+        console.log @pretimes
+        #@opts.submit _.flatten(daytimes)
 
       $('#calendar thead th.day').click ->
         all_selected = _.all($('#calendar tbody td.day' + $(this).attr('day')), (t) -> $(t).attr('selected'))

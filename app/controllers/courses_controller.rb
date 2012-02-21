@@ -27,8 +27,7 @@ class CoursesController < InheritedResources::Base
   def update_times
     course.date_string = params[:date_string]
     course.time_string = params[:time_string]
-    course.time_exceptions = params[:time_exceptions]
-    course.save
+    course.save!
     render json: { success: true }
   end
 
@@ -40,7 +39,7 @@ class CoursesController < InheritedResources::Base
       params[:instructor].each do |hash|
         course.instructors << User.find(hash.last)
       end
-      course.save
+      course.save!
     end
     respond_to :js
   end
@@ -81,7 +80,7 @@ class CoursesController < InheritedResources::Base
     end
     course.which_days = find_days course
     course.daily = daily course
-    course.save
+    course.save!
     #days = {'sunday' => 0, 'monday' => 1, 'tuesday' => 2, 'wednesday' => 3, 'thursday' => 4, 'friday' => 5, 'saturday' => 6}
     total = course.which_days.reduce(0) { |sum, day| sum += day.last }
     rdays = course.which_days.map { |day| day.last > total / 4 && day.first.capitalize || nil }.compact

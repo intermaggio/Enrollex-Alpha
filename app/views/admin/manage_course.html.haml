@@ -1,11 +1,4 @@
-#time-confirm.modal.hide.fade
-  .modal-header
-    %a.close{:'data-dismiss' => 'modal'} ×
-    %h3 Confirm dates and times
-  .modal-body
-    = text_field_tag :date_string
-    = text_field_tag :time_string
-  .modal-footer= content_tag :button, 'Confirm', class: 'btn btn-success'
+= render partial: 'time_confirm'
 
 %h1= course.name
 .tabbable

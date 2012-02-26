@@ -96,14 +96,14 @@ class CoursesController < InheritedResources::Base
       rdays: rdays,
       exceptions: exceptions,
       start_date: (days.first.date.to_time.to_i.to_s + '000').to_i,
-      end_date: (days.last.date.to_time.to_i.to_s + '000').to_i
-      tiems: days.map do |d|
+      end_date: (days.last.date.to_time.to_i.to_s + '000').to_i,
+      tiems: days.map { |d|
         {
           date: (d.date.to_time.to_i.to_s + '000').to_i,
           start: (d.start_time.to_i.to_s + '000').to_i,
           end: (d.end_time.to_i.to_s + '000').to_i
         }
-      end
+      }
     }
   end
 

@@ -89,12 +89,19 @@ class CoursesController < InheritedResources::Base
       #day.date.wday ==
     #end
     exceptions = []
-    if params[:finalize]
-      days = course.days.reorder(:date)
-      render json: { start_time: (course.default_start.to_i.to_s + '000').to_i, end_time: (course.default_end.to_i.to_s + '000').to_i, rdays: rdays, exceptions: exceptions, start_date: (days.first.date.to_time.to_i.to_s + '000').to_i, end_date: (days.last.date.to_time.to_i.to_s + '000').to_i }
-    else
-      render json: { tiems: days.map {|d| { date: (d.date.to_time.to_i.to_s + '000').to_i, start: (d.start_time.to_i.to_s + '000').to_i, end: (d.end_time.to_i.to_s + '000').to_i } } }
-    end
+    days = course.days.reorder(:date)
+    render json: {
+      start_time: (course.default_start.to_i.to_s + '000').to_i,
+      end_time: (course.default_end.to_i.to_s + '000').to_i,
+      rdays: rdays,
+      exceptions: exceptions,
+      start_date: (days.first.date.to_time.to_i.to_s + '000').to_i,
+      end_date: (days.last.date.to_time.to_i.to_s + '000').to_i
+      tiems: days.map {|d| { date: (d.date.to_time.to_i.to_s + '000').to_i,
+        start: (d.start_time.to_i.to_s + '000').to_i,
+        end: (d.end_time.to_i.to_s + '000').to_i }
+      }
+    }
   end
 
   def charge

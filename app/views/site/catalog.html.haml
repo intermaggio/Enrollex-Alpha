@@ -2,7 +2,7 @@
 %table#courses.table.table-striped
   %thead
     %th.name Name
-    %th.range Age/Grade Range
+    %th.range Range
     %th.location Location
     %th.dates Dates
     %th.times Times
@@ -13,7 +13,7 @@
       - courses = organization.courses.published.reorder(:created_at)
     - courses.each do |course|
       %tr
-        %td= course.name
+        %td.first= course.name
         - if course.start_range
           %td= course.range_type + 's ' + course.start_range.to_s + ' - ' + course.end_range.to_s
         - else

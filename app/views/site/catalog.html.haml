@@ -8,15 +8,16 @@
     %th.times Times
   %tbody
     - if current_user && current_user.admin_organizations.include?(organization)
-      - organization.courses.reorder(:created_at).each do |course|
+      - courses = organization.courses.reorder(:created_at)
     - else
-      - organization.courses.published.reorder(:created_at).each do |course|
-        %tr
-          %td= course.name
-          - if course.start_range
-            %td= course.range_type + 's ' + course.start_range.to_s + ' - ' + course.end_range.to_s
-          - else
-            %td any
-          %td= course.location_name
-          %td= course.date_string
+      - courses = organization.courses.published.reorder(:created_at)
+    - courses.each do |course|
+      %tr
+        %td= course.name
+        - if course.start_range
+          %td= course.range_type + 's ' + course.start_range.to_s + ' - ' + course.end_range.to_s
+        - else
+          %td any
+        %td= course.location_name
+        %td= course.date_string
         %td= course.time_string

@@ -1,5 +1,10 @@
 class UsersController < InheritedResources::Base
 
+  def update
+    current_user.update_attributes params[:user]
+    redirect_to request.referrer, notice: :success
+  end
+
   def create_password
     user = User.find params[:id]
     unless user.salt

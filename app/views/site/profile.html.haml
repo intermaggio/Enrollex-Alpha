@@ -1,0 +1,28 @@
+= form_for :user, url: '/users/update', html: { class: 'form-horizontal' } do |f|
+  %fieldset
+    %legend Profile
+    - if flash[:notice] == :success
+      .control-group
+        .alert.alert-success{style: 'width:275px'}
+          %a.close{:'data-dismiss' => 'alert'} ×
+          Profile successfully updated!
+    .control-group
+      %label First Name
+      .controls= f.text_field :first_name, placeholder: 'first name', value: current_user.first_name
+    .control-group
+      %label Last Name
+      .controls= f.text_field :last_name, placeholder: 'last name', value: current_user.last_name
+    .control-group
+      %label Email
+      .controls= f.text_field :email, placeholder: 'email', value: current_user.email
+    .control-group
+      %label Phone Number
+      .controls= f.text_field :phone, placeholder: 'phone number', value: current_user.phone
+    .control-group
+      %label Bio
+      .controls= f.text_area :bio, placeholder: 'bio', value: current_user.bio, style: 'height:100px'
+    .control-group
+      %label Password
+      .controls
+        .input= f.password_field :password, placeholder: 'password'
+    .form-actions= f.submit

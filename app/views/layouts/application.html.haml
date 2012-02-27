@@ -22,40 +22,51 @@
       .modal-body
         = link_to 'Myself', '/signup?type=adult', class: 'btn btn-success'
         = link_to 'Children', '/signup?type=children', class: 'btn btn-success'
+    #signin-modal.modal.hide.fade
+      .modal-header
+        %a.close{:'data-dismiss' => 'modal'} ×
+        %h3 Sign in
+      .modal-body
+        = form_tag '/users/auth', style: 'display:inline-block' do
+          = email_field_tag :email, '', placeholder: 'email', autocomplete: 'off'
+          = password_field_tag :password, '', placeholder: 'password', autocomplete: 'off'
+          %input{type: 'submit', style: 'visibility:hidden'}
+      .modal-footer
+        = submit_tag :login, class: 'btn btn-success', onclick: "javascript:$('#signin-modal form').submit()"
     - unless request.path =~ /\/course\/\w*\/register/
-      #header
-        #nav
-          - if !logged_in?
-            = form_tag '/users/auth', style: 'display:inline-block' do
-              = email_field_tag :email, '', placeholder: 'email', autocomplete: 'off'
-              = password_field_tag :password, '', placeholder: 'password', autocomplete: 'off'
-              = submit_tag :login
-            - if request.subdomain.present? && organization
-              = link_to 'signup', '#signup-modal', :'data-toggle' => 'modal'
-            - else
-              = link_to 'signup', '/signup_organization'
-          - else
-            %ul.nav-tabs.nav
-              - if request.subdomain.present? && organization
-                - if current_user.admin_organizations.include?(organization)
-                  %li= link_to 'catalog', '/catalog'
-                  %li.dropdown{:'data-dropdown' => 'dropdown'}
-                    = link_to 'javascript:void(0)', class: 'dropdown-toggle', :'data-toggle' => 'dropdown' do
-                      admin
-                      %b.caret
-                    %ul.dropdown-menu
+      .container
+        .navbar#nav
+          .navbar-inner
+            .container{style: 'width:900px'}
+              .nav-collapse
+                %ul.nav.pull-left
+                  - if request.subdomain.present? && organization
+                    %li= link_to 'Home', '/'
+                    %li= link_to 'My Profile', '/profile'
+                    %li= link_to 'Catalog', '/catalog'
+                    - if current_user && organization && current_user.admin_organizations.include?(organization)
+                      %li
+                        .divider-vertical
                       %li= link_to 'Administrator Console', '/admin/organization'
                       %li= link_to 'Course Management', '/admin/courses'
                       %li= link_to 'Instructor Management', '/admin/instructors'
-              - else
-                %li.dropdown{:'data-dropdown' => 'dropdown'}
-                  = link_to 'my organizations', 'javascript:void(0)', class: 'dropdown-toggle'
-                  %ul.dropdown-menu
-                    - current_user.admin_organizations.each do |org|
-                      %li= link_to org.name, 'http://' + org.name + '.' + request.domain
-              %li.tab-text Welcome back, #{current_user.first_name}!
-              %li= link_to 'logout', '/signout'
-    .container-fluid= yield
+                  - else
+                    - if current_user && current_user.admin_organizations
+                      %li.dropdown{:'data-dropdown' => 'dropdown'}
+                        = link_to 'my organizations', 'javascript:void(0)', class: 'dropdown-toggle', :'data-dropdown' => 'dropdown'
+                        %ul.dropdown-menu
+                          - current_user.admin_organizations.each do |org|
+                            %li= link_to org.name, 'http://' + org.name + '.' + request.domain
+                %ul.nav.pull-right
+                  - if logged_in?
+                    %li= link_to 'Sign Out', '/signout'
+                  - else
+                    %li= link_to 'Sign In', '#signin-modal', :'data-toggle' => 'modal'
+                    - if request.subdomain.present? && organization
+                      %li= link_to 'Register', '#signup-modal', :'data-toggle' => 'modal'
+                    - else
+                      %li= link_to 'Register', '/signup_organization'
+        #content= yield
     = yield :scripts
     :javascript
       $('#banner').click(function(){window.location='/'})

@@ -43,8 +43,8 @@
     - else
       - courses = organization.courses.mirai.published.reorder(:created_at)
     - courses.each do |course|
-      %tr
-        %td.first= course.name
+      %tr{cid: course.id, lowname: course.lowname}
+        %td= course.name
         - if course.start_range
           %td= course.range_type + 's ' + course.start_range.to_s + ' - ' + course.end_range.to_s
         - else
@@ -55,6 +55,9 @@
         %td= course.default_end.to_time.strftime('%l:%M %p')
 
 :javascript
+  $('tbody tr').click(function(){
+    window.location = '/courses/' + $(this).attr('cid') + '/' + $(this).attr('lowname')
+  })
   $.tablesorter.addParser({
     id: 'dates',
     is: function(s){return false},

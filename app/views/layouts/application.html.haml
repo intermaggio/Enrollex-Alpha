@@ -11,6 +11,8 @@
       = stylesheet_link_tag 'application'
       = javascript_include_tag 'application'
   %body
+    - if organization.banner.present?
+      #banner{style: "cursor:pointer;background:url(#{organization.banner})no-repeat center;height:#{organization.banner_height}px"}
     #signup-modal.modal.hide.fade
       .modal-header
         I am an adult signing up for..
@@ -52,3 +54,5 @@
               %li= link_to 'logout', '/signout'
     .container-fluid= yield
     = yield :scripts
+    :javascript
+      $('#banner').click(function(){window.location='/'})

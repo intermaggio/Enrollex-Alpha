@@ -1,9 +1,9 @@
 class AdminController < InheritedResources::Base
-
   before_filter :authorize
 
   def update_org
     organization.update_attributes params[:organization]
+    @org = organization if params[:organization][:banner].present?
     redirect_to request.referer, notice: :success
   end
 

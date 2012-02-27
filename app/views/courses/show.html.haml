@@ -1,7 +1,7 @@
 %h1= course.name
 - if course.image.present?
   = image_tag course.image
-%p= course.description.html_safe
+%p= RedCloth.new(course.description, [:filter_html, :bbcode]).to_html.html_safe
 - if course.price.to_i > 0
   $#{number_with_precision(course.price, precision: 2)}
 - else

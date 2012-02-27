@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    BBRedCloth (0.8.7)
     actionmailer (3.2.1)
       actionpack (= 3.2.1)
       mail (~> 2.4.0)
@@ -174,6 +175,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  BBRedCloth
   airbrake
   carrierwave
   coffee-rails (~> 3.2.0)

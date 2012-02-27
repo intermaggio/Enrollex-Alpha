@@ -23,6 +23,10 @@
         .controls
           .input= f.text_area :welcome_message, placeholder: 'welcome message', value: organization.welcome_message, style: 'height:100px'
       .control-group
+        %label Footer text:
+        .controls
+          .input= f.text_field :footer, placeholder: 'footer text', value: organization.footer
+      .control-group
         %label Banner image:
         .controls
           .input= f.file_field :banner

@@ -10,8 +10,11 @@
     - else
       = stylesheet_link_tag 'application'
       = javascript_include_tag 'application'
+  - if organization && organization.color
+    :css
+      body { background-color: #{organization.color} }
   %body
-    - if organization.banner.present?
+    - if organization && organization.banner.present?
       #banner{style: "cursor:pointer;background:url(#{organization.banner})no-repeat center;height:#{organization.banner_height}px"}
     #signup-modal.modal.hide.fade
       .modal-header

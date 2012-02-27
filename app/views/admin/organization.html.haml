@@ -11,6 +11,10 @@
         Organization info successfully updated!
     = form_for :organization, url: '/admin/update_org', html: { class: 'form form-horizontal' } do |f|
       .control-group
+        %label Background color:
+        .controls
+          .input= f.text_field :color, placeholder: '#BFE3CD', value: organization.color
+      .control-group
         %label Camper unit name:
         .controls
           .input= f.text_field :unit_name, placeholder: 'camper, student, etc.', value: organization.unit_name

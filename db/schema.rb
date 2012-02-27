@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120227043917) do
+ActiveRecord::Schema.define(:version => 20120227044434) do
 
   create_table "campers", :force => true do |t|
     t.datetime "created_at",  :null => false
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(:version => 20120227043917) do
     t.string   "banner"
     t.string   "banner_height"
     t.text     "welcome_message"
+    t.string   "color"
   end
 
   create_table "organizations_admins", :force => true do |t|

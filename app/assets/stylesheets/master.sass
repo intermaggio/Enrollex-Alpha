@@ -30,8 +30,24 @@
     width: 500px
     display: block
 
-table#courses td.first
-  width: 1px
+table#courses
+  th
+    position: relative
+    .icons
+      padding-right: 12px
+      margin-left: 4px
+      display: inline-block
+      i
+        position: absolute
+        opacity: .25
+        filter: alpha(opacity=25)
+        &.top
+          top: 4px
+        &:hover
+          opacity: .75
+          filter: alpha(opacity=75)
+        &.bottom
+          bottom: 4px
 
 #new_content
   table

@@ -981,7 +981,7 @@ table {
   border-spacing: 0;
 }
 .table {
-  width: 100%;
+  /* width: 100%; */
   margin-bottom: 18px;
 }
 .table th, .table td {
@@ -1111,7 +1111,7 @@ table .span12 {
   width: 14px;
   height: 14px;
   vertical-align: text-top;
-  background-image: url(../img/glyphicons-halflings.png);
+  background-image: url(/images/glyphicons-halflings.png);
   background-position: 14px 14px;
   background-repeat: no-repeat;
   *margin-right: .3em;

@@ -85,10 +85,6 @@ $('#cal_container').scal({
             function(rsp) {
               $('#time-confirm').modal()
               $('#time-confirm').modal('show')
-              m = moment(rsp.start_time)
-              start_time = m.add('m', m.zone()).format('H:mm A')
-              m = moment(rsp.end_time)
-              end_time = m.add('m', m.zone()).format('H:mm A')
               m = moment(rsp.start_date)
               start = m.add('m', m.zone()).format('MMM Do')
               m = moment(rsp.end_date)
@@ -110,11 +106,10 @@ $('#cal_container').scal({
                 }
               }
               $('#time-confirm #date_string').val(html)
-              $('#time-confirm #time_string').val(start_time + ' - ' + end_time)
               $('#time-confirm .btn-success').click(function(){
                 $.post(
                   '/courses/<%= course.id %>/update_times',
-                  { date_string: $('#date_string').val(), time_string: $('#time_string').val() },
+                  { date_string: $('#date_string').val() },
                   function(){
                     window.location = '/admin/courses'
                   },

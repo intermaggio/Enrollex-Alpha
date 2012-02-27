@@ -26,7 +26,6 @@ class CoursesController < InheritedResources::Base
 
   def update_times
     course.date_string = params[:date_string]
-    course.time_string = params[:time_string]
     course.save!
     render json: { success: true }
   end
@@ -91,8 +90,6 @@ class CoursesController < InheritedResources::Base
     exceptions = []
     days = course.days.reorder(:date)
     render json: {
-      start_time: (course.default_start.to_i.to_s + '000').to_i,
-      end_time: (course.default_end.to_i.to_s + '000').to_i,
       rdays: rdays,
       exceptions: exceptions,
       start_date: (days.first.date.to_time.to_i.to_s + '000').to_i,

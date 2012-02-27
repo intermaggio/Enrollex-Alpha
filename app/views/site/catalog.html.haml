@@ -1,16 +1,47 @@
 %h1 Courses
-%table#courses.table.table-striped
+%table#courses.table.table-striped.table-bordered
   %thead
-    %th.name Name
+    %th.name
+      Name
+      .icons
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-up.top
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-down.bottom
     %th.range Range
-    %th.location Location
-    %th.dates Dates
-    %th.times Times
+    %th.location
+      Location
+      .icons
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-up.top
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-down.bottom
+    %th.dates
+      Dates
+      .icons
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-up.top
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-down.bottom
+    %th.start-time
+      Start Time
+      .icons
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-up.top
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-down.bottom
+    %th.end-time
+      End Time
+      .icons
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-up.top
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-down.bottom
   %tbody
     - if current_user && current_user.admin_organizations.include?(organization)
-      - courses = organization.courses.reorder(:created_at)
+      - courses = organization.courses.mirai.reorder(:created_at)
     - else
-      - courses = organization.courses.published.reorder(:created_at)
+      - courses = organization.courses.mirai.published.reorder(:created_at)
     - courses.each do |course|
       %tr
         %td.first= course.name
@@ -19,5 +50,21 @@
         - else
           %td any
         %td= course.location_name
-        %td= course.date_string
-        %td= course.time_string
+        %td{date: "#{course.days.reorder(:date).first.date.to_time.to_i}"}= course.date_string
+        %td= course.default_start.to_time.strftime('%l:%M %p')
+        %td= course.default_end.to_time.strftime('%l:%M %p')
+
+:javascript
+  $.tablesorter.addParser({
+    id: 'dates',
+    is: function(s){return false},
+    type: 'numeric',
+    format: function(s,t,c) {
+      return $(c).attr('date')
+    }
+  })
+  $('#courses').tablesorter({
+    headers: {
+      3: { sorter: 'dates' }
+    }
+  })

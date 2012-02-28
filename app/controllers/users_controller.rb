@@ -10,8 +10,12 @@ class UsersController < InheritedResources::Base
   end
 
   def update
-    current_user.update_attributes params[:user]
-    redirect_to request.referrer, notice: :success
+    if params[:old_pass].present? && !login(current_user.email, params[:old_pass], true)
+      redirect_to request.referrer, notice: :fail
+    else
+      current_user.update_attributes params[:user]
+      redirect_to request.referrer, notice: :success
+    end
   end
 
   def create_password

@@ -15,39 +15,50 @@
                   .alert.alert-success{style: 'width:275px'}
                     %a.close{:'data-dismiss' => 'alert'} ×
                     Profile successfully updated!
+              - elsif flash[:notice] == :fail
+                .control-group
+                  .alert.alert-error{style: 'width:215px'}
+                    %a.close{:'data-dismiss' => 'alert'} ×
+                    Wrong password!
               .row{style: 'padding-top:15px'}
                 .span5
                   .control-group
-                    %label First Name
+                    %label First Name:
                     .controls= f.text_field :first_name, placeholder: 'first name', value: current_user.first_name
                   .control-group
-                    %label Last Name
+                    %label Last Name:
                     .controls= f.text_field :last_name, placeholder: 'last name', value: current_user.last_name
                   .control-group
-                    %label Email
+                    %label Email:
                     .controls= f.text_field :email, placeholder: 'email', value: current_user.email
                   .control-group
-                    %label Upload a Picture
+                    %label Upload a Picture:
                     .controls= f.file_field :image
                   .control-group
-                    %label Password
-                    .controls= f.password_field :password, placeholder: 'password'
+                    %label Old Password:
+                    .controls= password_field_tag :old_pass, '', placeholder: 'old password'
+                  .control-group
+                    %label New Password:
+                    .controls= f.password_field :password, placeholder: 'new password'
                 .span5
                   .control-group
-                    %label Address
+                    %label Address:
                     .controls= f.text_field :street, placeholder: 'address', value: current_user.street
                   .control-group
-                    %label City
+                    %label City:
                     .controls= f.text_field :city, placeholder: 'city', value: current_user.city
                   .control-group
-                    %label State
+                    %label State:
                     .controls= f.text_field :state, placeholder: 'state', value: current_user.state
                   .control-group
-                    %label Zip
+                    %label Zip:
                     .controls= f.text_field :zip, placeholder: 'zip', value: current_user.zip
                   .control-group
-                    %label Phone Number
+                    %label Phone Number:
                     .controls= f.text_field :phone, placeholder: 'phone number', value: current_user.phone
+                  .control-group
+                    %label Confirm Password:
+                    .controls= password_field_tag :password_confirmation, '', placeholder: 'new password confirmation'
               .form-actions{style: 'width:719px'}= f.submit 'Submit', class: 'btn btn-success'
         #campers.tab-pane
           %legend{style: 'width:900px'} Campers
@@ -73,7 +84,7 @@
                         .controls= f.text_field :last_name, placeholder: 'last name', autocomplete: 'off', value: camper.last_name
                       .control-group
                         %label Birthdate:
-                        .controls= f.text_field :birthday, placeholder: 'MM/DD/YYYY', autocomplete: 'off', value: camper.birthday.strftime('%m/%d/%Y')
+                        .controls= f.text_field :birthday, placeholder: 'MM/DD/YYYY', autocomplete: 'off', value: camper.birthday && camper.birthday.strftime('%m/%d/%Y')
                       .control-group
                         %label Health Info:
                         .controls= f.text_area :health_info, placeholder: 'Enter any health-related information we should know about here.', autocomplete: 'off', style: 'height: 125px', value: camper.health_info

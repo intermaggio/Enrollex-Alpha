@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120227065614) do
+ActiveRecord::Schema.define(:version => 20120228064300) do
 
   create_table "campers", :force => true do |t|
     t.datetime "created_at",  :null => false
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(:version => 20120227065614) do
     t.time     "default_end"
     t.string   "date_string"
     t.date     "published_at"
+    t.date     "start_date"
   end
 
   create_table "days", :force => true do |t|

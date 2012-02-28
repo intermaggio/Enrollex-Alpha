@@ -52,8 +52,10 @@
                       %li= link_to 'Instructor Management', '/admin/instructors'
                   - else
                     - if current_user && current_user.admin_organizations
-                      %li.dropdown{:'data-dropdown' => 'dropdown'}
-                        = link_to 'my organizations', 'javascript:void(0)', class: 'dropdown-toggle', :'data-dropdown' => 'dropdown'
+                      %li.dropdown
+                        = link_to 'javascript:void(0)', class: 'dropdown-toggle', :'data-toggle' => 'dropdown' do
+                          My Organizations
+                          %b.caret
                         %ul.dropdown-menu
                           - current_user.admin_organizations.each do |org|
                             %li= link_to org.name, 'http://' + org.name + '.' + request.domain
@@ -67,7 +69,7 @@
                     - else
                       %li= link_to 'Register', '/signup_organization'
         #content= yield
-        - if organization.footer
+        - if organization && organization.footer
           #footer= RedCloth.new(organization.footer, [:filter_html, :bbcode]).to_html.html_safe
     = yield :scripts
     :javascript

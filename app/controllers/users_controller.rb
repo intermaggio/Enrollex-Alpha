@@ -1,5 +1,14 @@
 class UsersController < InheritedResources::Base
 
+  def remove_camper
+    Camper.find(params[:id]).destroy
+    render json: { success: true }
+  end
+
+  def gen_camper_form
+    render layout: false
+  end
+
   def update
     current_user.update_attributes params[:user]
     redirect_to request.referrer, notice: :success
@@ -63,12 +72,21 @@ class UsersController < InheritedResources::Base
     end
   end
 
+  def update_camper
+    @camper = Camper.find params[:id]
+    @camper.update_attributes params[:camper]
+    @camper.birthday = Date.parse params[:camper][:birthday]
+    respond_to :js
+  end
+
   def create_camper
     @camper = current_user.campers.new params[:camper]
     @camper.birthday = Date.parse params[:camper][:birthday]
     if @camper.save
       if params[:submission_type] == 'complete'
         redirect_to '/'
+      elsif params[:submission_type] == 'update'
+        respond_to :js
       else
         redirect_to '/signup/add_child', flash: { info: { street: current_user.street, city: current_user.city, state: current_user.state, zip: current_user.zip } }
       end

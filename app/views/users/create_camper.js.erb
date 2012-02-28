@@ -1,0 +1,6 @@
+$('#new').slideUp('slow')
+$('#campers').prepend('<div style="width:215px" class="alert alert-success hide"><a class="close" data-dismiss="alert">×</a>Camper successfully created!</div>')
+$('.alert').fadeIn('slow')
+setTimeout(function(){
+  $('#new').remove()
+}, 1000)

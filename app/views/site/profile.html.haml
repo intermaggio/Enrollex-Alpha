@@ -1,28 +1,134 @@
-= form_for :user, url: '/users/update', html: { class: 'form-horizontal' } do |f|
-  %fieldset
-    %legend Profile
-    - if flash[:notice] == :success
-      .control-group
-        .alert.alert-success{style: 'width:275px'}
-          %a.close{:'data-dismiss' => 'alert'} ×
-          Profile successfully updated!
-    .control-group
-      %label First Name
-      .controls= f.text_field :first_name, placeholder: 'first name', value: current_user.first_name
-    .control-group
-      %label Last Name
-      .controls= f.text_field :last_name, placeholder: 'last name', value: current_user.last_name
-    .control-group
-      %label Email
-      .controls= f.text_field :email, placeholder: 'email', value: current_user.email
-    .control-group
-      %label Phone Number
-      .controls= f.text_field :phone, placeholder: 'phone number', value: current_user.phone
-    .control-group
-      %label Bio
-      .controls= f.text_area :bio, placeholder: 'bio', value: current_user.bio, style: 'height:100px'
-    .control-group
-      %label Password
-      .controls
-        .input= f.password_field :password, placeholder: 'password'
-    .form-actions= f.submit 'Submit', class: 'btn btn-success'
+.row
+  .span12
+    .tabbable
+      %ul.nav.nav-tabs{:'data-tabs' => 'tabs', style: 'width:900px'}
+        %li.active= link_to 'Profile', '#profile', :'data-toggle' => 'tab'
+        %li= link_to 'Campers', '#campers', :'data-toggle' => 'tab'
+
+      .tab-content
+        #profile.tab-pane.active
+          = form_for :user, url: '/users/update', html: { class: 'form-horizontal' } do |f|
+            %fieldset
+              %legend{style: 'width:900px'} Profile
+              - if flash[:notice] == :success
+                .control-group
+                  .alert.alert-success{style: 'width:275px'}
+                    %a.close{:'data-dismiss' => 'alert'} ×
+                    Profile successfully updated!
+              .row{style: 'padding-top:15px'}
+                .span5
+                  .control-group
+                    %label First Name
+                    .controls= f.text_field :first_name, placeholder: 'first name', value: current_user.first_name
+                  .control-group
+                    %label Last Name
+                    .controls= f.text_field :last_name, placeholder: 'last name', value: current_user.last_name
+                  .control-group
+                    %label Email
+                    .controls= f.text_field :email, placeholder: 'email', value: current_user.email
+                  .control-group
+                    %label Upload a Picture
+                    .controls= f.file_field :image
+                  .control-group
+                    %label Password
+                    .controls= f.password_field :password, placeholder: 'password'
+                .span5
+                  .control-group
+                    %label Address
+                    .controls= f.text_field :street, placeholder: 'address', value: current_user.street
+                  .control-group
+                    %label City
+                    .controls= f.text_field :city, placeholder: 'city', value: current_user.city
+                  .control-group
+                    %label State
+                    .controls= f.text_field :state, placeholder: 'state', value: current_user.state
+                  .control-group
+                    %label Zip
+                    .controls= f.text_field :zip, placeholder: 'zip', value: current_user.zip
+                  .control-group
+                    %label Phone Number
+                    .controls= f.text_field :phone, placeholder: 'phone number', value: current_user.phone
+              .form-actions{style: 'width:719px'}= f.submit 'Submit', class: 'btn btn-success'
+        #campers.tab-pane
+          %legend{style: 'width:900px'} Campers
+          - current_user.campers.each do |camper|
+            .camper-container
+              .form-horizontal
+                .control-group
+                  %label= camper.name
+                  .controls{style: 'margin-top:5px'}
+                    = link_to 'edit', 'javascript:void(0)', class: 'camper-link'
+                    = link_to 'remove', 'javascript:void(0)', class: 'camper-remove-link', cid: camper.id
+              .camper{style: 'display:none', id: "camper#{camper.id}"}
+                = form_for :camper, url: '/users/update_camper', html: { id: 'signup_form', class: 'form-horizontal', remote: true } do |f|
+                  = hidden_field_tag :id, camper.id
+                  = hidden_field_tag :submission_type, 'update'
+                  .row{style: 'padding-top: 30px'}
+                    .span6
+                      .control-group
+                        %label First Name:
+                        .controls= f.text_field :first_name, placeholder: 'first name', autocomplete: 'off', value: camper.first_name
+                      .control-group
+                        %label Last Name:
+                        .controls= f.text_field :last_name, placeholder: 'last name', autocomplete: 'off', value: camper.last_name
+                      .control-group
+                        %label Birthdate:
+                        .controls= f.text_field :birthday, placeholder: 'DD/MM/YYYY', autocomplete: 'off', value: camper.birthday.strftime('%d/%m/%Y')
+                      .control-group
+                        %label Health Info:
+                        .controls= f.text_area :health_info, placeholder: 'Enter any health-related information we should know about here.', autocomplete: 'off', style: 'height: 125px', value: camper.health_info
+                    .span6
+                      .control-group
+                        %label Street:
+                        .controls= f.text_field :street, placeholder: 'street name and number', autocomplete: 'off', value: camper.street
+                      .control-group
+                        %label City:
+                        .controls= f.text_field :city, placeholder: 'city', autocomplete: 'off', value: camper.city
+                      .control-group
+                        %label State:
+                        .controls= f.text_field :state, placeholder: 'two-letter state abbreviation', autocomplete: 'off', value: camper.state
+                      .control-group
+                        %label Zip:
+                        .controls= f.text_field :zip, placeholder: 'zip code', autocomplete: 'off', value: camper.zip
+                  .form-actions{style: 'width:719px'}
+                    = f.submit 'Submit', class: 'btn btn-success'
+          = link_to 'Add new camper', 'javascript:void(0)', id: 'add'
+
+:javascript
+  $('.camper-link').click(function(){
+    element = $(this).parent().parent().parent().parent().children('.camper')
+    if (element.css('display') == 'none') {
+      element.slideDown('slow')
+    } else {
+      element.slideUp('slow')
+    }
+  })
+  $('.camper-remove-link').click(function(){
+    _this = $(this)
+    $.post(
+      '/users/remove_camper',
+      { id: $(this).attr('cid') },
+      function(rsp) {
+        $('#camper' + _this.attr('cid')).parent().fadeOut('slow')
+      },
+      'json'
+    )
+  })
+  $('#add').click(function(){
+    if ($('#new').length > 0) {
+      $('#new').slideUp('slow')
+      setTimeout(function(){
+        $('#new').remove()
+      }, 1000)
+    } else {
+      $.post(
+        '/users/gen_camper_form',
+        {}, function(html) {
+          if ( $('#new').length < 1 ) {
+            $('#campers').append(html)
+            $('#campers #new').slideDown('slow')
+          }
+        }, 'html'
+      )
+    }
+  })

@@ -1,0 +1,32 @@
+#new.camper{style: 'display:none'}
+  = form_for :camper, url: '/users/create_camper', html: { id: 'signup_form', class: 'form-horizontal', remote: true } do |f|
+    = hidden_field_tag :submission_type, 'update'
+    .row{style: 'padding-top: 30px'}
+      .span6
+        .control-group
+          %label First Name:
+          .controls= f.text_field :first_name, placeholder: 'first name', autocomplete: 'off'
+        .control-group
+          %label Last Name:
+          .controls= f.text_field :last_name, placeholder: 'last name', autocomplete: 'off'
+        .control-group
+          %label Birthdate:
+          .controls= f.text_field :birthday, placeholder: 'DD/MM/YYYY', autocomplete: 'off'
+        .control-group
+          %label Health Info:
+          .controls= f.text_area :health_info, placeholder: 'Enter any health-related information we should know about here.', autocomplete: 'off', style: 'height: 125px'
+      .span6
+        .control-group
+          %label Street:
+          .controls= f.text_field :street, placeholder: 'street name and number', autocomplete: 'off', value: current_user.street
+        .control-group
+          %label City:
+          .controls= f.text_field :city, placeholder: 'city', autocomplete: 'off', value: current_user.city
+        .control-group
+          %label State:
+          .controls= f.text_field :state, placeholder: 'two-letter state abbreviation', autocomplete: 'off', value: current_user.state
+        .control-group
+          %label Zip:
+          .controls= f.text_field :zip, placeholder: 'zip code', autocomplete: 'off', value: current_user.zip
+    .form-actions{style: 'width:719px'}
+      = f.submit 'Submit', class: 'btn btn-success'

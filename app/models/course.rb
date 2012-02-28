@@ -15,7 +15,7 @@ class Course < ActiveRecord::Base
   scope :featured, where(featured: true)
   scope :published, where(published: true)
   scope :mirai, lambda {
-    { conditions: ['published_at >= ?', Time.now.to_date] }
+    { conditions: ['start_date >= ?', Time.now.to_date] }
   }
 
   has_many :days
@@ -24,5 +24,6 @@ class Course < ActiveRecord::Base
   before_save do
     self.lowname = self.name.downcase.gsub(' ', '_').gsub(/\W/, '')
     self.published_at = Time.now.to_date if self.published_at.nil? && self.published
+    self.start_date = self.days.reorder(:date).first
   end
 end

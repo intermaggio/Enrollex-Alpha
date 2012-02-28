@@ -58,7 +58,10 @@ class UsersController < InheritedResources::Base
 
   def create_adult
     @user = User.new params[:user]
-    @user.birthday = Date.parse params[:user][:birthday].gsub(/\W/, '-') if params[:user][:birthday]
+    if params[:user][:birthday]
+      birthday = params[:user][:birthday].split(/\W/)
+      @user.birthday = Date.parse birthday[1] + '-' + birthday[0] + '-' + birthday[2]
+    end
     if @user.save
       auto_login @user
       remember_me!
@@ -75,13 +78,19 @@ class UsersController < InheritedResources::Base
   def update_camper
     @camper = Camper.find params[:id]
     @camper.update_attributes params[:camper]
-    @camper.birthday = Date.parse params[:camper][:birthday]
+    if params[:camper][:birthday]
+      birthday = params[:camper][:birthday].split(/\W/)
+      @camper.birthday = Date.parse birthday[1] + '-' + birthday[0] + '-' + birthday[2]
+    end
     respond_to :js
   end
 
   def create_camper
     @camper = current_user.campers.new params[:camper]
-    @camper.birthday = Date.parse params[:camper][:birthday]
+    if params[:camper][:birthday]
+      birthday = params[:camper][:birthday].split(/\W/)
+      @camper.birthday = Date.parse birthday[1] + '-' + birthday[0] + '-' + birthday[2]
+    end
     if @camper.save
       if params[:submission_type] == 'complete'
         redirect_to '/'

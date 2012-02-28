@@ -73,7 +73,7 @@
                         .controls= f.text_field :last_name, placeholder: 'last name', autocomplete: 'off', value: camper.last_name
                       .control-group
                         %label Birthdate:
-                        .controls= f.text_field :birthday, placeholder: 'DD/MM/YYYY', autocomplete: 'off', value: camper.birthday.strftime('%d/%m/%Y')
+                        .controls= f.text_field :birthday, placeholder: 'MM/DD/YYYY', autocomplete: 'off', value: camper.birthday.strftime('%m/%d/%Y')
                       .control-group
                         %label Health Info:
                         .controls= f.text_area :health_info, placeholder: 'Enter any health-related information we should know about here.', autocomplete: 'off', style: 'height: 125px', value: camper.health_info

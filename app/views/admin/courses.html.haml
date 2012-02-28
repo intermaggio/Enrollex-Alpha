@@ -45,29 +45,29 @@
               .row{style: 'padding-top: 15px'}
                 .span6
                   .control-group
-                    %label Name
+                    %label Name:
                     .controls= f.text_field :name, placeholder: 'name'
                   .control-group
-                    %label Description
+                    %label Description:
                     .controls= f.text_area :description, placeholder: 'description', style: 'height:100px'
                   .control-group
-                    %label Price
+                    %label Price:
                     .controls= f.text_field :price, placeholder: 'price'
                   #pics
                     .control-group
-                      %label Upload a Picture
+                      %label Upload a Picture:
                       .controls= f.file_field :image
                   .control-group
-                    %label Status text
+                    %label Status text:
                     .controls= f.text_field :status, placeholder: 'status text'
                   .control-group
-                    %label Publish?
+                    %label Publish?:
                     .controls= f.check_box :published
                   .control-group
-                    %label Featured?
+                    %label Featured?:
                     .controls= f.check_box :featured
                   .control-group
-                    %label Instructors
+                    %label Instructors:
                     .controls
                       = select :c, :instructor, instructors.all.map{|i|[i.name,i.id]}, prompt: 'Select instructor'
                       = content_tag :button, 'Add', id: 'add_instructor', class: 'btn'
@@ -76,19 +76,19 @@
                       #instructors
                 .span6
                   .control-group
-                    %label Location Name
+                    %label Location Name:
                     .controls= f.text_field :location_name, placeholder: 'location name'
                   .control-group
-                    %label Address
+                    %label Address:
                     .controls= f.text_field :address, placeholder: 'address'
                   .control-group
-                    %label City
+                    %label City:
                     .controls= f.text_field :city, placeholder: 'city'
                   .control-group
-                    %label State
+                    %label State:
                     .controls= f.text_field :state, placeholder: 'state'
                   .control-group
-                    %label Zip
+                    %label Zip:
                     .controls= f.text_field :zip, placeholder: 'zip'
                   .control-group{style: 'position: relative'}
                     = f.select :range_type, options_for_select({:'Age Range' => :age, :'Grade Range' => :grade}), {}, style: 'width: 120px;position: absolute; left: 10px'
@@ -97,13 +97,13 @@
                       = ' - '
                       = f.text_field :end_range, style: 'display: inline-block; width: 20px'
                   .control-group
-                    %label Suite #
+                    %label Suite #:
                     .controls= f.text_field :suite, style: 'width: 20px'
                   .control-group
-                    %label Room #
+                    %label Room #:
                     .controls= f.text_field :room, style: 'width: 20px'
                   .control-group
-                    %label Important notes
+                    %label Important notes:
                     .controls= f.text_area :notes, placeholder: 'important notes', style: 'height: 150px'
               .form-actions= f.submit 'Schedule', class: 'btn btn-success'
 

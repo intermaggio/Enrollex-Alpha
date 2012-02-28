@@ -13,37 +13,37 @@
           .row{style: 'padding-top: 15px'}
             .span6
               .control-group
-                %label Name
+                %label Name:
                 .controls= f.text_field :name, placeholder: 'name', value: course.name
               .control-group
-                %label Description
+                %label Description:
                 .controls= f.text_area :description, placeholder: 'description', value: course.description, style: 'height:100px'
               .control-group
-                %label Price
+                %label Price:
                 .controls= f.text_field :price, placeholder: 'price', value: course.price
               #pics
                 .control-group
-                  %label Upload a New Picture
+                  %label Upload a New Picture:
                   .controls= f.file_field :image
               .control-group
-                %label Status text
+                %label Status text:
                 .controls= f.text_field :status, placeholder: 'status text', value: course.status
               .control-group
-                %label Publish?
+                %label Publish?:
                 .controls
                   - if course.published
                     = f.check_box :published, checked: 'checked'
                   - else
                     = f.check_box :published
               .control-group
-                %label Featured?
+                %label Featured?:
                 .controls
                   - if course.featured
                     = f.check_box :featured, checked: 'checked'
                   - else
                     = f.check_box :featured
               .control-group
-                %label Instructors
+                %label Instructors:
                 .controls
                   = select :c, :instructor, instructors.all.map{|i|[i.name,i.id]}, prompt: 'Select instructor'
                   = content_tag :button, 'Add', id: 'add_instructor', class: 'btn'

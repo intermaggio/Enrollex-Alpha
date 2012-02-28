@@ -27,25 +27,25 @@
               %legend Create
               = hidden_field_tag :oid, organization.id
               .control-group
-                %label First Name
+                %label First Name:
                 .controls= f.text_field :first_name, placeholder: 'first name'
               .control-group
-                %label Last Name
+                %label Last Name:
                 .controls= f.text_field :last_name, placeholder: 'last name'
               .control-group
-                %label Phone Number
+                %label Phone Number:
                 .controls= f.text_field :phone, placeholder: 'ten-digit phone number'
               .control-group
-                %label Email
+                %label Email:
                 .controls= f.text_field :email, placeholder: 'email'
               .control-group
-                %label Bio
+                %label Bio:
                 .controls= f.text_area :bio, placeholder: 'bio', style: 'height: 150px'
               .control-group
-                %label Headshot
+                %label Headshot:
                 .controls= f.file_field :image
               .control-group
-                %label Course Assignments
+                %label Course Assignments:
                 .controls
                   - organization.courses.each do |course|
                     %label.checkbox

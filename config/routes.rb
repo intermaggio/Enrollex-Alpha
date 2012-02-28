@@ -8,6 +8,7 @@ Enrollex::Application.routes.draw do
 
   post '/courses/:id/:action' => 'courses'
   get '/courses/:id/:lowname' => 'courses#show'
+  get '/courses/:id/:lowname/:action' => 'courses'
   match '/admin/courses/:id' => 'admin#manage_course'
   match '/admin/courses/:id/:action' => 'admin'
 

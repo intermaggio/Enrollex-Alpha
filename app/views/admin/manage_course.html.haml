@@ -20,7 +20,7 @@
                 .controls= f.text_area :description, placeholder: 'description', value: course.description, style: 'height:100px'
               .control-group
                 %label Price:
-                .controls= f.text_field :price, placeholder: 'price', value: course.price
+                .controls= text_field_tag :price, '', placeholder: 'price', value: course.price / 100
               #pics
                 .control-group
                   %label Upload a New Picture:

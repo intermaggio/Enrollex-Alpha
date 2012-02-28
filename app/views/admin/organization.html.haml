@@ -11,6 +11,14 @@
         Organization info successfully updated!
     = form_for :organization, url: '/admin/update_org', html: { class: 'form form-horizontal' } do |f|
       .control-group
+        %label Stripe Secret:
+        .controls
+          .input= f.text_field :stripe_secret, value: organization.stripe_secret
+      .control-group
+        %label Stripe Publishable:
+        .controls
+          .input= f.text_field :stripe_publishable, value: organization.stripe_publishable
+      .control-group
         %label Background color:
         .controls
           .input= f.text_field :color, placeholder: '#BFE3CD', value: organization.color

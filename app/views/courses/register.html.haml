@@ -17,7 +17,7 @@
       font-size: 18px
       text-shadow: 0 1px 0 white
 
-%h2#damount Dollar Amount: $#{course.price * params[:campers].size}
+%h2#damount Dollar Amount: $#{course.price / 100 * params[:campers].size}
 %h2#thank_you{style: 'display:none'} Thank You!
 
 #payment_complete{style: 'display:none'} Payment complete!
@@ -72,15 +72,17 @@
     .footer
       = content_tag :button, 'Pay', type: 'Submit', class: 'submit', style: 'margin-top: 20px'
 
-- if Rails.env == 'production'
-  :javascript
-    Stripe.publishableKey = "pk_WiYhiX7VpCB53MRxFofuw1Qznh3FO"
-- else
-  :javascript
-    Stripe.publishableKey = "pk_wqJPCWAhAftZ8T7zAmhedstMv50wc"
+:javascript
+  Stripe.publishableKey = '#{organization.stripe_publishable}'
 
 :javascript
   $(document).ready(function() {
+
+    setInterval(function(){
+      if (!($('.submit').attr('disabled'))) {
+        $('.submit').text('Pay')
+      }
+    }, 1000)
 
     $('.submit').click(function(){
       $('.submit').text('Loading..')

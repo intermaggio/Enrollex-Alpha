@@ -21,7 +21,7 @@
       %dl
         - courses.each do |course|
           %dt= link_to course.name, "/admin/courses/#{course.id}"
-          %dd= '$' + course.price.to_s
+          %dd= '$' + (course.price / 100).to_s
           %ul
             - if course.days.first
               - days = course.days.reorder(:date)
@@ -52,7 +52,7 @@
                     .controls= f.text_area :description, placeholder: 'description', style: 'height:100px'
                   .control-group
                     %label Price:
-                    .controls= f.text_field :price, placeholder: 'price'
+                    .controls= text_field_tag :price, '', placeholder: 'price'
                   #pics
                     .control-group
                       %label Upload a Picture:

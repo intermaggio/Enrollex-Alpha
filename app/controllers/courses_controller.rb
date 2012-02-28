@@ -1,5 +1,12 @@
 class CoursesController < InheritedResources::Base
 
+  def register
+    @campers = []
+    params[:campers].each do |id|
+      @campers.push Camper.find(id)
+    end
+  end
+
   def daily course
     falsey = course.days.each_with_index.map { |day,i|
       if day == course.days.last && day.date == course.days[i - 1].date + 1.day
@@ -33,6 +40,11 @@ class CoursesController < InheritedResources::Base
   def update
     course = Course.find params[:id]
     course.update_attributes params[:course]
+    if params[:price].index('.')
+      course.price = params[:price].gsub('.', '')
+    else
+      course.price = params[:price] + '00'
+    end
     course.instructors = []
     if params[:instructor]
       params[:instructor].each do |hash|
@@ -45,6 +57,11 @@ class CoursesController < InheritedResources::Base
 
   def create
     @course = Course.new params[:course]
+    if params[:price].index('.')
+      @course.price = params[:price].gsub('.', '').to_i
+    else
+      @course.price = (params[:price] + '00').to_i
+    end
     if params[:instructor]
       params[:instructor].each do |hash|
         @course.instructors << User.find(hash.last)
@@ -59,6 +76,7 @@ class CoursesController < InheritedResources::Base
   end
 
   def template
+    course.price = course.price / 100
     render json: course.to_json
   end
 
@@ -105,6 +123,7 @@ class CoursesController < InheritedResources::Base
   end
 
   def charge
+    Stripe.api_key = organization.stripe_secret
     Stripe::Charge.create(
       amount: params[:amount],
       currency: 'usd',

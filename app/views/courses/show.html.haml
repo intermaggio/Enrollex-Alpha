@@ -1,9 +1,23 @@
+#campers-modal.modal.hide.fade
+  .modal-header
+    %a.close{:'data-dismiss' => 'modal'} ×
+    %h3 Who would you like to register?
+  .modal-body
+    = form_tag "/courses/#{course.id}/register", class: 'form-horizontal' do
+      - current_user.campers.each do |camper,i|
+        .control-group
+          %label{style: 'width:100px'}= camper.name
+          .controls{style: 'margin:2px 0 0 110px'}= check_box_tag :"campers[#{i}]", camper.id
+  .modal-footer
+    = link_to 'Close', 'javascript:void(0)', class: 'btn', :'data-dismiss' => 'modal'
+    = link_to 'Choose', 'javascript:void(0)', class: 'btn btn-success', onclick: "$('#campers-modal form').submit()"
+
 %h1= course.name
 - if course.image.present?
   = image_tag course.image
 %p= RedCloth.new(course.description, [:filter_html, :bbcode]).to_html.html_safe
 - if course.price.to_i > 0
-  $#{number_with_precision(course.price, precision: 2)}
+  $#{course.price / 100}
 - else
   free
 %p
@@ -18,3 +32,4 @@
 - if course.full_address.present?
   = link_to "http://maps.google.com/maps?q=#{course.full_address}", target: '_blank' do
     = image_tag gmaps(course.full_address)
+= link_to 'Register', '#campers-modal', :'data-toggle' => 'modal', class: 'btn btn-primary'

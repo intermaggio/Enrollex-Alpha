@@ -4,12 +4,8 @@
     %title
       Enrollex | 
       = yield :title
-    - if request.path =~ /\/course\/\w*\/register/
-      = stylesheet_link_tag 'stripe'
-      = javascript_include_tag 'stripe'
-    - else
-      = stylesheet_link_tag 'application'
-      = javascript_include_tag 'application'
+    = stylesheet_link_tag 'application'
+    = javascript_include_tag 'application'
   - if organization && organization.color
     :css
       body { background-color: #{organization.color} }

@@ -16,3 +16,4 @@
 config/database.yml
 public/uploads
 public/organization
+config/unicorn.rb

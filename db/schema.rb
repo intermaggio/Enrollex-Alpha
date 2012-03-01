@@ -71,8 +71,8 @@ ActiveRecord::Schema.define(:version => 20120301074311) do
     t.integer  "price"
     t.text     "reg_description"
     t.string   "reg_link"
-    t.integer  "max_campers"
     t.boolean  "show_map",        :default => true
+    t.integer  "max_campers"
   end
 
   create_table "days", :force => true do |t|

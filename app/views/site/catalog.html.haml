@@ -1,6 +1,7 @@
 %h1 Courses
 %table#courses.table.table-striped.table-bordered
   %thead
+    %th.id ID
     %th.name
       Name
       .icons
@@ -44,6 +45,7 @@
       - courses = organization.courses.mirai.published.reorder(:created_at)
     - courses.each do |course|
       %tr{cid: course.id, lowname: course.lowname}
+        %td= course.id
         %td= course.name
         - if course.start_range
           %td= course.range_type + 's ' + course.start_range.to_s + ' - ' + course.end_range.to_s

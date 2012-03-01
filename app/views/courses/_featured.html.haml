@@ -2,7 +2,7 @@
   .course
     .content
       %h3= course.name
-      %p= RedCloth.new(course.description, [:filter_html, :bbcode]).to_html.html_safe
+      = RedCloth.new(course.description, [:filter_html, :bbcode]).to_html.html_safe
       .register= link_to 'More info', "/courses/#{course.id}/#{course.lowname}", class: 'btn btn-primary'
       .price
         %strong= '$' + (course.price / 100).to_s

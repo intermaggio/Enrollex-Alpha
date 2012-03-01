@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   def gmaps address
-    "http://maps.google.com/maps/api/staticmap?center=#{address}&zoom=15&format=png&maptype=roadmap&mobile=false&markers=|color:red|#{address}&size=300x300&key=&sensor=false"
+    URI::encode "http://maps.google.com/maps/api/staticmap?center=#{address}&zoom=15&format=png&maptype=roadmap&mobile=false&markers=|color:red|#{address}&size=300x300&key=&sensor=false"
   end
 
   def age(dob)

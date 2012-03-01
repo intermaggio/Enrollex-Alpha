@@ -12,7 +12,12 @@ class ApplicationController < ActionController::Base
   end
 
   def gmaps address
-    "http://maps.google.com/maps/api/staticmap?center=#{address}&zoom=15&format=png&maptype=roadmap&mobile=true&markers=|color:red|#{address}&size=300x300&key=&sensor=false"
+    "http://maps.google.com/maps/api/staticmap?center=#{address}&zoom=15&format=png&maptype=roadmap&mobile=false&markers=|color:red|#{address}&size=300x300&key=&sensor=false"
+  end
+
+  def age(dob)
+    now = Time.now.utc.to_date
+    now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
   end
 
   expose(:organization) { Organization.find_by_subdomain request.subdomain }

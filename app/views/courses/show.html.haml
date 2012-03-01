@@ -42,13 +42,25 @@
 %p= course.notes
 - if course.start_range
   %p #{course.range_type} range: #{course.start_range} - #{course.end_range}
-- if course.full_address.present?
-  = link_to "http://maps.google.com/maps?q=#{course.full_address}", target: '_blank' do
+- if course.full_address.present? && course.show_map
+  = link_to "http://maps.google.com/maps?daddr=#{course.full_address}", target: '_blank' do
     = image_tag gmaps(course.full_address)
+- course.instructors.each do |instructor|
+  - if instructor.image.url
+    = image_tag instructor.image
+  %p= instructor.name
+  %p= instructor.bio
 %p #{pluralize course.campers.count, organization.unit_name} currently enrolled.
 - if course.reg_link.present? || course.reg_description.present?
   = link_to 'Register', '#custom-modal', :'data-toggle' => 'modal', class: 'btn btn-primary'
-- elsif current_user
-  = link_to 'Register', '#campers-modal', :'data-toggle' => 'modal', class: 'btn btn-primary'
 - else
-  = link_to 'Register', '#signin-modal', :'data-toggle' => 'modal', class: 'btn btn-primary'
+  - if course.max_campers && course.campers.count >= course.max_campers
+    = content_tag :button, 'Full', disabled: 'disabled', class: 'btn btn-primary'
+  - else
+    - if current_user
+      - if current_user.campers.count > 0
+        = link_to 'Register', '#campers-modal', :'data-toggle' => 'modal', class: 'btn btn-primary'
+      - else
+        = link_to 'Register', "/courses/#{course.id}/#{course.lowname}/register", class: 'btn btn-primary'
+    - else
+      = link_to 'Register', '#signin-modal', :'data-toggle' => 'modal', class: 'btn btn-primary'

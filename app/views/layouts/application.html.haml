@@ -38,7 +38,8 @@
                 %ul.nav.pull-left
                   - if request.subdomain.present? && organization
                     %li= link_to 'Home', '/'
-                    %li= link_to 'My Profile', '/profile'
+                    - if current_user
+                      %li= link_to 'My Profile', '/profile'
                     %li= link_to 'Catalog', '/catalog'
                     - if current_user && organization && current_user.admin_organizations.include?(organization)
                       %li

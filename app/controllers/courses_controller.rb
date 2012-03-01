@@ -19,8 +19,12 @@ class CoursesController < InheritedResources::Base
 
   def register
     @campers = []
-    params[:campers].each do |id|
-      @campers.push Camper.find(id)
+    if params[:campers]
+      params[:campers].each do |id|
+        @campers.push Camper.find(id)
+      end
+    else
+      @campers.push current_user
     end
   end
 

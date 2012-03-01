@@ -26,6 +26,9 @@
                   %label Upload a New Picture:
                   .controls= f.file_field :image
               .control-group
+                %label Maximum number of enrollments:
+                .controls= f.text_field :max_campers, placeholder: 'maximum number of enrollments', value: course.max_campers
+              .control-group
                 %label Status text:
                 .controls= f.text_field :status, placeholder: 'status text', value: course.status
               .control-group
@@ -63,6 +66,13 @@
                         .iclose
                           %a ×
             .span6
+              .control-group
+                %label Show Map?:
+                .controls
+                  - if course.show_map
+                    = f.check_box :published, checked: 'checked'
+                  - else
+                    = f.check_box :published
               .control-group
                 %label Location Name
                 .controls= f.text_field :location_name, placeholder: 'location_name', value: course.location_name

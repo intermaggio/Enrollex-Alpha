@@ -13,20 +13,10 @@
 %h1 Courses
 .tabbable
   %ul.nav.nav-tabs{:'data-tabs' => 'tabs'}
-    %li.active= link_to 'list', '#list', :'data-toggle' => 'tab'
-    %li= link_to 'create', '#create', id: 'create-link', :'data-toggle' => 'tab'
+    %li.active= link_to 'create', '#create', id: 'create-link', :'data-toggle' => 'tab'
 
   .tab-content
-    #list.tab-pane.active
-      %dl
-        - courses.each do |course|
-          %dt= link_to course.name, "/admin/courses/#{course.id}"
-          %dd= '$' + (course.price / 100).to_s
-          %ul
-            - if course.days.first
-              - days = course.days.reorder(:date)
-              %li #{days.first.date} - #{days.last.date}
-    #create.tab-pane
+    #create.tab-pane.active
       .row
         .span12
           - if @course
@@ -60,6 +50,9 @@
                   .control-group
                     %label Status text:
                     .controls= f.text_field :status, placeholder: 'status text'
+                  .control-group
+                    %label Maximum number of enrollments:
+                    .controls= f.text_field :max_campers, placeholder: 'max number of enrollments'
                   .control-group
                     %label Publish?:
                     .controls= f.check_box :published

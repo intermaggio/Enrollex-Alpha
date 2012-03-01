@@ -162,7 +162,7 @@
             if (rsp.image.url) {
               $('#course_image').attr('disabled', 'true')
               $('#pics').prepend('<div class="control-group" id="previous_pic"><label style="position:absolute;margin-top:25px">Use previous image?</label><div class="controls" style="position:absolute;margin-top:27px"> <input checked="true" type="checkbox" id="previous_image"> </div> <img style="margin-left:175px;height:75px" src="' + rsp.image.url + '"> </div>')
-              $('#course_form').append('<input id="upload_pic" type="hidden" name="course[remote_image_url]" value="' + rsp.image.url + '">')
+              $('#course_form').append('<input id="upload_pic" type="hidden" name="course[remote_image_url]" value="http://enrollex.org' + rsp.image.url + '">')
             }
           }
         }

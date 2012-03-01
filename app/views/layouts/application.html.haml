@@ -10,7 +10,7 @@
     :css
       body { background-color: #{organization.color} }
   %body
-    - if organization && organization.banner.present?
+    - if organization && organization.banner && organization.banner.url.present?
       #banner{style: "cursor:pointer;background:url(#{organization.banner})no-repeat center;height:#{organization.banner_height}px"}
     #signup-modal.modal.hide.fade
       .modal-header

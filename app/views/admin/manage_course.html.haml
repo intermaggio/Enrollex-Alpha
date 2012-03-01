@@ -70,9 +70,9 @@
                 %label Show Map?:
                 .controls
                   - if course.show_map
-                    = f.check_box :published, checked: 'checked'
+                    = f.check_box :show_map, checked: 'checked'
                   - else
-                    = f.check_box :published
+                    = f.check_box :show_map
               .control-group
                 %label Location Name
                 .controls= f.text_field :location_name, placeholder: 'location_name', value: course.location_name

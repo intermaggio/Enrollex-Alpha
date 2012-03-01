@@ -40,8 +40,8 @@ ActiveRecord::Schema.define(:version => 20120301074311) do
 
   create_table "courses", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
     t.string   "image"
     t.text     "description"
     t.boolean  "featured"
@@ -71,8 +71,8 @@ ActiveRecord::Schema.define(:version => 20120301074311) do
     t.integer  "price"
     t.text     "reg_description"
     t.string   "reg_link"
-    t.boolean  "show_map"
     t.integer  "max_campers"
+    t.boolean  "show_map",        :default => true
   end
 
   create_table "days", :force => true do |t|

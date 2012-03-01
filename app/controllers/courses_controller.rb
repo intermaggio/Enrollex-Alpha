@@ -1,5 +1,12 @@
 class CoursesController < InheritedResources::Base
 
+  def destroy
+    course = Course.find(params[:id])
+    @id = course.id
+    course.destroy
+    respond_to :js
+  end
+
   def download
     kit = PDFKit.new(render_to_string('courses/roster', layout: false, locals: { download: true }), page_size: 'Letter')
     kit.stylesheets << "#{Rails.root}/app/assets/stylesheets/bootstrap.css"

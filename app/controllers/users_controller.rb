@@ -115,8 +115,9 @@ class UsersController < InheritedResources::Base
       cookies[:cm_hash] = user.salt.to_i(36)
       redirect_to '/'
     else
-      render inline: 'fail'
+      @fail = true
     end
+    render 'site/organization'
   end
 
   def signout

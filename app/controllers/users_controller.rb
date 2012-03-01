@@ -116,8 +116,8 @@ class UsersController < InheritedResources::Base
       redirect_to '/'
     else
       @fail = true
+      render 'site/organization'
     end
-    render 'site/organization'
   end
 
   def signout

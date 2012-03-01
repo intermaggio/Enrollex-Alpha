@@ -1,5 +1,8 @@
-%h1{style: 'float:left'} Courses
-%div{style: 'display:inline-block;margin:6px 0 10px 10px'}= link_to 'Add new', '/admin/courses', class: 'btn btn-primary'
+- if current_user && organization.admins.include?(current_user)
+  %h1{style: 'float:left'} Courses
+  %div{style: 'display:inline-block;margin:6px 0 10px 10px'}= link_to 'Add new', '/admin/courses', class: 'btn btn-primary'
+- else
+  %h1 Courses
 %table#courses.table.table-striped.table-bordered
   %thead
     %th.id ID

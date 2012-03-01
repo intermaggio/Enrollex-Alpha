@@ -20,7 +20,7 @@
     $('#signup_form').validate({
       rules: {
         'user[password]': { required: true },
-        'password_confirmation': { required: true }
+        'password_confirmation': { equalTo: '#password' }
       }
     })
   })

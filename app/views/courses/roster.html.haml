@@ -1,0 +1,26 @@
+%table.table.table-striped.table-bordered.table-condensed
+  %thead
+    %tr
+      %th{style: 'text-align:center', colspan: "#{course.days.count + 3}"} #{course.name} (#{course.id})
+  %thead
+    %tr
+      %th{style: 'text-align:center', colspan: "#{course.days.count + 3}"}= course.date_string
+  %thead
+    %tr
+      %th Name
+      %th Age
+      %th Phone
+      - course.days.each do |day|
+        %th{colspan: '2'}= day.date.strftime('%-m/%d')
+  %tbody
+    - course.campers.each do |camper|
+      %tr
+        %td= camper.name
+        %td= age camper.birthday
+        %td= camper.user.phone
+        - course.days.each do |day|
+          %td
+          %td
+
+- unless defined?(download)
+  = link_to 'Download', "/courses/#{course.id}/#{course.lowname}/download"

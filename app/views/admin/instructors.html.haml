@@ -22,7 +22,7 @@
                 %ul
                   - message.last.each do |reason|
                     %li= reason
-          = form_for :user, url: '/users/create_instructor', html: { class: 'form-horizontal' } do |f|
+          = form_for :user, url: '/users/create_instructor', html: { class: 'form-horizontal', id: 'instructor_form' } do |f|
             %fieldset
               %legend Create
               = hidden_field_tag :oid, organization.id
@@ -60,6 +60,14 @@
     })
 
 :javascript
+  $('#instructor_form').validate({
+    rules: {
+      'user[first_name]': { required: true },
+      'user[last_name]': { required: true },
+      'user[email]': { required: true }
+    }
+  })
+
   $('.field_with_errors input').each(function(){
     $(this).parent().parent().addClass('error')
   })

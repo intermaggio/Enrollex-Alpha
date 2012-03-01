@@ -1,5 +1,15 @@
 class CoursesController < InheritedResources::Base
 
+  def download
+    kit = PDFKit.new(render_to_string('courses/roster', layout: false, locals: { download: true }), page_size: 'Letter')
+    kit.stylesheets << "#{Rails.root}/app/assets/stylesheets/bootstrap.css"
+    pdf = kit.to_pdf
+    file = kit.to_file("/tmp/#{course.name}.pdf")
+    respond_to do |format|
+      format.html { send_file "/tmp/#{course.name}.pdf", type: 'application/pdf', filename: "#{course.name}.pdf" }
+    end
+  end
+
   def register
     @campers = []
     params[:campers].each do |id|

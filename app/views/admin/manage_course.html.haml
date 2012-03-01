@@ -43,6 +43,12 @@
                   - else
                     = f.check_box :featured
               .control-group
+                %label Custom Registration Link:
+                .controls= f.text_field :reg_link, placeholder: 'custom registration link', value: course.reg_link
+              .control-group
+                %label Custom Registration Instructions:
+                .controls= f.text_area :reg_description, placeholder: 'custom registration instructions', value: course.reg_description, style: 'height:100px'
+              .control-group
                 %label Instructors:
                 .controls
                   = select :c, :instructor, instructors.all.map{|i|[i.name,i.id]}, prompt: 'Select instructor'

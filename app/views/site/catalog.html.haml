@@ -38,6 +38,9 @@
           %i.icon-chevron-up.top
         = link_to 'javascript:void(0)' do
           %i.icon-chevron-down.bottom
+    - if organization.admins.include?(current_user)
+      %th.admin
+        Admin
   %tbody
     - if current_user && current_user.admin_organizations.include?(organization)
       - courses = organization.courses.mirai.reorder(:created_at)
@@ -55,6 +58,12 @@
         %td{date: "#{course.days.reorder(:date).first.date.to_time.to_i}"}= course.date_string
         %td= course.default_start.to_time.strftime('%l:%M %p')
         %td= course.default_end.to_time.strftime('%l:%M %p')
+        - if organization.admins.include?(current_user)
+          %td
+            %i.icon-cog
+            = link_to "/courses/#{course.id}/#{course.lowname}/download" do
+              %i.icon-file
+            %i.icon-trash
 
 :javascript
   $('tbody tr').click(function(){

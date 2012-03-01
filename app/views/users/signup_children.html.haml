@@ -22,6 +22,9 @@
                 %label Password:
                 .controls= f.password_field :password, placeholder: 'password', autocomplete: 'off'
               .control-group
+                %label Confirm Password:
+                .controls= password_field_tag :password_confirmation, '', placeholder: 'password confirmation', autocomplete: 'off'
+              .control-group
                 %label First Name:
                 .controls= f.text_field :first_name, placeholder: 'parent/guardian first name', autocomplete: 'off'
               .control-group
@@ -47,10 +50,13 @@
 
 :javascript
   $.validator.addMethod('phone_number', function(value) {
-    if (value.replace(/\D/g, '').search(/\d{10}/) == 0) {
-      return true
-    } else { return false }
+    if (value.replace(/\D/g, '').search(/\d{10}/) == 0) { return true }
+    else { return false }
   }, 'Please enter a valid ten-digit phone number.')
+  $.validator.addMethod('birthday', function(value) {
+    if (value.replace(/\D/g, '').search(/\d{8}/) == 0) { return true }
+    else { return false }
+  }, 'Please enter a properly formatted birthdate. (MM/DD/YYYY)')
   $(document).ready(function(){
     $('#signup_form').validate({
       rules: {
@@ -59,6 +65,8 @@
         'user[first_name]': { required: true },
         'user[last_name]': { required: true},
         'user[phone]': { phone_number: true },
+        'user[birthday]': { birthday: true },
+        'password_confirmation': { equalTo: '#user_password' }
       }
     })
   })

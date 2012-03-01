@@ -13,20 +13,10 @@
 %h1 Courses
 .tabbable
   %ul.nav.nav-tabs{:'data-tabs' => 'tabs'}
-    %li.active= link_to 'list', '#list', :'data-toggle' => 'tab'
-    %li= link_to 'create', '#create', id: 'create-link', :'data-toggle' => 'tab'
+    %li.active= link_to 'create', '#create', id: 'create-link', :'data-toggle' => 'tab'
 
   .tab-content
-    #list.tab-pane.active
-      %dl
-        - courses.each do |course|
-          %dt= link_to course.name, "/admin/courses/#{course.id}"
-          %dd= '$' + (course.price / 100).to_s
-          %ul
-            - if course.days.first
-              - days = course.days.reorder(:date)
-              %li #{days.first.date} - #{days.last.date}
-    #create.tab-pane
+    #create.tab-pane.active
       .row
         .span12
           - if @course
@@ -61,11 +51,20 @@
                     %label Status text:
                     .controls= f.text_field :status, placeholder: 'status text'
                   .control-group
+                    %label Maximum number of enrollments:
+                    .controls= f.text_field :max_campers, placeholder: 'max number of enrollments'
+                  .control-group
                     %label Publish?:
                     .controls= f.check_box :published
                   .control-group
                     %label Featured?:
                     .controls= f.check_box :featured
+                  .control-group
+                    %label Custom Registration Link:
+                    .controls= f.text_field :reg_link, placeholder: 'custom registration link'
+                  .control-group
+                    %label Custom Registration Instructions:
+                    .controls= f.text_area :reg_description, placeholder: 'registration instructions', style: 'height:100px'
                   .control-group
                     %label Instructors:
                     .controls
@@ -97,7 +96,7 @@
                       = ' - '
                       = f.text_field :end_range, style: 'display: inline-block; width: 20px'
                   .control-group
-                    %label Suite #:
+                    %label Suite/Apt. #:
                     .controls= f.text_field :suite, style: 'width: 20px'
                   .control-group
                     %label Room #:
@@ -114,6 +113,14 @@
     })
 
 :javascript
+  $('#course_form').validate({
+    rules: {
+      'course[name]': { required: true },
+      'course[price]': { required: true },
+      'course[location_name]': { required: true }
+    }
+  })
+
   $('.field_with_errors input').each(function(){
     $(this).parent().parent().addClass('error')
   })
@@ -155,7 +162,7 @@
             if (rsp.image.url) {
               $('#course_image').attr('disabled', 'true')
               $('#pics').prepend('<div class="control-group" id="previous_pic"><label style="position:absolute;margin-top:25px">Use previous image?</label><div class="controls" style="position:absolute;margin-top:27px"> <input checked="true" type="checkbox" id="previous_image"> </div> <img style="margin-left:175px;height:75px" src="' + rsp.image.url + '"> </div>')
-              $('#course_form').append('<input id="upload_pic" type="hidden" name="course[remote_image_url]" value="' + rsp.image.url + '">')
+              $('#course_form').append('<input id="upload_pic" type="hidden" name="course[remote_image_url]" value="http://enrollex.org' + rsp.image.url + '">')
             }
           }
         }

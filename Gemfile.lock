@@ -95,6 +95,7 @@ GEM
     oauth2 (0.5.2)
       faraday (~> 0.7)
       multi_json (~> 1.0)
+    pdfkit (0.5.2)
     pg (0.13.1)
     polyglot (0.3.3)
     pony (1.4)
@@ -184,6 +185,7 @@ DEPENDENCIES
   haml
   inherited_resources
   jquery-rails
+  pdfkit
   pg
   pony
   postmark-rails

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120228075136) do
+ActiveRecord::Schema.define(:version => 20120301074311) do
 
   create_table "campers", :force => true do |t|
     t.datetime "created_at",  :null => false
@@ -27,6 +27,11 @@ ActiveRecord::Schema.define(:version => 20120228075136) do
     t.string   "zip"
   end
 
+  create_table "campers_courses", :force => true do |t|
+    t.integer "camper_id"
+    t.integer "course_id"
+  end
+
   create_table "charges", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -35,8 +40,8 @@ ActiveRecord::Schema.define(:version => 20120228075136) do
 
   create_table "courses", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
     t.string   "image"
     t.text     "description"
     t.boolean  "featured"
@@ -64,6 +69,10 @@ ActiveRecord::Schema.define(:version => 20120228075136) do
     t.date     "published_at"
     t.date     "start_date"
     t.integer  "price"
+    t.text     "reg_description"
+    t.string   "reg_link"
+    t.integer  "max_campers"
+    t.boolean  "show_map",        :default => true
   end
 
   create_table "days", :force => true do |t|
@@ -100,6 +109,7 @@ ActiveRecord::Schema.define(:version => 20120228075136) do
     t.text     "footer"
     t.string   "stripe_secret"
     t.string   "stripe_publishable"
+    t.string   "welcome_title"
   end
 
   create_table "organizations_admins", :force => true do |t|
@@ -134,6 +144,7 @@ ActiveRecord::Schema.define(:version => 20120228075136) do
     t.text     "health_info"
     t.string   "image"
     t.text     "bio"
+    t.string   "utype"
   end
 
   add_index "users", ["remember_me_token"], :name => "index_users_on_remember_me_token"

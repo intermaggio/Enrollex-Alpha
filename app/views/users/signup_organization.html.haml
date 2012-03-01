@@ -15,9 +15,10 @@
         %ul
           - message.last.each do |reason|
             %li= reason
-  = form_for :user, url: '/users/create_organization' do |f|
+  = form_for :user, url: '/users/create_organization', html: { id: 'signup_form' } do |f|
     .clearfix= f.email_field :email, placeholder: 'email', autocomplete: 'off'
     .clearfix= f.password_field :password, placeholder: 'password', autocomplete: 'off'
+    .clearfix= password_field_tag :password_confirmation, '', placeholder: 'password confirmation', autocomplete: 'off'
     .clearfix= f.text_field :first_name, placeholder: 'first name', autocomplete: 'off'
     .clearfix= f.text_field :last_name, placeholder: 'last name', autocomplete: 'off'
     .clearfix= text_field_tag :name, '', id: 'organization_name', name: 'organization[name]', placeholder: 'organization name', autocomplete: 'off'
@@ -36,4 +37,14 @@
   $('.field_with_errors input').each(function(){
     $(this).parent().parent().addClass('error')
     $('#user_password').parent().addClass('warning')
+  })
+  $.validator.addMethod('password', function(value) {
+    if (value.search(/\d/) != -1 && value.search(/[a-zA-Z]/) != -1) { return true }
+    else { return false }
+  }, 'Please enter a password containing both letters and numbers.')
+  $('#signup_form').validate({
+    rules: {
+      'user[password]': { required: true, minlength: 8, password: true },
+      'password_confirmation': { equalTo: '#user_password' }
+    }
   })

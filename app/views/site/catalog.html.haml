@@ -1,6 +1,8 @@
-%h1 Courses
+%h1{style: 'float:left'} Courses
+%div{style: 'display:inline-block;margin:6px 0 10px 10px'}= link_to 'Add new', '/admin/courses', class: 'btn btn-primary'
 %table#courses.table.table-striped.table-bordered
   %thead
+    %th.id ID
     %th.name
       Name
       .icons
@@ -37,13 +39,17 @@
           %i.icon-chevron-up.top
         = link_to 'javascript:void(0)' do
           %i.icon-chevron-down.bottom
+    - if organization.admins.include?(current_user)
+      %th.admin
+        Admin
   %tbody
     - if current_user && current_user.admin_organizations.include?(organization)
       - courses = organization.courses.mirai.reorder(:created_at)
     - else
       - courses = organization.courses.mirai.published.reorder(:created_at)
     - courses.each do |course|
-      %tr{cid: course.id, lowname: course.lowname}
+      %tr{cid: course.id, lowname: course.lowname, id: "course#{course.id}"}
+        %td= course.id
         %td= course.name
         - if course.start_range
           %td= course.range_type + 's ' + course.start_range.to_s + ' - ' + course.end_range.to_s
@@ -53,10 +59,18 @@
         %td{date: "#{course.days.reorder(:date).first.date.to_time.to_i}"}= course.date_string
         %td= course.default_start.to_time.strftime('%l:%M %p')
         %td= course.default_end.to_time.strftime('%l:%M %p')
+        - if organization.admins.include?(current_user)
+          %td.admin
+            = link_to "/admin/courses/#{course.id}" do
+              %i.icon-cog
+            = link_to "/courses/#{course.id}/#{course.lowname}/download" do
+              %i.icon-file
+            = link_to "/courses/#{course.id}/#{course.lowname}/destroy?id=#{course.id}", remote: true do
+              %i.icon-trash
 
 :javascript
-  $('tbody tr').click(function(){
-    window.location = '/courses/' + $(this).attr('cid') + '/' + $(this).attr('lowname')
+  $('tbody tr > :not(.admin)').click(function(){
+    window.location = '/courses/' + $(this).parent().attr('cid') + '/' + $(this).parent().attr('lowname')
   })
   $.tablesorter.addParser({
     id: 'dates',

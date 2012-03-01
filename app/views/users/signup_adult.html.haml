@@ -12,6 +12,7 @@
       = form_for :user, url: '/users/create_adult', html: { id: 'signup_form', class: 'form-horizontal' } do |f|
         %fieldset
           %legend Signup
+          = f.hidden_field :utype, value: 'self'
           .row{style: 'padding-top: 30px'}
             = hidden_field_tag :type, 'adult'
             .span6
@@ -22,13 +23,16 @@
                 %label Password:
                 .controls= f.password_field :password, placeholder: 'password', autocomplete: 'off'
               .control-group
+                %label Confirm Password:
+                .controls= password_field_tag :password_confirmation, '', placeholder: 'password confirmation', autocomplete: 'off'
+              .control-group
                 %label First Name:
                 .controls= f.text_field :first_name, placeholder: 'first name', autocomplete: 'off'
               .control-group
                 %label Last Name:
                 .controls= f.text_field :last_name, placeholder: 'last name', autocomplete: 'off'
               .control-group
-                %label Birthdate:
+                %label Birthday:
                 .controls= f.text_field :birthday, placeholder: 'MM/DD/YYYY', autocomplete: 'off'
               .control-group
                 %label Health Info:
@@ -57,21 +61,23 @@
     else { return false }
   }, 'Please enter a valid ten-digit phone number.')
   $.validator.addMethod('birthday', function(value) {
-    var date = value.replace(/\D/g, '')
-    var month = parseInt(date.slice(2,4))
-    if (date.length < 8) { return false }
-    else if (month > 12) { return false }
-    else { return true }
-  }, 'Please enter a properly formatted birthdate. (DD/MM/YYYY)')
+    if (value.replace(/\D/g, '').search(/\d{8}/) == 0) { return true }
+    else { return false }
+  }, 'Please enter a properly formatted birthdate. (MM/DD/YYYY)')
+  $.validator.addMethod('password', function(value) {
+    if (value.search(/\d/) != -1 && value.search(/[a-zA-Z]/) != -1) { return true }
+    else { return false }
+  }, 'Please enter a password containing both letters and numbers.')
   $(document).ready(function(){
     $('#signup_form').validate({
       rules: {
         'user[email]': { required: true, email: true },
-        'user[password]': { required: true },
+        'user[password]': { required: true, minlength: 8, password: true },
         'user[first_name]': { required: true },
         'user[last_name]': { required: true},
         'user[birthday]': { birthday: true},
         'user[phone]': { phone_number: true },
+        'password_confirmation': { equalTo: '#user_password' }
       }
     })
   })

@@ -27,13 +27,17 @@
         .controls
           .input= f.text_field :unit_name, placeholder: 'camper, student, etc.', value: organization.unit_name
       .control-group
-        %label Welcome message:
+        %label Welcome Message:
+        .controls
+          .input= f.text_field :welcome_title, placeholder: 'welcome title', value: organization.welcome_title
+      .control-group
+        %label Organization Description:
         .controls
           .input= f.text_area :welcome_message, placeholder: 'welcome message', value: organization.welcome_message, style: 'height:100px'
       .control-group
         %label Footer text:
         .controls
-          .input= f.text_field :footer, placeholder: 'footer text', value: organization.footer
+          .input= f.text_area :footer, placeholder: 'footer text', value: organization.footer, style: 'height:100px'
       .control-group
         %label Banner image:
         .controls

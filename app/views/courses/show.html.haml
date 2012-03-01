@@ -13,7 +13,19 @@
       = link_to 'Close', 'javascript:void(0)', class: 'btn', :'data-dismiss' => 'modal'
       = link_to 'Choose', 'javascript:void(0)', class: 'btn btn-success', onclick: "$('#campers-modal form').submit()"
 
-%h1= course.name
+- if course.reg_link.present? || course.reg_description.present?
+  #custom-modal.modal.hide.fade
+    .modal-header
+      %a.close{:'data-dismiss' => 'modal'} ×
+      %h3 Registration Instructions
+    .modal-body
+      %p= course.reg_description
+    .modal-footer
+      = link_to 'Close', 'javascript:void(0)', class: 'btn', :'data-dismiss' => 'modal'
+      - if course.reg_link.present?
+        = link_to 'Go', course.reg_link, class: 'btn btn-success'
+
+%h1 #{course.name} (#{course.id})
 - if course.image.present?
   = image_tag course.image
 %p= RedCloth.new(course.description, [:filter_html, :bbcode]).to_html.html_safe
@@ -30,10 +42,25 @@
 %p= course.notes
 - if course.start_range
   %p #{course.range_type} range: #{course.start_range} - #{course.end_range}
-- if course.full_address.present?
-  = link_to "http://maps.google.com/maps?q=#{course.full_address}", target: '_blank' do
+- if course.full_address.present? && course.show_map
+  = link_to "http://maps.google.com/maps?daddr=#{course.full_address}", target: '_blank' do
     = image_tag gmaps(course.full_address)
-- if current_user
-  = link_to 'Register', '#campers-modal', :'data-toggle' => 'modal', class: 'btn btn-primary'
+- course.instructors.each do |instructor|
+  - if instructor.image.url
+    = image_tag instructor.image
+  %p= instructor.name
+  %p= instructor.bio
+%p #{pluralize course.campers.count, organization.unit_name} currently enrolled.
+- if course.reg_link.present? || course.reg_description.present?
+  = link_to 'Register', '#custom-modal', :'data-toggle' => 'modal', class: 'btn btn-primary'
 - else
-  = link_to 'Register', '#signin-modal', :'data-toggle' => 'modal', class: 'btn btn-primary'
+  - if course.max_campers && course.campers.count >= course.max_campers
+    = content_tag :button, 'Full', disabled: 'disabled', class: 'btn btn-primary'
+  - else
+    - if current_user
+      - if current_user.campers.count > 0
+        = link_to 'Register', '#campers-modal', :'data-toggle' => 'modal', class: 'btn btn-primary'
+      - else
+        = link_to 'Register', "/courses/#{course.id}/#{course.lowname}/register", class: 'btn btn-primary'
+    - else
+      = link_to 'Register', '#signin-modal', :'data-toggle' => 'modal', class: 'btn btn-primary'

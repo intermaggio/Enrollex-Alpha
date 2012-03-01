@@ -1,7 +1,7 @@
 class UserImage < CarrierWave::Uploader::Base
   include CarrierWave::RMagick
 
-  storage :fog
+  storage :file
 
   def store_dir
     "#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"

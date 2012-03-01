@@ -1,9 +1,30 @@
 class CoursesController < InheritedResources::Base
 
+  def destroy
+    course = Course.find(params[:id])
+    @id = course.id
+    course.destroy
+    respond_to :js
+  end
+
+  def download
+    kit = PDFKit.new(render_to_string('courses/roster', layout: false, locals: { download: true }), page_size: 'Letter')
+    kit.stylesheets << "#{Rails.root}/app/assets/stylesheets/bootstrap.css"
+    pdf = kit.to_pdf
+    file = kit.to_file("/tmp/#{course.name}.pdf")
+    respond_to do |format|
+      format.html { send_file "/tmp/#{course.name}.pdf", type: 'application/pdf', filename: "#{course.name}.pdf" }
+    end
+  end
+
   def register
     @campers = []
-    params[:campers].each do |id|
-      @campers.push Camper.find(id)
+    if params[:campers]
+      params[:campers].each do |id|
+        @campers.push Camper.find(id)
+      end
+    else
+      @campers.push current_user
     end
   end
 
@@ -123,6 +144,10 @@ class CoursesController < InheritedResources::Base
   end
 
   def charge
+    params[:campers].each do |camper|
+      course.campers << Camper.find(camper.last[:id])
+    end
+    binding.pry
     Stripe.api_key = organization.stripe_secret
     Stripe::Charge.create(
       amount: params[:amount],

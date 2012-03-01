@@ -17,7 +17,7 @@
       font-size: 18px
       text-shadow: 0 1px 0 white
 
-%h2#damount Dollar Amount: $#{course.price / 100 * params[:campers].size}
+%h2#damount Dollar Amount: $#{course.price / 100 * @campers.size}
 %h2#thank_you{style: 'display:none'} Thank You!
 
 #payment_complete{style: 'display:none'} Payment complete!
@@ -91,7 +91,7 @@
     function submit(form) {
       $('.submit').attr('disabled', 'disabled');
 
-      var amount = '#{course.price * params[:campers].size}'
+      var amount = '#{course.price * @campers.size}'
       Stripe.createToken({
           number: $('#number').val(),
           cvc: $('#cvc').val(),
@@ -109,7 +109,7 @@
             $.ajax({
               type: 'POST',
               url: '/courses/#{course.id}/charge',
-              data: { stripeToken: token, amount: amount, utf8: $('#pay_form input[name=utf8]').val(), authenticity_token: $('#pay_form input[name=authenticity_token]').val() }
+              data: { campers: #{@campers.to_json}, stripeToken: token, amount: amount, utf8: $('#pay_form input[name=utf8]').val(), authenticity_token: $('#pay_form input[name=authenticity_token]').val() }
             });
           }
       });

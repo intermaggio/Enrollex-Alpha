@@ -12,6 +12,7 @@
       = form_for :user, url: '/users/create_adult', html: { id: 'signup_form', class: 'form-horizontal' } do |f|
         %fieldset
           %legend Signup
+          = f.hidden_field :utype, value: 'campers'
           .row{style: 'padding-top: 30px'}
             = hidden_field_tag :type, 'children'
             .span6
@@ -21,6 +22,9 @@
               .control-group
                 %label Password:
                 .controls= f.password_field :password, placeholder: 'password', autocomplete: 'off'
+              .control-group
+                %label Confirm Password:
+                .controls= password_field_tag :password_confirmation, '', placeholder: 'password confirmation', autocomplete: 'off'
               .control-group
                 %label First Name:
                 .controls= f.text_field :first_name, placeholder: 'parent/guardian first name', autocomplete: 'off'
@@ -47,18 +51,22 @@
 
 :javascript
   $.validator.addMethod('phone_number', function(value) {
-    if (value.replace(/\D/g, '').search(/\d{10}/) == 0) {
-      return true
-    } else { return false }
+    if (value.replace(/\D/g, '').search(/\d{10}/) == 0) { return true }
+    else { return false }
   }, 'Please enter a valid ten-digit phone number.')
+  $.validator.addMethod('password', function(value) {
+    if (value.search(/\d/) != -1 && value.search(/[a-zA-Z]/) != -1) { return true }
+    else { return false }
+  }, 'Please enter a password containing both letters and numbers.')
   $(document).ready(function(){
     $('#signup_form').validate({
       rules: {
         'user[email]': { required: true, email: true },
-        'user[password]': { required: true },
+        'user[password]': { required: true, minlength: 8, password: true },
         'user[first_name]': { required: true },
         'user[last_name]': { required: true},
         'user[phone]': { phone_number: true },
+        'password_confirmation': { equalTo: '#user_password' }
       }
     })
   })

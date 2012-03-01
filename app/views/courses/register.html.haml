@@ -109,7 +109,7 @@
             $.ajax({
               type: 'POST',
               url: '/courses/#{course.id}/charge',
-              data: { stripeToken: token, amount: amount, utf8: $('#pay_form input[name=utf8]').val(), authenticity_token: $('#pay_form input[name=authenticity_token]').val() }
+              data: { campers: #{@campers.to_json}, stripeToken: token, amount: amount, utf8: $('#pay_form input[name=utf8]').val(), authenticity_token: $('#pay_form input[name=authenticity_token]').val() }
             });
           }
       });

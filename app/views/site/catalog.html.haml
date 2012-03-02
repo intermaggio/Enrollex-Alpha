@@ -3,6 +3,9 @@
   #add_button= link_to 'Add new', '/admin/courses', class: 'btn btn-primary'
   = form_tag "/site/search", class: 'form-search', remote: true do
     = text_field_tag :q, '', placeholder: 'search', class: 'search-query'
+  #previous_container
+    Show Past Courses
+    = check_box_tag :previous
 %table#courses.table.table-striped.table-bordered
   %thead
     %th.id ID
@@ -47,12 +50,19 @@
         Admin
   %tbody
     - if current_user && current_user.admin_organizations.include?(organization)
-      - courses = organization.courses.mirai.reorder(:created_at)
+      - courses = organization.courses.reorder(:created_at)
     - else
-      - courses = organization.courses.mirai.published.reorder(:created_at)
-    = render courses
+      - courses = organization.courses.published.reorder(:created_at)
+    = render courses.mirai
 
 :javascript
+  $('#previous').change(function(){
+    if ($('#previous:checked').length > 0) {
+      $('table tbody').html('#{escape_javascript(render courses).html_safe}')
+    } else {
+      $('table tbody').html('#{escape_javascript(render courses.mirai).html_safe}')
+    }
+  })
   $('tbody tr > :not(.admin)').click(function(){
     window.location = '/courses/' + $(this).parent().attr('cid') + '/' + $(this).parent().attr('lowname')
   })

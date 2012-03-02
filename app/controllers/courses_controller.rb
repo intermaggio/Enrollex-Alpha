@@ -157,11 +157,28 @@ class CoursesController < InheritedResources::Base
       course.campers << User.find(camper.last[:id])
     end
     Stripe.api_key = organization.stripe_secret
-    Stripe::Charge.create(
+    stripe = Stripe::Charge.create(
       amount: params[:amount],
       currency: 'usd',
       card: params[:stripeToken],
       description: current_user.email + ' :: ' + course.lowname
+    )
+    Pony.mail(
+      to: current_user.email,
+      from: 'robot@enrollex.org',
+      subject: 'Enrollex Receipt',
+      body: "Invoice Number: #{stripe.id}<br/>Invoice Date: #{Time.now.strftime('%B %d, %Y')}<br/>Invoice Amount: $#{params[:amount].to_i / 100}<br/><br/>Thanks for your enrollment!",
+      headers: { 'Content-Type' => 'text/html' }
+      via: :smtp,
+      via_options: {
+        address: 'smtp.gmail.com',
+        port: '587',
+        enable_starttls_auto: true,
+        user_name: 'robot@enrollex.org',
+        password: 'b0wserFire',
+        authentication: :plain,
+        domain: 'enrollex.org'
+      }
     )
   end
 

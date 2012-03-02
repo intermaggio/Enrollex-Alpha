@@ -32,6 +32,15 @@
                     %label Email:
                     .controls= f.text_field :email, placeholder: 'email', value: current_user.email
                   .control-group
+                    %label Gender:
+                    .controls
+                      .radio
+                        = f.radio_button :gender, 'm'
+                        Male
+                      .radio
+                        = f.radio_button :gender, 'f'
+                        Female
+                  .control-group
                     %label Upload a Picture:
                     .controls= f.file_field :image
                   .control-group

@@ -35,6 +35,15 @@
                 %label Birthday:
                 .controls= f.text_field :birthday, placeholder: 'MM/DD/YYYY', autocomplete: 'off'
               .control-group
+                %label Gender:
+                .controls
+                  .radio
+                    = f.radio_button :gender, 'm'
+                    Male
+                  .radio
+                    = f.radio_button :gender, 'f'
+                    Female
+              .control-group
                 %label Health Info:
                 .controls= f.text_area :health_info, placeholder: 'Enter any health-related information we should know about here.', autocomplete: 'off', style: 'height: 125px'
             .span6

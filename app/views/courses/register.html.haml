@@ -18,7 +18,10 @@
       text-shadow: 0 1px 0 white
 
 %h2#damount Dollar Amount: $#{course.price / 100 * @campers.size}
-%h2#thank_you{style: 'display:none'} Thank You!
+- if organization.registration_message.present?
+  %h2#thank_you{style: 'display:none'}= RedCloth.new(organization.registration_message, [:filter_html, :bbcode]).to_html.html_safe
+- else
+  %h2#thank_you{style: 'display:none'} Thank You!
 
 #payment_complete{style: 'display:none'} Payment complete!
 

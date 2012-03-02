@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120301074311) do
+ActiveRecord::Schema.define(:version => 20120302192141) do
 
   create_table "campers", :force => true do |t|
     t.datetime "created_at",  :null => false
@@ -97,10 +97,10 @@ ActiveRecord::Schema.define(:version => 20120301074311) do
   create_table "organizations", :force => true do |t|
     t.string   "name"
     t.text     "desc"
-    t.datetime "created_at",                               :null => false
-    t.datetime "updated_at",                               :null => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
     t.string   "subname"
-    t.string   "unit_name",          :default => "camper"
+    t.string   "unit_name",            :default => "camper"
     t.string   "signup_options"
     t.string   "banner"
     t.string   "banner_height"
@@ -110,6 +110,7 @@ ActiveRecord::Schema.define(:version => 20120301074311) do
     t.string   "stripe_secret"
     t.string   "stripe_publishable"
     t.string   "welcome_title"
+    t.text     "registration_message"
   end
 
   create_table "organizations_admins", :force => true do |t|

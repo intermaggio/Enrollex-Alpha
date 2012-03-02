@@ -1,3 +1,15 @@
+#destroy-modal.modal.hide.fade
+  .modal-header
+    %a.close{:'data-dismiss' => 'modal'} ×
+    %h3 Sign in
+  .modal-body
+    Really destroy
+    %span>
+    ?
+  .modal-footer
+    = link_to 'Close', 'javascript:void(0)', :'data-dismiss' => 'modal', class: 'btn'
+    = link_to 'Destroy', 'javascript:void(0)', :'data-dismiss' => 'modal', class: 'btn btn-danger', id: 'destroy', remote: true
+
 #catalog_header
   %h1 Courses
   #add_button= link_to 'Add new', '/admin/courses', class: 'btn btn-primary'
@@ -56,6 +68,10 @@
     = render courses.mirai
 
 :javascript
+  $('.destroy').click(function(){
+    $('#destroy-modal span').text(' ' + $(this).attr('course'))
+    $('#destroy-modal .btn-danger').attr('href', '/courses/' + $(this).attr('cid') + '/' + $(this).attr('lowname') + '/destroy')
+  })
   $('#previous').change(function(){
     if ($('#previous:checked').length > 0) {
       $('table tbody').html('#{escape_javascript(render courses).html_safe}')

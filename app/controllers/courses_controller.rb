@@ -168,7 +168,7 @@ class CoursesController < InheritedResources::Base
       from: 'robot@enrollex.org',
       subject: 'Enrollex Receipt',
       body: "Invoice Number: #{stripe.id}<br/>Invoice Date: #{Time.now.strftime('%B %d, %Y')}<br/>Invoice Amount: $#{params[:amount].to_i / 100}<br/><br/>Thanks for your enrollment!",
-      headers: { 'Content-Type' => 'text/html' }
+      headers: { 'Content-Type' => 'text/html' },
       via: :smtp,
       via_options: {
         address: 'smtp.gmail.com',

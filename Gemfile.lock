@@ -179,7 +179,7 @@ DEPENDENCIES
   BBRedCloth
   airbrake
   carrierwave
-  coffee-rails (~> 3.2.0)
+  coffee-rails
   decent_exposure
   fog
   haml
@@ -192,8 +192,8 @@ DEPENDENCIES
   pry
   rails
   rmagick
-  sass-rails (~> 3.2.3)
+  sass-rails
   sorcery
   stripe
-  uglifier (>= 1.0.3)
+  uglifier
   unicorn

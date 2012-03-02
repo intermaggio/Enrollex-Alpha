@@ -29,6 +29,9 @@
                 %label Maximum number of enrollments:
                 .controls= f.text_field :max_campers, placeholder: 'maximum number of enrollments', value: course.max_campers
               .control-group
+                %label Registration Deadline:
+                .controls= f.text_field :deadline, placeholder: 'MM/DD/YYYY', value: course.deadline.strftime('%m/%d/%Y')
+              .control-group
                 %label Status text:
                 .controls= f.text_field :status, placeholder: 'status text', value: course.status
               .control-group

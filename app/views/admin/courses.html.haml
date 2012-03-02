@@ -54,6 +54,9 @@
                     %label Maximum number of enrollments:
                     .controls= f.text_field :max_campers, placeholder: 'max number of enrollments'
                   .control-group
+                    %label Registration Deadline:
+                    .controls= f.text_field :deadline, placeholder: 'MM/DD/YYYY'
+                  .control-group
                     %label Publish?:
                     .controls= f.check_box :published
                   .control-group
@@ -113,11 +116,16 @@
     })
 
 :javascript
+  $.validator.addMethod('date', function(value) {
+    if (value.replace(/\D/g, '').search(/\d{8}/) == 0) { return true }
+    else { return false }
+  }, 'Please enter a properly formatted birthdate. (MM/DD/YYYY)')
   $('#course_form').validate({
     rules: {
       'course[name]': { required: true },
       'course[price]': { required: true },
-      'course[location_name]': { required: true }
+      'course[location_name]': { required: true },
+      'course[deadline]': { date: true }
     }
   })
 

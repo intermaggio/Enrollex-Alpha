@@ -53,7 +53,7 @@
 - if course.reg_link.present? || course.reg_description.present?
   = link_to 'Register', '#custom-modal', :'data-toggle' => 'modal', class: 'btn btn-primary'
 - else
-  - if course.max_campers && course.campers.count >= course.max_campers
+  - if course.max_campers && course.campers.count >= course.max_campers || course.deadline && course.deadline < Time.now.to_date
     = content_tag :button, 'Full', disabled: 'disabled', class: 'btn btn-primary'
   - else
     - if current_user

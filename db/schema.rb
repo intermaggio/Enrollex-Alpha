@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120302180550) do
+ActiveRecord::Schema.define(:version => 20120302182610) do
 
   create_table "campers", :force => true do |t|
     t.datetime "created_at",  :null => false
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(:version => 20120302180550) do
     t.string   "reg_link"
     t.boolean  "show_map",        :default => true
     t.integer  "max_campers"
+    t.date     "deadline"
   end
 
   create_table "days", :force => true do |t|

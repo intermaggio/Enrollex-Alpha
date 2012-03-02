@@ -1,7 +1,7 @@
 class UsersController < InheritedResources::Base
 
   def remove_camper
-    Camper.find(params[:id]).destroy
+    User.find(params[:id]).destroy
     render json: { success: true }
   end
 
@@ -80,7 +80,7 @@ class UsersController < InheritedResources::Base
   end
 
   def update_camper
-    @camper = Camper.find params[:id]
+    @camper = User.find params[:id]
     @camper.update_attributes params[:camper]
     if params[:camper][:birthday]
       birthday = params[:camper][:birthday].split(/\W/)

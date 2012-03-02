@@ -1,9 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  camper_id: 1
+  user_id: 1
   course_id: 1
 
 two:
-  camper_id: 1
+  user_id: 1
   course_id: 1

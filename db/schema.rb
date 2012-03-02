@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120302192141) do
+ActiveRecord::Schema.define(:version => 20120302201609) do
 
   create_table "campers", :force => true do |t|
     t.datetime "created_at",  :null => false
@@ -29,8 +29,10 @@ ActiveRecord::Schema.define(:version => 20120302192141) do
   end
 
   create_table "campers_courses", :force => true do |t|
-    t.integer "camper_id"
-    t.integer "course_id"
+    t.integer  "user_id"
+    t.integer  "course_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "charges", :force => true do |t|
@@ -149,6 +151,7 @@ ActiveRecord::Schema.define(:version => 20120302192141) do
     t.text     "bio"
     t.string   "utype"
     t.string   "gender"
+    t.integer  "parent_id"
   end
 
   add_index "users", ["remember_me_token"], :name => "index_users_on_remember_me_token"

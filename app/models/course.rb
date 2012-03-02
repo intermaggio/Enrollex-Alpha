@@ -22,7 +22,7 @@ class Course < ActiveRecord::Base
   }
 
   has_many :days
-  has_and_belongs_to_many :campers
+  has_and_belongs_to_many :campers, class_name: 'User', join_table: 'campers_courses'
   has_and_belongs_to_many :instructors, class_name: 'User', join_table: 'instructors_courses'
 
   before_save do

@@ -3,7 +3,8 @@
     .tabbable
       %ul.nav.nav-tabs{:'data-tabs' => 'tabs', style: 'width:900px'}
         %li.active= link_to 'Profile', '#profile', :'data-toggle' => 'tab'
-        %li= link_to 'Campers', '#campers', :'data-toggle' => 'tab'
+        - if current_user.utype == 'campers'
+          %li= link_to 'Campers', '#campers', :'data-toggle' => 'tab'
 
       .tab-content
         #profile.tab-pane.active

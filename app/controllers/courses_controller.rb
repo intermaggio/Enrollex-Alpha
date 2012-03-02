@@ -21,7 +21,7 @@ class CoursesController < InheritedResources::Base
     @campers = []
     if params[:campers]
       params[:campers].each do |id|
-        @campers.push Camper.find(id)
+        @campers.push User.find(id)
       end
     else
       @campers.push current_user
@@ -154,9 +154,8 @@ class CoursesController < InheritedResources::Base
 
   def charge
     params[:campers].each do |camper|
-      course.campers << Camper.find(camper.last[:id])
+      course.campers << User.find(camper.last[:id])
     end
-    binding.pry
     Stripe.api_key = organization.stripe_secret
     Stripe::Charge.create(
       amount: params[:amount],

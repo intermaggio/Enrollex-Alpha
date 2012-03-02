@@ -12,8 +12,8 @@
   - if organization.admins.include?(current_user)
     %td.admin
       = link_to "/admin/courses/#{course.id}" do
-        %i.icon-cog
+        %i.icon-cog>
       = link_to "/courses/#{course.id}/#{course.lowname}/download" do
-        %i.icon-file
+        %i.icon-file>
       = link_to '#destroy-modal', :'data-toggle' => 'modal', class: 'destroy', course: course.name, cid: course.id, lowname: course.lowname do
-        %i.icon-trash
+        %i.icon-trash>

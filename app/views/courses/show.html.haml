@@ -43,8 +43,7 @@
 - if course.start_range
   %p #{course.range_type} range: #{course.start_range} - #{course.end_range}
 - if course.full_address.present? && course.show_map
-  = link_to "http://maps.google.com/maps?daddr=#{course.full_address}", target: '_blank' do
-    = image_tag gmaps(course.full_address)
+  = gmaps(course.full_address).html_safe
 - course.instructors.each do |instructor|
   - if instructor.image.url
     = image_tag instructor.image

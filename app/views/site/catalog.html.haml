@@ -15,6 +15,7 @@
   #add_button= link_to 'Add new', '/admin/courses', class: 'btn btn-primary'
   = form_tag "/site/search", class: 'form-search', remote: true do
     = text_field_tag :q, '', placeholder: 'search', class: 'search-query'
+    = hidden_field_tag :mirai
   #previous_container
     Show Past Courses
     = check_box_tag :previous
@@ -68,6 +69,13 @@
     = render courses.mirai
 
 :javascript
+  $('.form-search').submit(function(){
+    if ( $('#previous:checked').length > 0 ) {
+      $('#mirai').val('false')
+    } else {
+      $('#mirai').val('true')
+    }
+  })
   $('.destroy').click(function(){
     $('#destroy-modal span').text(' ' + $(this).attr('course'))
     $('#destroy-modal .btn-danger').attr('href', '/courses/' + $(this).attr('cid') + '/' + $(this).attr('lowname') + '/destroy')

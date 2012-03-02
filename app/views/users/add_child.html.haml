@@ -12,6 +12,7 @@
       = form_for :camper, url: '/users/create_camper', html: { id: 'signup_form', class: 'form-horizontal' } do |f|
         %fieldset
           %legend Signup
+          = f.hidden_field :utype, value: 'camper'
           .row{style: 'padding-top: 30px'}
             .span6
               .control-group

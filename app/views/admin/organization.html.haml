@@ -35,6 +35,10 @@
         .controls
           .input= f.text_area :welcome_message, placeholder: 'welcome message', value: organization.welcome_message, style: 'height:100px'
       .control-group
+        %label Registration Message:
+        .controls
+          .input= f.text_area :registration_message, placeholder: 'registration message', value: organization.registration_message, style: 'height:100px'
+      .control-group
         %label Footer text:
         .controls
           .input= f.text_area :footer, placeholder: 'footer text', value: organization.footer, style: 'height:100px'

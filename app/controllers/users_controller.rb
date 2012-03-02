@@ -113,10 +113,9 @@ class UsersController < InheritedResources::Base
       remember_me!
       cookies[:cm_user_id] = user.id
       cookies[:cm_hash] = user.salt.to_i(36)
-      redirect_to '/'
+      redirect_to request.referrer
     else
-      @fail = true
-      render 'site/organization'
+      redirect_to request.referrer, flash: { auth_fail: true }
     end
   end
 
@@ -124,7 +123,7 @@ class UsersController < InheritedResources::Base
     logout
     cookies[:cm_user_id] = nil
     cookies[:cm_hash] = nil
-    redirect_to '/'
+    redirect_to request.referrer
   end
 
   def signup

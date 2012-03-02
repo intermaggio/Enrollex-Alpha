@@ -12,14 +12,15 @@
 
 #catalog_header
   %h1 Courses
-  - if current_user && organization.admins.include?(current_user)
-    #add_button= link_to 'Add new', '/admin/courses', class: 'btn btn-primary'
-  = form_tag "/site/search", class: 'form-search', remote: true do
-    = text_field_tag :q, '', placeholder: 'search', class: 'search-query'
-    = hidden_field_tag :mirai
-  #previous_container
-    Show Past Courses
-    = check_box_tag :previous
+  #catalog_header_content
+    - if current_user && organization.admins.include?(current_user)
+      = link_to 'Add new', '/admin/courses', class: 'btn btn-primary'
+    = form_tag "/site/search", class: 'form-search', remote: true do
+      = text_field_tag :q, '', placeholder: 'search', class: 'search-query'
+      = hidden_field_tag :mirai
+    #previous_container
+      Show Past Courses
+      = check_box_tag :previous
 %table#courses.table.table-striped.table-bordered
   %thead
     %th.id ID

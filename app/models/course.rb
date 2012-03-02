@@ -17,6 +17,9 @@ class Course < ActiveRecord::Base
   scope :mirai, lambda {
     { conditions: ['start_date >= ?', Time.now.to_date] }
   }
+  scope :search, lambda { |query|
+    { conditions: ['name||description||city||state||location_name ilike ?', '%' + query + '%'] }
+  }
 
   has_many :days
   has_and_belongs_to_many :campers

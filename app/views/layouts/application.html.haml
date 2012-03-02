@@ -10,6 +10,7 @@
     :css
       body { background-color: #{organization.color} }
   %body
+    = @fail
     - if organization && organization.banner && organization.banner.url.present?
       #banner{style: "cursor:pointer;background:url(#{organization.banner})no-repeat center;height:#{organization.banner_height}px"}
     #signup-modal.modal.hide.fade
@@ -70,3 +71,8 @@
     = yield :scripts
     :javascript
       $('#banner').click(function(){window.location='/'})
+    - if @fail
+      :javascript
+        $('#signin-modal').modal()
+        $('#signin-modal').modal('show')
+        $('#signin-modal .modal-body').prepend('<div style="display:inline-block" class="alert alert-error"><a class="close" data-dismiss="alert">×</a>Signin failed.</div>')

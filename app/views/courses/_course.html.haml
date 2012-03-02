@@ -15,5 +15,5 @@
         %i.icon-cog
       = link_to "/courses/#{course.id}/#{course.lowname}/download" do
         %i.icon-file
-      = link_to "/courses/#{course.id}/#{course.lowname}/destroy?id=#{course.id}", remote: true do
+      = link_to '#destroy-modal', :'data-toggle' => 'modal', class: 'destroy', course: course.name, cid: course.id, lowname: course.lowname do
         %i.icon-trash

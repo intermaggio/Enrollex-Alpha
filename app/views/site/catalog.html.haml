@@ -1,9 +1,25 @@
+#destroy-modal.modal.hide.fade
+  .modal-header
+    %a.close{:'data-dismiss' => 'modal'} ×
+    %h3 Sign in
+  .modal-body
+    Really destroy
+    %span>
+    ?
+  .modal-footer
+    = link_to 'Close', 'javascript:void(0)', :'data-dismiss' => 'modal', class: 'btn'
+    = link_to 'Destroy', 'javascript:void(0)', :'data-dismiss' => 'modal', class: 'btn btn-danger', id: 'destroy', remote: true
+
 #catalog_header
   %h1 Courses
   - if current_user && organization.admins.include?(current_user)
     #add_button= link_to 'Add new', '/admin/courses', class: 'btn btn-primary'
   = form_tag "/site/search", class: 'form-search', remote: true do
     = text_field_tag :q, '', placeholder: 'search', class: 'search-query'
+    = hidden_field_tag :mirai
+  #previous_container
+    Show Past Courses
+    = check_box_tag :previous
 %table#courses.table.table-striped.table-bordered
   %thead
     %th.id ID
@@ -48,12 +64,30 @@
         Admin
   %tbody
     - if current_user && current_user.admin_organizations.include?(organization)
-      - courses = organization.courses.mirai.reorder(:created_at)
+      - courses = organization.courses.reorder(:created_at)
     - else
-      - courses = organization.courses.mirai.published.reorder(:created_at)
-    = render courses
+      - courses = organization.courses.published.reorder(:created_at)
+    = render courses.mirai
 
 :javascript
+  $('.form-search').submit(function(){
+    if ( $('#previous:checked').length > 0 ) {
+      $('#mirai').val('false')
+    } else {
+      $('#mirai').val('true')
+    }
+  })
+  $('.destroy').click(function(){
+    $('#destroy-modal span').text(' ' + $(this).attr('course'))
+    $('#destroy-modal .btn-danger').attr('href', '/courses/' + $(this).attr('cid') + '/' + $(this).attr('lowname') + '/destroy')
+  })
+  $('#previous').change(function(){
+    if ($('#previous:checked').length > 0) {
+      $('table tbody').html('#{escape_javascript(render courses).html_safe}')
+    } else {
+      $('table tbody').html('#{escape_javascript(render courses.mirai).html_safe}')
+    }
+  })
   $('tbody tr > :not(.admin)').click(function(){
     window.location = '/courses/' + $(this).parent().attr('cid') + '/' + $(this).parent().attr('lowname')
   })

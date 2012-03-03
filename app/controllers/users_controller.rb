@@ -98,7 +98,11 @@ class UsersController < InheritedResources::Base
         redirect_to '/'
       end
     else
-      render 'signup_adult'
+      if params[:type] == 'children'
+        render 'signup?type=children'
+      else
+        render 'signup?type=adult'
+      end
     end
   end
 

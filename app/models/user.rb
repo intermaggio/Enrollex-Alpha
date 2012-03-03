@@ -33,7 +33,6 @@ class User < ActiveRecord::Base
   has_many :campers, class_name: 'User', foreign_key: 'parent_id'
   belongs_to :parent, class_name: 'User', foreign_key: 'parent_id'
   has_and_belongs_to_many :admin_organizations, class_name: 'Organization', join_table: 'organizations_admins'
-  has_and_belongs_to_many :organizations
   has_and_belongs_to_many :instructing, class_name: 'Course', join_table: 'instructors_courses'
   has_and_belongs_to_many :instructing_for, class_name: 'Organization', join_table: 'instructors_organizations'
   has_and_belongs_to_many :courses, join_table: 'campers_courses'

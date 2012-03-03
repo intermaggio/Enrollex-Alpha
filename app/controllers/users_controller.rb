@@ -93,7 +93,7 @@ class UsersController < InheritedResources::Base
       auto_login @user
       remember_me!
       if params[:type] == 'children'
-        redirect_to '/signup/add_child', flash: { info: { street: @user.street, city: @user.city, state: @user.state, zip: @user.zip } }
+        redirect_to '/users/add_child', flash: { info: { street: @user.street, city: @user.city, state: @user.state, zip: @user.zip } }
       else
         redirect_to '/'
       end

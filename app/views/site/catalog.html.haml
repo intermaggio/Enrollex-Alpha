@@ -60,9 +60,7 @@
           %i.icon-chevron-up.top
         = link_to 'javascript:void(0)' do
           %i.icon-chevron-down.bottom
-    - if organization.admins.include?(current_user)
-      %th.admin
-        Admin
+    %th.actions Actions
   %tbody
     - if current_user && current_user.admin_organizations.include?(organization)
       - courses = organization.courses.reorder(:created_at)
@@ -71,6 +69,7 @@
     = render courses.mirai
 
 :javascript
+  $('.actions a').tipTip({ delay: 200 })
   $('.form-search').submit(function(){
     if ( $('#previous:checked').length > 0 ) {
       $('#mirai').val('false')
@@ -89,7 +88,7 @@
       $('table tbody').html('#{escape_javascript(render courses.mirai).html_safe}')
     }
   })
-  $('tbody tr > :not(.admin)').click(function(){
+  $('tbody tr > :not(.actions)').click(function(){
     window.location = '/courses/' + $(this).parent().attr('cid') + '/' + $(this).parent().attr('lowname')
   })
   $.tablesorter.addParser({

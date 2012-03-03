@@ -8,18 +8,20 @@
   %td= course.location_name
   - days = course.days.reorder(:date)
   - if days.first && days.first.date
-    %td{date: "#{days.first.date.to_time.to_i}"}= course.date_string
+    %td{date: "#{course.days.reorder(:date).first.date.to_time.to_i}"}= course.date_string
     %td= course.default_start.to_time.strftime('%l:%M %p')
     %td= course.default_end.to_time.strftime('%l:%M %p')
   - else
     %td
     %td
     %td
-  - if organization.admins.include?(current_user)
-    %td.admin
-      = link_to "/admin/courses/#{course.id}" do
+  %td.actions
+    = link_to "/courses/#{course.id}/#{course.lowname}", title: 'More Info' do
+      %i.icon-info-sign>
+    - if organization.admins.include?(current_user)
+      = link_to "/admin/courses/#{course.id}", title: 'Settings' do
         %i.icon-cog>
-      = link_to "/courses/#{course.id}/#{course.lowname}/download" do
-        %i.icon-file>
-      = link_to '#destroy-modal', :'data-toggle' => 'modal', class: 'destroy', course: course.name, cid: course.id, lowname: course.lowname do
+      = link_to "/courses/#{course.id}/#{course.lowname}/download", title: 'Download Roster' do
+        %i.icon-download-alt>
+      = link_to '#destroy-modal', title: 'Destroy', :'data-toggle' => 'modal', class: 'destroy', course: course.name, cid: course.id, lowname: course.lowname do
         %i.icon-trash>

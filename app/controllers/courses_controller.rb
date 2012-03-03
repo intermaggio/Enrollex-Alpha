@@ -64,7 +64,6 @@ class CoursesController < InheritedResources::Base
     if params[:course][:deadline].present?
       deadline = params[:course][:deadline].split(/\W/)
       course.deadline = deadline[1] + '/' + deadline[0] + '/' + deadline[2]
-      binding.pry
     end
     if params[:price].index('.')
       course.price = params[:price].gsub('.', '')

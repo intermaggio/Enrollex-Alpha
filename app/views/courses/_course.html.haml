@@ -11,6 +11,10 @@
     %td{date: "#{days.first.date.to_time.to_i}"}= course.date_string
     %td= course.default_start.to_time.strftime('%l:%M %p')
     %td= course.default_end.to_time.strftime('%l:%M %p')
+  - else
+    %td
+    %td
+    %td
   - if organization.admins.include?(current_user)
     %td.admin
       = link_to "/admin/courses/#{course.id}" do

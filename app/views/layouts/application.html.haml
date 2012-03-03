@@ -16,9 +16,11 @@
       .modal-header
         %h3 Forgot Password
       .modal-body
-        = text_field_tag :email, '', placeholder: 'enter your email'
+        = form_tag '/users/reset_password', id: 'forgot_form', remote: true do
+          = text_field_tag :email, '', placeholder: 'enter your email'
+          = submit_tag :submit, style: 'display:none'
       .modal-footer
-        = link_to 'Send', '/users/reset_password', remote: true, class: 'btn btn-success'
+        = content_tag :button, 'Send', class: 'btn btn-success', onclick: "javascript:$('#forgot_form').submit()"
     #signup-modal.modal.hide.fade
       .modal-header
         I am an adult signing up for..

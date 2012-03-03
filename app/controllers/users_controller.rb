@@ -19,6 +19,7 @@ class UsersController < InheritedResources::Base
         domain: 'enrollex.org'
       }
     )
+    respond_to :js
   end
 
   def remove_camper
@@ -44,7 +45,8 @@ class UsersController < InheritedResources::Base
     unless false
       auto_login user
       remember_me!
-      user.update_attribute(:password, params[:password])
+      user.change_password! params[:pass]
+      user.save
       cookies[:cm_user_id] = user.id
       cookies[:cm_hash] = user.salt.to_i(36)
     end
@@ -154,11 +156,7 @@ class UsersController < InheritedResources::Base
       when 'children'
         render 'signup_children'
       when 'email'
-        if User.find(params[:id]).salt
-          redirect_to '/'
-        else
-          render 'signup_email'
-        end
+        render 'signup_email'
     end
   end
 

@@ -9,7 +9,7 @@
             .span6
               .control-group
                 %label Password:
-                .controls= password_field_tag :password, '', placeholder: 'password', autocomplete: 'off'
+                .controls= password_field_tag :pass, '', placeholder: 'password', autocomplete: 'off'
               .control-group
                 %label Password confirmation:
                 .controls= password_field_tag :password_confirmation, '', placeholder: 'password confirmation', autocomplete: 'off'
@@ -23,8 +23,8 @@
     }, 'Please enter a password containing both letters and numbers.')
     $('#signup_form').validate({
       rules: {
-        'user[password]': { required: true, minlength: 8, password: true },
-        'password_confirmation': { equalTo: '#password' }
+        'pass': { required: true, minlength: 8, password: true },
+        'password_confirmation': { equalTo: '#pass' }
       }
     })
   })

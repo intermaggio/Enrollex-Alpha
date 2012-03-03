@@ -99,9 +99,9 @@ class UsersController < InheritedResources::Base
       end
     else
       if params[:type] == 'children'
-        render 'signup?type=children'
+        render 'signup_children'
       else
-        render 'signup?type=adult'
+        render 'signup_adult'
       end
     end
   end

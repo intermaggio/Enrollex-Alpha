@@ -1,6 +1,12 @@
 class User < ActiveRecord::Base
   authenticates_with_sorcery!
 
+  before_validation(on: :create) do
+    if self.utype == 'camper'
+      self.email = "camper#{self.id}@enrollex.org"
+    end
+  end
+
   after_create do
     unless self.salt
       Pony.mail(

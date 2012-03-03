@@ -12,6 +12,13 @@
   %body
     - if organization && organization.banner && organization.banner.url.present?
       #banner{style: "cursor:pointer;background:url(#{organization.banner})no-repeat center;height:#{organization.banner_height}px"}
+    #forgot-modal.modal.hide.fade
+      .modal-header
+        %h3 Forgot Password
+      .modal-body
+        = text_field_tag :email, '', placeholder: 'enter your email'
+      .modal-footer
+        = link_to 'Send', '/users/reset_password', remote: true, class: 'btn btn-success'
     #signup-modal.modal.hide.fade
       .modal-header
         I am an adult signing up for..
@@ -29,6 +36,7 @@
           %input{type: 'submit', style: 'visibility:hidden'}
       .modal-footer
         = submit_tag :login, class: 'btn btn-success', onclick: "javascript:$('#signin-modal form').submit()"
+        = content_tag :button, 'Forgot your password?', class: 'btn', id: 'forgot'
     - unless request.path =~ /\/course\/\w*\/register/
       .container
         .navbar#nav
@@ -70,6 +78,13 @@
     = yield :scripts
     :javascript
       $('#banner').click(function(){window.location='/'})
+      $('#forgot').click(function(){
+        $('#signin-modal').modal('hide')
+        setTimeout(function(){
+          $('#forgot-modal').modal()
+          $('#forgot-modal').modal('show')
+        }, 600)
+      })
     - if flash[:auth_fail]
       :javascript
         $('#signin-modal').modal()

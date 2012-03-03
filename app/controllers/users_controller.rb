@@ -1,5 +1,26 @@
 class UsersController < InheritedResources::Base
 
+  def reset_password
+    user = User.where(email: params[:email]).first
+    Pony.mail(
+      to: user.email,
+      from: 'robot@enrollex.org',
+      subject: 'Enrollex Receipt',
+      body: "Visit the following link to reset your enrollex password:<br/><br/>http://enrollex.org/signup?type=email&id=#{user.id}",
+      headers: { 'Content-Type' => 'text/html' },
+      via: :smtp,
+      via_options: {
+        address: 'smtp.gmail.com',
+        port: '587',
+        enable_starttls_auto: true,
+        user_name: 'robot@enrollex.org',
+        password: 'b0wserFire',
+        authentication: :plain,
+        domain: 'enrollex.org'
+      }
+    )
+  end
+
   def remove_camper
     User.find(params[:id]).destroy
     render json: { success: true }
@@ -20,7 +41,7 @@ class UsersController < InheritedResources::Base
 
   def create_password
     user = User.find params[:id]
-    unless user.salt
+    unless false
       auto_login user
       remember_me!
       user.update_attribute(:password, params[:password])

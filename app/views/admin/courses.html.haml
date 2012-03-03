@@ -118,8 +118,9 @@
 :javascript
   $.validator.addMethod('date', function(value) {
     if (value.replace(/\D/g, '').search(/\d{8}/) == 0) { return true }
+    else if (value == '') { return true }
     else { return false }
-  }, 'Please enter a properly formatted birthdate. (MM/DD/YYYY)')
+  }, 'Please enter a properly formatted date. (MM/DD/YYYY)')
   $('#course_form').validate({
     rules: {
       'course[name]': { required: true },

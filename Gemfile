@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails'
 gem 'pg'
+gem 'puma'
 
 
 # Gems used only for assets and not required
@@ -25,6 +26,5 @@ gem 'decent_exposure'
 gem 'pry'
 gem 'stripe'
 gem 'pony'
-gem 'unicorn'
 gem 'pdfkit'
 gem 'BBRedCloth', require: 'RedCloth'

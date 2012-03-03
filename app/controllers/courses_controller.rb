@@ -77,7 +77,7 @@ class CoursesController < InheritedResources::Base
       end
     end
     course.save!
-    respond_to :js
+    redirect_to "/admin/courses/#{course.id}", notice: :success
   end
 
   def create

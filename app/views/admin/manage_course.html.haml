@@ -7,7 +7,11 @@
     %li= link_to 'schedule', '#schedule', id: 'schedule-link', :'data-toggle' => 'tab'
   .tab-content
     #info.tab-pane.active
-      = form_for :course, url: '/courses/update', html: { remote: true, class: 'form-horizontal', id: 'course_form' } do |f|
+      - if flash[:notice] == :success
+        .alert.alert-success{style: 'width:240px'}
+          %a.close{:'data-dismiss' => 'alert'} ×
+          Course info successfully updated!
+      = form_for :course, url: '/courses/update', html: { class: 'form-horizontal', id: 'course_form' } do |f|
         = hidden_field_tag :id, course.id
         %fieldset
           .row{style: 'padding-top: 15px'}

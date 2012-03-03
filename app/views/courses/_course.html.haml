@@ -6,7 +6,8 @@
   - else
     %td any
   %td= course.location_name
-  %td{date: "#{course.days.reorder(:date).first.date.to_time.to_i}"}= course.date_string
+  - if course.days.first
+    %td{date: "#{course.days.reorder(:date).first.date.to_time.to_i}"}= course.date_string
   %td= course.default_start.to_time.strftime('%l:%M %p')
   %td= course.default_end.to_time.strftime('%l:%M %p')
   - if organization.admins.include?(current_user)

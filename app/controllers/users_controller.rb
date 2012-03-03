@@ -98,7 +98,7 @@ class UsersController < InheritedResources::Base
         redirect_to '/'
       end
     else
-      render 'signup'
+      render 'signup_adult'
     end
   end
 

@@ -5,7 +5,7 @@ class UsersController < InheritedResources::Base
     Pony.mail(
       to: user.email,
       from: 'robot@enrollex.org',
-      subject: 'Enrollex Receipt',
+      subject: 'Reset Password',
       body: "Visit the following link to reset your enrollex password:<br/><br/>http://enrollex.org/users/reset_password?id=#{user.id}&hash=#{user.hash.abs}",
       headers: { 'Content-Type' => 'text/html' },
       via: :smtp,

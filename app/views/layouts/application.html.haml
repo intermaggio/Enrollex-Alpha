@@ -16,7 +16,7 @@
       .modal-header
         %h3 Forgot Password
       .modal-body
-        = form_tag '/users/reset_password', id: 'forgot_form', remote: true do
+        = form_tag '/users/reset_pass', id: 'forgot_form', remote: true do
           = text_field_tag :email, '', placeholder: 'enter your email'
           = submit_tag :submit, style: 'display:none'
       .modal-footer

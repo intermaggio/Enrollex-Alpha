@@ -1,12 +1,12 @@
 class UsersController < InheritedResources::Base
 
-  def reset_password
+  def reset_pass
     user = User.where(email: params[:email]).first
     Pony.mail(
       to: user.email,
       from: 'robot@enrollex.org',
       subject: 'Enrollex Receipt',
-      body: "Visit the following link to reset your enrollex password:<br/><br/>http://enrollex.org/signup?type=email&id=#{user.id}",
+      body: "Visit the following link to reset your enrollex password:<br/><br/>http://enrollex.org/users/reset_password?id=#{user.id}&hash=#{user.hash.abs}",
       headers: { 'Content-Type' => 'text/html' },
       via: :smtp,
       via_options: {
@@ -156,8 +156,18 @@ class UsersController < InheritedResources::Base
       when 'children'
         render 'signup_children'
       when 'email'
-        render 'signup_email'
+        user = User.find(params[:id])
+        if user.hash.abs == params[:hash].to_i
+          render 'signup_email'
+        else
+          redirect_to '/'
+        end
     end
+  end
+
+  def reset_password
+    user = User.find(params[:id])
+    redirect_to '/' if user.hash.abs != params[:hash].to_i
   end
 
 end

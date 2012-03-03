@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
       to: self.email,
       from: 'robot@enrollex.org',
       subject: 'Enrollex invitation',
-      body: "Hey there! #{self.instructing_for.last.name} has just listed you as an instructor. To complete your registration, just visit the following link: http://#{self.instructing_for.last.subname}.enrollex.org/signup?type=email&id=#{self.id}. Thanks!",
+      body: "Hey there! #{self.instructing_for.last.name} has just listed you as an instructor. To complete your registration, just visit the following link: http://#{self.instructing_for.last.subname}.enrollex.org/signup?type=email&id=#{self.id}&hash=#{self.hash.abs}. Thanks!",
       via: :smtp,
       via_options: {
         address: 'smtp.gmail.com',

@@ -123,7 +123,6 @@ class UsersController < InheritedResources::Base
       @camper.birthday = Date.parse birthday[1] + '-' + birthday[0] + '-' + birthday[2]
     end
     if @camper.save
-      @camper.instructing_for << organization
       if params[:submission_type] == 'complete'
         redirect_to '/'
       elsif params[:submission_type] == 'update'

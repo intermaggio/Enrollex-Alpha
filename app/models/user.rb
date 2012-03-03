@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   end
 
   after_create do
-    unless self.salt
+    unless self.salt || self.utype == 'camper'
       Pony.mail(
       to: self.email,
       from: 'robot@enrollex.org',

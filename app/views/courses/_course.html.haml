@@ -6,7 +6,8 @@
   - else
     %td any
   %td= course.location_name
-  - if course.days.first
+  - days = course.days.reorder(:date)
+  - if days.first && days.first.date
     %td{date: "#{course.days.reorder(:date).first.date.to_time.to_i}"}= course.date_string
   %td= course.default_start.to_time.strftime('%l:%M %p')
   %td= course.default_end.to_time.strftime('%l:%M %p')

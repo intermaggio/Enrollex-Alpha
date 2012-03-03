@@ -7,8 +7,8 @@
     %td any
   %td= course.location_name
   - days = course.days.reorder(:date)
-  - if days.first && days.first.date
-    %td{date: "#{course.days.reorder(:date).first.date.to_time.to_i}"}= course.date_string
+  - if days.first && days.first.date && course.default_start && course.default_end
+    %td{date: "#{days.first.date.to_time.to_i}"}= course.date_string
     %td= course.default_start.to_time.strftime('%l:%M %p')
     %td= course.default_end.to_time.strftime('%l:%M %p')
   - else
@@ -19,7 +19,7 @@
     = link_to "/courses/#{course.id}/#{course.lowname}", title: 'More Info' do
       %i.icon-info-sign>
     - if organization.admins.include?(current_user)
-      = link_to "/admin/courses/#{course.id}", title: 'Settings' do
+      = link_to "/admin/courses/#{course.id}", title: 'Edit' do
         %i.icon-cog>
       = link_to "/courses/#{course.id}/#{course.lowname}/download", title: 'Download Roster' do
         %i.icon-download-alt>

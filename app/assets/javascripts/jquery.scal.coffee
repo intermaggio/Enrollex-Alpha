@@ -192,7 +192,8 @@
       setTimeout (=>
         $('#all-dates').click =>
           for obj in @pretimes
-            toggle(obj, $('#day' + obj.day.split('-')[0]), 'on')
+            if parseInt($('#calendar thead th').attr('month')) == obj.day.split('-')[1] - 1
+              toggle(obj, $('#day' + obj.day.split('-')[0]), 'on')
             push_time obj, 'day'
           @pretimes = []
         ), 500
@@ -200,10 +201,10 @@
       setTimeout (=>
         $('#new-dates').click =>
           for obj in @daytimes
-            if obj.preselected
+            if obj.preselected && parseInt($('#calendar thead th').attr('month')) == obj.day.split('-')[1] - 1
               toggle(obj, $('#day' + obj.day.split('-')[0]), 'off')
-              @daytimes = _.reject(@daytimes, (day) -> day == obj)
-              @pretimes.push obj
+            @daytimes = _.reject(@daytimes, (day) -> day == obj)
+            @pretimes.push obj
         ), 500
 
       gen_cal = (month, year) =>
@@ -307,10 +308,10 @@
         $('#calendar').fadeOut() if @opts.popup
         if persistent_time
           start_hour = parseInt( $('#time_container #start_hour').val() )
-          start_hour += 12 if $('#time_container select#start').val() == 'PM'
+          start_hour += 12 if $('#time_container select#start').val() == 'PM' && start_hour != 12
           start_time = start_hour + ':' + $('#time_container #start_min').val()
           end_hour = parseInt( $('#time_container #end_hour').val() )
-          end_hour += 12 if $('#time_container select#end').val() == 'PM'
+          end_hour += 12 if $('#time_container select#end').val() == 'PM' && end_hour != 12
           end_time = end_hour + ':' + $('#time_container #end_min').val()
           for daytime in @daytimes
             daytime.start_time = start_time

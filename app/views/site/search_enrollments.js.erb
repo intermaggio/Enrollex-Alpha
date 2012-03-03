@@ -1,0 +1,3 @@
+<% @html.each do |course| %>
+  $('#utable<%= course.first %>').html('<%= (escape_javascript course.last).html_safe %>')
+<% end %>

@@ -18,66 +18,41 @@
     = form_tag "/site/search", class: 'form-search', remote: true do
       = text_field_tag :q, '', placeholder: 'search', class: 'search-query'
       = hidden_field_tag :mirai
+      = hidden_field_tag :uid
     #previous_container
       Show Past Courses
       = check_box_tag :previous
-%table#courses.table.table-striped.table-bordered
-  %thead
-    %th.id ID
-    %th.name
-      Name
-      .icons
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-up.top
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-down.bottom
-    %th.range Range
-    %th.location
-      Location
-      .icons
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-up.top
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-down.bottom
-    %th.dates
-      Dates
-      .icons
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-up.top
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-down.bottom
-    %th.start-time
-      Starts
-      .icons
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-up.top
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-down.bottom
-    %th.end-time
-      Ends
-      .icons
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-up.top
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-down.bottom
-    %th.actions Actions
-  %tbody
-    - if current_user && current_user.admin_organizations.include?(organization)
-      - courses = organization.courses.reorder(:created_at)
-    - else
-      - courses = organization.courses.published.reorder(:created_at)
-    = render courses.mirai
+.tabbable
+  %ul.nav.nav-tabs
+    %li.active= link_to 'all', '#all', :'data-toggle' => 'tab'
+    %li= link_to 'my enrollments', '#enrollments', :'data-toggle' => 'tab'
+
+  .tab-content#courses
+    #all.tab-pane.active= render partial: 'site/course_table'
+    #enrollments.tab-pane
+      - if current_user.courses.first
+        %h3= current_user.name
+        = render partial: 'site/course_table', locals: { user: current_user }
+      - current_user.campers.each do |camper|
+        - if camper.courses.first
+          %h3= camper.name
+          = render partial: 'site/course_table', locals: { user: camper }
 
 :javascript
   $('.actions a').tipTip({ delay: 200 })
   $('.form-search').submit(function(){
+    if ( $('#enrollments').hasClass('active') ) {
+      $('#uid').val('#{current_user.id}')
+    } else {
+      $('#uid').val('')
+    }
     if ( $('#previous:checked').length > 0 ) {
       $('#mirai').val('false')
     } else {
       $('#mirai').val('true')
     }
   })
-  $('.destroy').click(function(){
+  $('.destroy').live('click', function(){
     $('#destroy-modal span').text(' ' + $(this).attr('course'))
     $('#destroy-modal .btn-danger').attr('href', '/courses/' + $(this).attr('cid') + '/' + $(this).attr('lowname') + '/destroy')
   })
@@ -99,7 +74,7 @@
       return $(c).attr('date')
     }
   })
-  $('#courses').tablesorter({
+  $('#all table').tablesorter({
     headers: {
       3: { sorter: 'dates' }
     }

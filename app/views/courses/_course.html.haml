@@ -9,8 +9,8 @@
   - days = course.days.reorder(:date)
   - if days.first && days.first.date && course.default_start && course.default_end
     %td{date: "#{days.first.date.to_time.to_i}"}= course.date_string
-    %td= course.default_start.to_time.strftime('%l:%M %p')
-    %td= course.default_end.to_time.strftime('%l:%M %p')
+    %td= course.default_start.strftime('%l:%M %p')
+    %td= course.default_end.strftime('%l:%M %p')
   - else
     %td
     %td

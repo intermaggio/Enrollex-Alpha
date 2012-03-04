@@ -17,7 +17,7 @@
       %tr
         %td= camper.name
         %td= age camper.birthday
-        %td= camper.user.phone
+        %td= camper.parent && camper.parent.phone || camper.phone
         - course.days.each do |day|
           %td
           %td

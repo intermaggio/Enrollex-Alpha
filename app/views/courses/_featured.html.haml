@@ -1,7 +1,7 @@
 .span6
   .course
+    %h3 [##{course.id.to_s}] #{course.name}
     .content
-      %h3= course.name
       = RedCloth.new(course.description, [:filter_html, :bbcode]).to_html.html_safe
       .register= link_to 'More info', "/courses/#{course.id}/#{course.lowname}", class: 'btn btn-primary'
       .price

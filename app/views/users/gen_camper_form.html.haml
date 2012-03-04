@@ -1,6 +1,7 @@
 #new.camper{style: 'display:none'}
   = form_for :camper, url: '/users/create_camper', html: { id: 'signup_form', class: 'form-horizontal', remote: true } do |f|
     = hidden_field_tag :submission_type, 'update'
+    = f.hidden_field :utype, value: 'camper'
     .row{style: 'padding-top: 30px'}
       .span6
         .control-group

@@ -25,24 +25,26 @@
 .tabbable
   %ul.nav.nav-tabs
     %li.active= link_to 'all', '#all', :'data-toggle' => 'tab'
-    %li= link_to 'my enrollments', '#enrollments', :'data-toggle' => 'tab'
+    - if current_user
+      %li= link_to 'my enrollments', '#enrollments', :'data-toggle' => 'tab'
 
   .tab-content#courses
     #all.tab-pane.active= render partial: 'site/course_table'
-    #enrollments.tab-pane
-      - if current_user.courses.first
-        %h3= current_user.name
-        = render partial: 'site/course_table', locals: { user: current_user }
-      - current_user.campers.each do |camper|
-        - if camper.courses.first
-          %h3= camper.name
-          = render partial: 'site/course_table', locals: { user: camper }
+    - if current_user
+      #enrollments.tab-pane
+        - if current_user.courses.first
+          %h3= current_user.name
+          = render partial: 'site/course_table', locals: { user: current_user }
+        - current_user.campers.each do |camper|
+          - if camper.courses.first
+            %h3= camper.name
+            = render partial: 'site/course_table', locals: { user: camper }
 
 :javascript
   $('.actions a').tipTip({ delay: 200 })
   $('.form-search').submit(function(){
     if ( $('#enrollments').hasClass('active') ) {
-      $('#uid').val('#{current_user.id}')
+      $('#uid').val('#{current_user && current_user.id}')
     } else {
       $('#uid').val('')
     }

@@ -41,10 +41,6 @@ class SiteController < ApplicationController
     end
   end
 
-  def catalog
-    redirect_to '/' if !current_user
-  end
-
   def profile
     redirect_to '/' if !current_user
   end

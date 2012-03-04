@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  helper_method :course_admin_path, :gmaps
+  helper_method :course_admin_path, :gmaps, :age
 
   before_filter :auth_from_cookie
 

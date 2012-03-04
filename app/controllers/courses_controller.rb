@@ -153,7 +153,7 @@ class CoursesController < InheritedResources::Base
 
   def charge
     params[:campers].each do |camper|
-      course.campers << User.find(camper.last[:id])
+      course.campers << User.find(camper)
     end
     Stripe.api_key = organization.stripe_secret
     stripe = Stripe::Charge.create(

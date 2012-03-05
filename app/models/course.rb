@@ -29,10 +29,9 @@ class Course < ActiveRecord::Base
     self.lowname = self.name.downcase.gsub(' ', '_').gsub(/\W/, '')
     self.published_at = Time.now.to_date if self.published_at.nil? && self.published
     days = self.days.reorder(:date)
-    self.start_date = days.first.date if days.first
-  end
-
-  before_create do
-    self.deadline = self.start_date if !self.deadline
+    if days.first
+      self.start_date = days.first.date
+      self.deadline = days.first.date if !self.deadline_set
+    end
   end
 end

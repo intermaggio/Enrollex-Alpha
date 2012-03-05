@@ -40,7 +40,7 @@
     %th.actions Actions
   %tbody{id: "#{defined?(user) && 'utable' + user.id.to_s || ''}"}
     - if defined?(user)
-      = render user.courses
+      = render user.courses.mirai
     - else
       - if current_user && current_user.admin_organizations.include?(organization)
         - courses = organization.courses.reorder(:created_at)

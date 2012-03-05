@@ -15,10 +15,10 @@ class Course < ActiveRecord::Base
   scope :featured, where(featured: true)
   scope :published, where(published: true)
   scope :mirai, lambda {
-    { conditions: ['start_date >= ?', Time.now.to_date] }
+    { conditions: ['deadline >= ?', Time.now.to_date] }
   }
   scope :search, lambda { |query|
-    { conditions: ['name||city||state||location_name||courses.id||date_string||start_range||end_range||range_type||default_start||default_end ilike ?', '%' + query + '%'] }
+    { conditions: ['name||location_name||courses.id||date_string||default_start||default_end||range_type ilike ?', '%' + query + '%'] }
   }
 
   has_many :days
@@ -30,5 +30,9 @@ class Course < ActiveRecord::Base
     self.published_at = Time.now.to_date if self.published_at.nil? && self.published
     days = self.days.reorder(:date)
     self.start_date = days.first.date if days.first
+  end
+
+  before_create do
+    self.deadline = self.start_date if !self.deadline
   end
 end

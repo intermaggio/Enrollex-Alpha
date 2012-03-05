@@ -181,6 +181,13 @@ class CoursesController < InheritedResources::Base
     }
   end
 
+  def enroll
+    params[:campers].each do |camper|
+      course.campers << User.find(camper)
+    end
+    render nothing: true
+  end
+
   def charge
     params[:campers].each do |camper|
       course.campers << User.find(camper)

@@ -49,6 +49,8 @@ class UsersController < InheritedResources::Base
       user.save
       cookies[:cm_user_id] = user.id
       cookies[:cm_hash] = user.salt.to_i(36)
+      session[:cm_user_id] = cookies[:cm_user_id]
+      session[:cm_hash] = cookies[:cm_hash]
     end
     redirect_to '/'
   end
@@ -140,6 +142,8 @@ class UsersController < InheritedResources::Base
       remember_me!
       cookies[:cm_user_id] = user.id
       cookies[:cm_hash] = user.salt.to_i(36)
+      session[:cm_user_id] = cookies[:cm_user_id]
+      session[:cm_hash] = cookies[:cm_hash]
       redirect_to request.referrer
     else
       redirect_to request.referrer, flash: { auth_fail: true }
@@ -150,6 +154,8 @@ class UsersController < InheritedResources::Base
     logout
     cookies[:cm_user_id] = nil
     cookies[:cm_hash] = nil
+    session[:cm_hash] = nil
+    session[:cm_user_id] = nil
     redirect_to request.referrer
   end
 

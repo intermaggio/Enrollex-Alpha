@@ -1,6 +1,3 @@
 $('#camper<%= @camper.id %>').slideUp('slow')
-$('#campers').prepend('<div style="width:215px" class="alert alert-success hide"><a class="close" data-dismiss="alert">×</a>Camper successfully created!</div>')
+$('#campers').prepend('<div style="width:215px" class="alert alert-success hide"><a class="close" data-dismiss="alert">×</a>Camper successfully updated!</div>')
 $('.alert').fadeIn('slow')
-setTimeout(function(){
-  $('#camper<%= @camper.id %>').remove()
-}, 1000)

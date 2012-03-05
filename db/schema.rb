@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(:version => 20120305084212) do
     t.string   "city"
     t.string   "state"
     t.string   "zip"
+    t.string   "gender"
   end
 
   create_table "campers_courses", :force => true do |t|
@@ -72,8 +73,8 @@ ActiveRecord::Schema.define(:version => 20120305084212) do
     t.integer  "price"
     t.text     "reg_description"
     t.string   "reg_link"
-    t.integer  "max_campers"
     t.boolean  "show_map",        :default => true
+    t.integer  "max_campers"
     t.date     "deadline"
     t.boolean  "deadline_set",    :default => false
   end

@@ -14,8 +14,9 @@
     padding: '10',
     popup: true,
     persistent_time: false,
+    preset_data: [],
+    default_times: { start_hour: '', start_min: '', end_hour: '', end_min: '' },
     submit: ->
-    preset_data: []
 
   class Plugin
     constructor: (@element, options) ->
@@ -59,18 +60,18 @@
         <div id="time_container">
           <div id="time_picker">
             From
-            <input type="text" class="hour" id="start_hour"/>
+            <input type="text" class="hour" id="start_hour" value="' + @opts.default_times.start_hour + '">
             :
-            <input type="text" class="minute" id="start_min"/>
+            <input type="text" class="minute" id="start_min" value="' + @opts.default_times.start_min + '">
             <select id="start">
               <option value="AM">AM</option>
               <option value="PM">PM</option>
             </select>
             <br/>
             To&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="text" class="hour" id="end_hour"/>
+            <input type="text" class="hour" id="end_hour" value="' + @opts.default_times.end_hour + '">
             :
-            <input type="text" class="minute" id="end_min"/>
+            <input type="text" class="minute" id="end_min" value ="' + @opts.default_times.end_min + '">
             <select id="end">
               <option value="AM">AM</option>
               <option value="PM">PM</option>

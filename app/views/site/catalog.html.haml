@@ -32,11 +32,11 @@
     #all.tab-pane.active= render partial: 'site/course_table'
     - if current_user
       #enrollments.tab-pane
-        - if current_user.courses.first
+        - if current_user.courses.mirai.first
           %h3= current_user.name
           = render partial: 'site/course_table', locals: { user: current_user }
         - current_user.campers.each do |camper|
-          - if camper.courses.first
+          - if camper.courses.mirai.first
             %h3= camper.name
             = render partial: 'site/course_table', locals: { user: camper }
 
@@ -59,13 +59,9 @@
     $('#destroy-modal .btn-danger').attr('href', '/courses/' + $(this).attr('cid') + '/' + $(this).attr('lowname') + '/destroy')
   })
   $('#previous').change(function(){
-    if ($('#previous:checked').length > 0) {
-      $('table tbody').html('#{escape_javascript(render courses).html_safe}')
-    } else {
-      $('table tbody').html('#{escape_javascript(render courses.mirai).html_safe}')
-    }
+    $('.form-search').submit()
   })
-  $('tbody tr > :not(.actions)').click(function(){
+  $('tbody tr > :not(.actions)').live('click', function(){
     window.location = '/courses/' + $(this).parent().attr('cid') + '/' + $(this).parent().attr('lowname')
   })
   $.tablesorter.addParser({

@@ -97,9 +97,9 @@
                 .controls= f.text_field :zip, placeholder: 'zip', value: course.zip
               .control-group{style: 'position: relative'}
                 - if course.range_type == 'age'
-                  = f.select :range_type, options_for_select({:'Age Range' => :age, :'Grade Range' => :grade}), {}, style: 'width: 120px;position: absolute; left: 10px'
+                  = f.select :range_type, options_for_select({:Ages => :age, :Grades => :grade}), {}, style: 'width: 120px;position: absolute; left: 10px'
                 - else
-                  = f.select :range_type, options_for_select({:'Grade Range' => :grade, :'Age Range' => :age}), {}, style: 'width: 120px;position: absolute; left: 10px'
+                  = f.select :range_type, options_for_select({:Grades => :grade, :Ages => :age}), {}, style: 'width: 120px;position: absolute; left: 10px'
                 .controls
                   = f.text_field :start_range, value: course.start_range, style: 'display: inline-block; width: 20px'
                   = ' - '

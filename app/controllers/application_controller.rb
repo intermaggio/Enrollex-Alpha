@@ -5,6 +5,10 @@ class ApplicationController < ActionController::Base
   before_filter :auth_from_cookie
 
   def auth_from_cookie
+    if session[:cm_user_id].present? && !cookies[:cm_user_id]
+      cookies[:cm_user_id] = session[:cm_user_id]
+      cookies[:cm_hash] = session[:cm_hash]
+    end
     if cookies[:cm_user_id].present?
       begin
         user = User.find cookies[:cm_user_id]
@@ -15,7 +19,7 @@ class ApplicationController < ActionController::Base
   end
 
   def gmaps address
-    "<iframe width='350' height='300' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='http://maps.google.com/maps?daddr=#{address}&amp;output=embed'></iframe>"
+    "<iframe width='350' height='300' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='http://maps.google.com/maps?daddr=#{address}&amp;output=embed'></iframe><a href='http://maps.google.com/maps?daddr=#{address}'>Click here for directions</a>"
   end
 
   def age(dob)

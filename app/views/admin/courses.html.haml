@@ -160,7 +160,7 @@
       '/courses/' + id + '/template',
       {},
       function(rsp) {
-        var fields = ['name', 'description', 'price', 'status', 'featured', 'image', 'address', 'city', 'state', 'zip', 'notes', 'start_range', 'end_range', 'suite', 'room', 'location_name', 'deadline', 'max_campers', 'reg_link', 'reg_description']
+        var fields = ['name', 'description', 'price', 'status', 'featured', 'image', 'address', 'city', 'state', 'zip', 'notes', 'start_range', 'end_range', 'suite', 'room', 'location_name', 'max_campers', 'reg_link', 'reg_description']
         for (var i=0; i < fields.length; i++) {
           element = $('#course_' + fields[i])
           element.val(rsp[fields[i]])

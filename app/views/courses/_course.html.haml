@@ -2,7 +2,7 @@
   %td= course.id
   %td= course.name
   - if course.start_range
-    %td= course.range_type + 's ' + course.start_range.to_s + ' - ' + course.end_range.to_s
+    %td= course.range_type.capitalize + 's ' + course.start_range.to_s + ' - ' + course.end_range.to_s
   - else
     %td any
   %td= course.location_name

@@ -1,3 +1,15 @@
+#unenroll-modal.modal.hide.fade
+  .modal-header
+    %a.close{:'data-dismiss' => 'modal'} ×
+    %h3 Unenroll
+  .modal-body{style: 'text-align:center'}
+    = form_tag '', remote: true do
+      = hidden_field_tag :user_id
+      = text_area_tag :message, '', placeholder: 'Why are you unenrolling? (And if requesting a refund, please explain why.)', style: 'width:400px;height:100px'
+  .modal-footer
+    = link_to 'Close', 'javascript:void(0)', :'data-dismiss' => 'modal', class: 'btn'
+    = link_to 'Unenroll', 'javascript:void(0)', :'data-dismiss' => 'modal', class: 'btn btn-danger', id: 'unenroll'
+
 #destroy-modal.modal.hide.fade
   .modal-header
     %a.close{:'data-dismiss' => 'modal'} ×
@@ -41,6 +53,15 @@
             = render partial: 'site/course_table', locals: { user: camper }
 
 :javascript
+  $('#unenroll').click(function(){
+    $('#unenroll-modal form').submit()
+    $('.course' + $(this).attr('cid') + ':last').fadeOut('slow')
+  })
+  $('.unenroll').live('click', function(){
+    $('#unenroll-modal form').attr('action', '/courses/' + $(this).attr('cid') + '/unenroll')
+    $('#unenroll-modal #user_id').val($(this).attr('uid'))
+    $('#unenroll').attr('cid', $(this).attr('cid'))
+  })
   $('.actions a').tipTip({ delay: 200 })
   $('.form-search').submit(function(){
     if ( $('#enrollments').hasClass('active') ) {

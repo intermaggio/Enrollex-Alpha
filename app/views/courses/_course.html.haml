@@ -1,4 +1,4 @@
-%tr{cid: course.id, lowname: course.lowname, id: "course#{course.id}"}
+%tr{cid: course.id, lowname: course.lowname, class: "course#{course.id}"}
   %td= course.id
   %td= course.name
   - if course.start_range
@@ -18,6 +18,9 @@
   %td.actions
     = link_to "/courses/#{course.id}/#{course.lowname}", title: 'More Info' do
       %i.icon-info-sign>
+    - if defined?(user)
+      = link_to '#unenroll-modal', title: 'Unenroll', :'data-toggle' => 'modal', class: 'unenroll', cid: course.id, uid: user.id do
+        %i.icon-remove-sign>
     - if organization.admins.include?(current_user)
       = link_to "/admin/courses/#{course.id}", title: 'Edit' do
         %i.icon-cog>

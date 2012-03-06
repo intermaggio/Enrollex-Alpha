@@ -16,7 +16,7 @@
     popup: false,
     persistent_time: true,
     preset_data: parsed_json,
-    default_times: { start_hour: '#{course.default_start.strftime('%I')}', start_min: '#{course.default_start.strftime('%M')}', end_hour: '#{course.default_end.strftime('%I')}', end_min: '#{course.default_end.strftime('%M')}' },
+    default_times: { start_hour: '#{course.default_start && course.default_start.strftime('%I')}', start_min: '#{course.default_start && course.default_start.strftime('%M')}', end_hour: '#{course.default_end && course.default_end.strftime('%I')}', end_min: '#{course.default_end && course.default_end.strftime('%M')}' },
     submit: function(daytimes, start, end) {
       $.post(
         '/courses/#{course.id}/schedule',

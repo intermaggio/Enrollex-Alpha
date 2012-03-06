@@ -39,6 +39,14 @@
         .controls
           .input= f.text_area :registration_message, placeholder: 'registration message', value: organization.registration_message, style: 'height:100px'
       .control-group
+        %label Welcome Email Title:
+        .controls
+          .input= f.text_field :email_subject, placeholder: 'email subject', value: organization.email_subject
+      .control-group
+        %label Welcome Email Message:
+        .controls
+          .input= f.text_area :email_message, placeholder: 'welcome email message', value: organization.email_message, style: 'height:100px'
+      .control-group
         %label Footer text:
         .controls
           .input= f.text_area :footer, placeholder: 'footer text', value: organization.footer, style: 'height:100px'

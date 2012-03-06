@@ -92,6 +92,23 @@ class UsersController < InheritedResources::Base
       @user.birthday = birthday[1] + '/' + birthday[0] + '/' + birthday[2]
     end
     if @user.save
+      Pony.mail(
+        to: @user.email,
+        from: 'robot@enrollex.org',
+        subject: "#{organization.email_subject}",
+        body: "#{RedCloth.new(organization.email_message, [:filter_html, :bbcode]).to_html}",
+        headers: { 'Content-Type' => 'text/html' },
+        via: :smtp,
+        via_options: {
+          address: 'smtp.gmail.com',
+          port: '587',
+          enable_starttls_auto: true,
+          user_name: 'robot@enrollex.org',
+          password: 'b0wserFire',
+          authentication: :plain,
+          domain: 'enrollex.org'
+        }
+      )
       auto_login @user
       remember_me!
       if params[:type] == 'children'

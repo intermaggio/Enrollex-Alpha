@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120306063843) do
+ActiveRecord::Schema.define(:version => 20120306080315) do
 
   create_table "campers", :force => true do |t|
     t.datetime "created_at",  :null => false
@@ -114,6 +114,8 @@ ActiveRecord::Schema.define(:version => 20120306063843) do
     t.string   "stripe_publishable"
     t.string   "welcome_title"
     t.text     "registration_message"
+    t.string   "email_subject"
+    t.text     "email_message"
   end
 
   create_table "organizations_admins", :force => true do |t|

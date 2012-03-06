@@ -1,12 +1,17 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :course_admin_path, :gmaps, :age
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
   before_filter :auth_from_cookie
 
+  def render_404
+    render 'site/404'
+  end
+
   def render_optional_error_file code
     if code == :not_found
-      render '/404'
+      render 'site/404'
     else
       super
     end

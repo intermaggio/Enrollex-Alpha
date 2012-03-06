@@ -89,7 +89,7 @@ class UsersController < InheritedResources::Base
     @user = User.new params[:user]
     if params[:user][:birthday]
       birthday = params[:user][:birthday].split(/\W/)
-      @user.birthday = Date.parse birthday[1] + '-' + birthday[0] + '-' + birthday[2]
+      @user.birthday = birthday[1] + '/' + birthday[0] + '/' + birthday[2]
     end
     if @user.save
       auto_login @user
@@ -113,7 +113,7 @@ class UsersController < InheritedResources::Base
     @camper.update_attributes params[:camper]
     if params[:camper][:birthday]
       birthday = params[:camper][:birthday].split(/\W/)
-      @camper.birthday = Date.parse birthday[1] + '-' + birthday[0] + '-' + birthday[2]
+      @camper.birthday = birthday[1] + '/' + birthday[0] + '/' + birthday[2]
     end
     redirect_to '/profile', notice: 'success'
   end
@@ -122,7 +122,7 @@ class UsersController < InheritedResources::Base
     @camper = current_user.campers.new params[:camper]
     if params[:camper][:birthday]
       birthday = params[:camper][:birthday].split(/\W/)
-      @camper.birthday = Date.parse birthday[1] + '-' + birthday[0] + '-' + birthday[2]
+      @camper.birthday = birthday[1] + '/' + birthday[0] + '/' + birthday[2]
     end
     if @camper.save
       if params[:submission_type] == 'complete'

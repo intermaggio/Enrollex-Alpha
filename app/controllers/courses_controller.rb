@@ -93,9 +93,9 @@ class CoursesController < InheritedResources::Base
     if params[:course][:deadline].present?
       deadline = params[:course][:deadline].split(/\W/)
       course.deadline = deadline[1] + '/' + deadline[0] + '/' + deadline[2]
-      @course.deadline_set = true
+      course.deadline_set = true
     else
-      @course.deadline_set = false
+      course.deadline_set = false
     end
     if params[:price].index('.')
       course.price = params[:price].gsub('.', '')

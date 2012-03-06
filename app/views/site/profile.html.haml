@@ -2,12 +2,12 @@
   .span12
     .tabbable
       %ul.nav.nav-tabs{:'data-tabs' => 'tabs', style: 'width:900px'}
-        %li{class: "#{flash[:notice] != :success && 'active' || ''}"}= link_to 'Profile', '#profile', :'data-toggle' => 'tab'
+        %li{class: "#{flash[:notice] != 'success' && 'active' || ''}"}= link_to 'Profile', '#profile', :'data-toggle' => 'tab'
         - if current_user.utype == 'campers'
-          %li{class: "#{flash[:notice] == :success && 'active' || ''}"}= link_to 'Campers', '#campers', :'data-toggle' => 'tab'
+          %li{class: "#{flash[:notice] == 'success' && 'active' || ''}"}= link_to 'Campers', '#campers', :'data-toggle' => 'tab'
 
       .tab-content
-        #profile{class: "tab-pane #{flash[:notice] != :success && 'active' || ''}"}
+        #profile{class: "tab-pane #{flash[:notice] != 'success' && 'active' || ''}"}
           = form_for :user, url: '/users/update', html: { class: 'form-horizontal', id: 'user_update' } do |f|
             %fieldset
               %legend{style: 'width:900px'} Profile
@@ -67,7 +67,12 @@
                     %label Confirm Password:
                     .controls= password_field_tag :password_confirmation, '', placeholder: 'new password confirmation'
               .form-actions{style: 'width:719px'}= f.submit 'Submit', class: 'btn btn-success'
-        #campers{class: "tab-pane #{flash[:notice] == :success && 'active' || ''}"}
+        #campers{class: "tab-pane #{flash[:notice] == 'success' && 'active' || ''}"}
+          - if flash[:notice] == 'success'
+            .control-group
+              .alert.alert-success{style: 'width:275px'}
+                %a.close{:'data-dismiss' => 'alert'} ×
+                  Camper info successfully updated!
           %legend{style: 'width:900px'} Campers
           - current_user.campers.each do |camper|
             .camper-container

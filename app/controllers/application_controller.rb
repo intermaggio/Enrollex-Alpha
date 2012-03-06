@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :course_admin_path, :gmaps, :age
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
+  rescue_from AbstractController::ActionNotFound, with: :render_404
 
   before_filter :auth_from_cookie
 

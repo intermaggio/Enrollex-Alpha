@@ -2,24 +2,30 @@ class UsersController < InheritedResources::Base
 
   def reset_pass
     user = User.where(email: params[:email]).first
-    Pony.mail(
-      to: user.email,
-      from: 'robot@enrollex.org',
-      subject: 'Reset Password',
-      body: "Visit the following link to reset your enrollex password:<br/><br/>http://enrollex.org/users/reset_password?id=#{user.id}&hash=#{user.hash.abs}",
-      headers: { 'Content-Type' => 'text/html' },
-      via: :smtp,
-      via_options: {
-        address: 'smtp.gmail.com',
-        port: '587',
-        enable_starttls_auto: true,
-        user_name: 'robot@enrollex.org',
-        password: 'b0wserFire',
-        authentication: :plain,
-        domain: 'enrollex.org'
-      }
-    )
-    respond_to :js
+    if user
+      Pony.mail(
+        to: user.email,
+        from: 'robot@enrollex.org',
+        subject: 'Reset Password',
+        body: "Visit the following link to reset your enrollex password:<br/><br/>http://enrollex.org/users/reset_password?id=#{user.id}&hash=#{user.hash.abs}",
+        headers: { 'Content-Type' => 'text/html' },
+        via: :smtp,
+        via_options: {
+          address: 'smtp.gmail.com',
+          port: '587',
+          enable_starttls_auto: true,
+          user_name: 'robot@enrollex.org',
+          password: 'b0wserFire',
+          authentication: :plain,
+          domain: 'enrollex.org'
+        }
+      )
+      respond_to :js
+    else
+      respond_to do |format|
+        format.js { render 'reset_pass_fail' }
+      end
+    end
   end
 
   def remove_camper

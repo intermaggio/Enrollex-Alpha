@@ -83,7 +83,7 @@
                     = link_to 'edit', 'javascript:void(0)', class: 'camper-link'
                     = link_to 'remove', 'javascript:void(0)', class: 'camper-remove-link', cid: camper.id
               .camper{style: 'display:none', id: "camper#{camper.id}"}
-                = form_for :camper, url: '/users/update_camper', html: { id: 'signup_form', class: 'form-horizontal' } do |f|
+                = form_for :camper, url: '/users/update_camper', html: { class: 'form-horizontal camper_form' } do |f|
                   = hidden_field_tag :id, camper.id
                   = hidden_field_tag :submission_type, 'update'
                   .row{style: 'padding-top: 30px'}
@@ -118,6 +118,17 @@
           = link_to 'Add new camper', 'javascript:void(0)', id: 'add'
 
 :javascript
+  $.validator.addMethod('birthday', function(value) {
+    if (value.replace(/\D/g, '').search(/\d{8}/) == 0) { return true }
+    else { return false }
+  }, 'Please enter a properly formatted birthdate. (MM/DD/YYYY)')
+  $('.camper_form').validate({
+    rules: {
+      'camper[first_name]': { required: true },
+      'camper[last_name]': { required: true },
+      'camper[birthday]': { birthday: true },
+    }
+  })
   $('#user_update').validate({
     rules: {
       'password_confirmation': { equalTo: '#user_password' }

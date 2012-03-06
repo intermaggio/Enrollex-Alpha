@@ -1,5 +1,5 @@
 #new.camper{style: 'display:none'}
-  = form_for :camper, url: '/users/create_camper', html: { id: 'signup_form', class: 'form-horizontal' } do |f|
+  = form_for :camper, url: '/users/create_camper', html: { id: "new_camper_form", class: 'form-horizontal' } do |f|
     = hidden_field_tag :submission_type, 'update'
     = f.hidden_field :utype, value: 'camper'
     .row{style: 'padding-top: 30px'}
@@ -31,3 +31,12 @@
           .controls= f.text_field :zip, placeholder: 'zip code', autocomplete: 'off', value: current_user && current_user.zip || ''
     .form-actions{style: 'width:719px'}
       = f.submit 'Submit', class: 'btn btn-success'
+
+:javascript
+  $('#new_camper_form').validate({
+    rules: {
+      'camper[first_name]': { required: true },
+      'camper[last_name]': { required: true },
+      'camper[birthday]': { birthday: true },
+    }
+  })

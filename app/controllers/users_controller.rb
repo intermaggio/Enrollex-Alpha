@@ -113,7 +113,7 @@ class UsersController < InheritedResources::Base
     @camper.update_attributes params[:camper]
     if params[:camper][:birthday]
       birthday = params[:camper][:birthday].split(/\W/)
-      @camper.birthday = birthday[1] + '/' + birthday[0] + '/' + birthday[2]
+      @camper.update_attribute(:birthday, birthday[1] + '/' + birthday[0] + '/' + birthday[2])
     end
     redirect_to '/profile', notice: 'success'
   end

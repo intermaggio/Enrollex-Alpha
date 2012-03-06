@@ -115,7 +115,7 @@ class UsersController < InheritedResources::Base
       birthday = params[:camper][:birthday].split(/\W/)
       @camper.birthday = Date.parse birthday[1] + '-' + birthday[0] + '-' + birthday[2]
     end
-    respond_to :js
+    redirect_to '/profile', notice: :success
   end
 
   def create_camper
@@ -128,7 +128,7 @@ class UsersController < InheritedResources::Base
       if params[:submission_type] == 'complete'
         redirect_to '/'
       elsif params[:submission_type] == 'update'
-        respond_to :js
+        redirect_to '/profile', notice: :success
       else
         redirect_to '/signup/add_child', flash: { info: { street: current_user.street, city: current_user.city, state: current_user.state, zip: current_user.zip } }
       end

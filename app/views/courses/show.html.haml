@@ -54,6 +54,11 @@
             %strong
               #{course.range_type.capitalize}s:
             #{course.start_range} - #{course.end_range}
+        %p
+          %strong Enrollment Deadline:
+          = course.deadline.strftime('%B')
+          = course.deadline.strftime('%-m').to_i.ordinalize + ','
+          = course.deadline.strftime('%Y')
         %hr/
         %p
           %strong
@@ -71,7 +76,7 @@
         %h3 Dates & Times
         %ul.unstyled
           - course.days.reorder(:date).each do |day|
-            %li #{day.date.strftime('%A, %B ')} #{day.date.strftime('%-d').to_i.ordinalize}#{day.start_time.strftime(', %l:%M %p')} - #{day.end_time.strftime('%l:%M %p')}
+            %li #{day.date.strftime('%A, %B ')} #{day.date.strftime('%-d').to_i.ordinalize}, #{day.date.strftime('%Y')}; #{day.start_time.strftime('%l:%M %p')} - #{day.end_time.strftime('%l:%M %p')}
   .well.location
     .row-fluid
       .span4

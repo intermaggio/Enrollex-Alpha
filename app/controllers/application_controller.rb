@@ -4,6 +4,14 @@ class ApplicationController < ActionController::Base
 
   before_filter :auth_from_cookie
 
+  def render_optional_error_file code
+    if code == :not_found
+      render '/404'
+    else
+      super
+    end
+  end
+
   def auth_from_cookie
     if session[:cm_user_id].present? && !cookies[:cm_user_id]
       cookies[:cm_user_id] = session[:cm_user_id]

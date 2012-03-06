@@ -1,10 +1,8 @@
 class User < ActiveRecord::Base
   authenticates_with_sorcery!
 
-  before_validation(on: :create) do
-    if self.utype == 'camper'
-      self.email = "camper#{self.id}@enrollex.org"
-    end
+  after_create do
+    self.update_attribute(:email, "camper#{self.id}@enrollex.org") if self.utype == 'camper'
   end
 
   after_create do

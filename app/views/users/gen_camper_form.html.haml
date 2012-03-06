@@ -19,15 +19,15 @@
       .span6
         .control-group
           %label Street:
-          .controls= f.text_field :street, placeholder: 'street name and number', autocomplete: 'off', value: current_user && current_user.street
+          .controls= f.text_field :street, placeholder: 'street name and number', autocomplete: 'off', value: current_user && current_user.street || ''
         .control-group
           %label City:
-          .controls= f.text_field :city, placeholder: 'city', autocomplete: 'off', value: current_user && current_user.city
+          .controls= f.text_field :city, placeholder: 'city', autocomplete: 'off', value: current_user && current_user.city || ''
         .control-group
           %label State:
-          .controls= f.text_field :state, placeholder: 'two-letter state abbreviation', autocomplete: 'off', value: current_user && current_user.state
+          .controls= f.text_field :state, placeholder: 'two-letter state abbreviation', autocomplete: 'off', value: current_user && current_user.state || ''
         .control-group
           %label Zip:
-          .controls= f.text_field :zip, placeholder: 'zip code', autocomplete: 'off', value: current_user && current_user.zip
+          .controls= f.text_field :zip, placeholder: 'zip code', autocomplete: 'off', value: current_user && current_user.zip || ''
     .form-actions{style: 'width:719px'}
       = f.submit 'Submit', class: 'btn btn-success'

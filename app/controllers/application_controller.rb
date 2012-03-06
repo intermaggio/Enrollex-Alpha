@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   end
 
   def gmaps address
-    "<iframe width='350' height='300' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='http://maps.google.com/maps?daddr=#{address}&amp;output=embed'></iframe><a href='http://maps.google.com/maps?daddr=#{address}'>Click here for directions</a>"
+    "<iframe width='594' height='300' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='http://maps.google.com/maps?daddr=#{address}&amp;output=embed'></iframe>"
   end
 
   def age(dob)

@@ -25,41 +25,86 @@
       - if course.reg_link.present?
         = link_to 'Go', course.reg_link, class: 'btn btn-success'
 
-%h1 #{course.name} (#{course.id})
-- if course.image.present?
-  = image_tag course.image
-%p= RedCloth.new(course.description, [:filter_html, :bbcode]).to_html.html_safe
-- if course.price.to_i > 0
-  $#{course.price / 100}
-- else
-  free
-%p
-  = course.location_name
-  = course.address
-  = course.city
-  = course.state
-  = course.zip
-%p= course.notes
-- if course.start_range
-  %p #{course.range_type} range: #{course.start_range} - #{course.end_range}
-- if course.full_address.present? && course.show_map
-  = gmaps(course.full_address).html_safe
-- course.instructors.each do |instructor|
-  - if instructor.image.url
-    = image_tag instructor.image
-  %p= instructor.name
-  %p= instructor.bio
-%p #{pluralize course.campers.count, organization.unit_name} currently enrolled.
-- if course.reg_link.present? || course.reg_description.present?
-  = link_to 'Register', '#custom-modal', :'data-toggle' => 'modal', class: 'btn btn-primary'
-- else
-  - if course.max_campers && course.campers.count >= course.max_campers || course.deadline && course.deadline < Time.now.to_date
-    = content_tag :button, 'Full', disabled: 'disabled', class: 'btn btn-primary'
-  - else
-    - if current_user
-      - if current_user.campers.count > 0
-        = link_to 'Register', '#campers-modal', :'data-toggle' => 'modal', class: 'btn btn-primary'
+#course_info
+  %h1 [##{course.id}] #{course.name}
+  .well.description
+    - if course.image.present?
+      = image_tag course.image
+    - if course.description.present?
+      %h3 Description
+      = RedCloth.new(course.description, [:filter_html, :bbcode]).to_html.html_safe
+    - if course.notes.present?
+      %h3 Important Notes
+      = RedCloth.new(course.notes, [:filter_html, :bbcode]).to_html.html_safe
+  .well.general-info
+    .row-fluid
+      .span6.first
+        %h3 General Info
+        %p
+          - if course.price.to_i > 0
+            $#{course.price / 100}
+          - else
+            Free!
+        - if course.start_range
+          %p #{course.range_type.capitalize}s #{course.start_range} - #{course.end_range}
+        %hr/
+        %p Max. Enrollments: #{course.max_campers}
+        %p Currently Enrolled: #{course.campers.count}
+        %p Spots Left: #{course.max_campers - course.campers.count}
+      .span6
+        %h3 Dates & Times
+        %ul.unstyled
+          - course.days.reorder(:date).each do |day|
+            %li #{day.date.strftime('%A, %B ')} #{day.date.strftime('%-d').to_i.ordinalize}#{day.start_time.strftime(', %l:%M %p')} - #{day.end_time.strftime('%l:%M %p')}
+  .well.location
+    .row-fluid
+      .span4
+        %h3 Location
+        .address
+          = course.location_name
+          %br/
+          = course.address
+          %br/
+          = course.city + ','
+          = course.state
+          %br/
+          = course.zip
+          %br/
+          %br/
+          - if course.suite
+            Suite ##{course.suite}
+            %br/
+          - if course.room
+            Room ##{course.room}
+          - if course.full_address.present?
+            %br/
+            %br/
+            = link_to 'Click here for directions', "http://maps.google.com/maps?daddr=#{course.full_address}"
+      .span8
+        - if course.full_address.present? && course.show_map
+          = gmaps(course.full_address).html_safe
+  - course.instructors.each do |instructor|
+    .well.instructor
+      - if instructor.image.url
+        = image_tag instructor.image
+      - if course.instructors.count > 1
+        %h3 Instructors
       - else
-        = link_to 'Register', "/courses/#{course.id}/#{course.lowname}/register", class: 'btn btn-primary'
+        %h3 Instructor
+      %h5= instructor.name
+      %p= instructor.bio
+
+  - if course.reg_link.present? || course.reg_description.present?
+    = link_to 'Register', '#custom-modal', :'data-toggle' => 'modal', class: 'btn btn-primary'
+  - else
+    - if course.max_campers && course.campers.count >= course.max_campers || course.deadline && course.deadline < Time.now.to_date
+      = content_tag :button, 'Full', disabled: 'disabled', class: 'btn btn-primary'
     - else
-      = link_to 'Register', '#signin-modal', :'data-toggle' => 'modal', class: 'btn btn-primary'
+      - if current_user
+        - if current_user.campers.count > 0
+          = link_to '#campers-modal', :'data-toggle' => 'modal', class: 'btn btn-primary' do
+            %div Register
+        - else
+          = link_to 'Register', "/courses/#{course.id}/#{course.lowname}/register", class: 'btn btn-primary'
+      - else
+        = link_to 'Register', '#signin-modal', :'data-toggle' => 'modal', class: 'btn btn-primary'

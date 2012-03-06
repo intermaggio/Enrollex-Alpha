@@ -8,7 +8,7 @@
 
       .tab-content
         #profile.tab-pane.active
-          = form_for :user, url: '/users/update', html: { class: 'form-horizontal' } do |f|
+          = form_for :user, url: '/users/update', html: { class: 'form-horizontal', id: 'user_update' } do |f|
             %fieldset
               %legend{style: 'width:900px'} Profile
               - if flash[:notice] == :success
@@ -113,6 +113,11 @@
           = link_to 'Add new camper', 'javascript:void(0)', id: 'add'
 
 :javascript
+  $('#user_update').validate({
+    rules: {
+      'password_confirmation': { equalTo: '#user_password' }
+    }
+  })
   $('.camper-link').click(function(){
     element = $(this).parent().parent().parent().parent().children('.camper')
     if (element.css('display') == 'none') {

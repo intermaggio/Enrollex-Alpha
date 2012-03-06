@@ -42,15 +42,31 @@
         %h3 General Info
         %p
           - if course.price.to_i > 0
+            %strong
+              Price:
             $#{course.price / 100}
           - else
+            %strong
+              Price:
             Free!
         - if course.start_range
-          %p #{course.range_type.capitalize}s #{course.start_range} - #{course.end_range}
+          %p
+            %strong
+              #{course.range_type.capitalize}s:
+            #{course.start_range} - #{course.end_range}
         %hr/
-        %p Max. Enrollments: #{course.max_campers}
-        %p Currently Enrolled: #{course.campers.count}
-        %p Spots Left: #{course.max_campers - course.campers.count}
+        %p
+          %strong
+            Max. Enrollments:
+          #{course.max_campers}
+        %p
+          %strong
+            Currently Enrolled:
+          #{course.campers.count}
+        %p
+          %strong
+            Spots Left:
+          #{course.max_campers - course.campers.count}
       .span6.last
         %h3 Dates & Times
         %ul.unstyled
@@ -95,16 +111,20 @@
       %p= instructor.bio
 
   - if course.reg_link.present? || course.reg_description.present?
-    = link_to 'Register', '#custom-modal', :'data-toggle' => 'modal', class: 'btn btn-primary'
+    = link_to '#custom-modal', :'data-toggle' => 'modal', class: 'btn btn-primary' do
+      %div Register
   - else
     - if course.max_campers && course.campers.count >= course.max_campers || course.deadline && course.deadline < Time.now.to_date
-      = content_tag :button, 'Full', disabled: 'disabled', class: 'btn btn-primary'
+      = content_tag :button, disabled: 'disabled', class: 'btn btn-primary' do
+        %div Full
     - else
       - if current_user
         - if current_user.campers.count > 0
           = link_to '#campers-modal', :'data-toggle' => 'modal', class: 'btn btn-primary' do
             %div Register
         - else
-          = link_to 'Register', "/courses/#{course.id}/#{course.lowname}/register", class: 'btn btn-primary'
+          = link_to "/courses/#{course.id}/#{course.lowname}/register", class: 'btn btn-primary' do
+            %div Register
       - else
-        = link_to 'Register', '#signin-modal', :'data-toggle' => 'modal', class: 'btn btn-primary'
+        = link_to '#signin-modal', :'data-toggle' => 'modal', class: 'btn btn-primary' do
+          %div Register

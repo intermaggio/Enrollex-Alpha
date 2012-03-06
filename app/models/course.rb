@@ -18,7 +18,7 @@ class Course < ActiveRecord::Base
     { conditions: ['deadline >= ?', Time.now.to_date] }
   }
   scope :search, lambda { |query|
-    { conditions: ['name||location_name||courses.id||date_string||default_start||default_end||range_type ilike ?', '%' + query + '%'] }
+    { conditions: ['name||location_name||courses.id||date_string||range_type ilike ?', '%' + query + '%'] }
   }
 
   has_many :days

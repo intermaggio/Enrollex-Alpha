@@ -51,7 +51,7 @@
         %p Max. Enrollments: #{course.max_campers}
         %p Currently Enrolled: #{course.campers.count}
         %p Spots Left: #{course.max_campers - course.campers.count}
-      .span6
+      .span6.last
         %h3 Dates & Times
         %ul.unstyled
           - course.days.reorder(:date).each do |day|

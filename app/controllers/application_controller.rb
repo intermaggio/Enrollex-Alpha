@@ -2,9 +2,17 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :course_admin_path, :gmaps, :age
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
+  rescue_from NotAuthorized, with: :not_authorized
   rescue_from AbstractController::ActionNotFound, with: :render_404
 
   before_filter :auth_from_cookie
+
+  def not_authorized
+    respond_to do |format|
+      format.html { render 'site/not_authorized' }
+      format.js { render json: { piss_off: true }
+    end
+  end
 
   def render_404
     render 'site/404'

@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
   end
 
   expose(:organization) { Organization.find_by_subdomain request.subdomain }
-  expose(:course) { Course.where(id: params[:id]).first }
+  expose(:course) { Course.find params[:id] }
   expose(:courses) { organization.courses.reorder(:created_at) }
   expose(:featured_courses) { organization.courses.featured.published.mirai.reorder(:created_at) }
   expose(:instructors) { organization.instructors.reorder('created_at DESC') }

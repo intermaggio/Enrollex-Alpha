@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   def not_authorized
     respond_to do |format|
       format.html { render 'site/not_authorized' }
-      format.js { render json: { piss_off: true }
+      format.js { render json: { piss_off: true } }
     end
   end
 

@@ -47,6 +47,12 @@
               .control-group
                 %label Zip:
                 .controls= f.text_field :zip, placeholder: 'zip code', autocomplete: 'off'
+              .control-group
+                %label Emergency Contact Name:
+                .controls= f.text_field :ename, placeholder: 'emergency contact name', autocomplete: 'off'
+              .control-group
+                %label Emergency Contact Number:
+                .controls= f.text_field :enumber, placeholder: 'emergency contact number', autocomplete: 'off'
           .form-actions{style: 'text-align:center;padding-left:0'}= f.submit "add #{organization.unit_name}", style: 'display:inline', id: 'submit', class: 'btn btn-success'
 
 :javascript

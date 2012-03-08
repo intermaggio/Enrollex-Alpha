@@ -19,7 +19,7 @@
     default_times: { start_hour: '#{course.default_start && course.default_start.strftime('%I')}', start_min: '#{course.default_start && course.default_start.strftime('%M')}', end_hour: '#{course.default_end && course.default_end.strftime('%I')}', end_min: '#{course.default_end && course.default_end.strftime('%M')}' },
     submit: function(daytimes, start, end) {
       $.post(
-        '/admin/courses/#{course.id}/schedule',
+        '/admin/courses/#{course.id}/schedule_course',
         { daytimes: JSON.stringify(daytimes), start: start, end: end },
         function(rsp){
           $('#cal_container').fadeOut('slow')
@@ -82,7 +82,7 @@
               daytimes.push({ day: day, start_time: start, end_time: end })
             })
             $.post(
-              '/admin/courses/#{course.id}/schedule',
+              '/admin/courses/#{course.id}/schedule_course',
               { finalize: true, daytimes: JSON.stringify(daytimes) },
               function(rsp) {
                 $('#time-confirm').modal()

@@ -96,7 +96,7 @@ class AdminController < InheritedResources::Base
     end
   end
 
-  def schedule
+  def schedule_course
     if !params[:finalize] && params[:start][:hour] != 'NaN'
       course.default_start = params[:start][:hour] + ':' + params[:start][:min]
       course.default_end = params[:end][:hour] + ':' + params[:end][:min]

@@ -138,4 +138,6 @@
           %div Register
 
 :javascript
-  $('.img').css('height', $(this).parent().height())
+  $('.img').each(function(){
+    $(this).css('height', $(this).parent().height())
+  })

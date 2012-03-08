@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120306080315) do
+ActiveRecord::Schema.define(:version => 20120308032722) do
 
   create_table "campers", :force => true do |t|
     t.datetime "created_at",  :null => false
@@ -25,7 +25,6 @@ ActiveRecord::Schema.define(:version => 20120306080315) do
     t.string   "city"
     t.string   "state"
     t.string   "zip"
-    t.string   "gender"
   end
 
   create_table "campers_courses", :force => true do |t|
@@ -57,8 +56,6 @@ ActiveRecord::Schema.define(:version => 20120306080315) do
     t.text     "notes"
     t.integer  "start_range"
     t.integer  "end_range"
-    t.integer  "suite"
-    t.integer  "room"
     t.string   "range_type"
     t.string   "location_name"
     t.boolean  "published"
@@ -73,10 +70,12 @@ ActiveRecord::Schema.define(:version => 20120306080315) do
     t.integer  "price"
     t.text     "reg_description"
     t.string   "reg_link"
-    t.boolean  "show_map",        :default => true
     t.integer  "max_campers"
+    t.boolean  "show_map",        :default => true
     t.date     "deadline"
     t.boolean  "deadline_set",    :default => false
+    t.string   "suite"
+    t.string   "room"
   end
 
   create_table "days", :force => true do |t|

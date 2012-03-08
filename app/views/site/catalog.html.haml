@@ -77,7 +77,7 @@
   })
   $('.destroy').live('click', function(){
     $('#destroy-modal span').text(' ' + $(this).attr('course'))
-    $('#destroy-modal .btn-danger').attr('href', '/courses/' + $(this).attr('cid') + '/' + $(this).attr('lowname') + '/destroy')
+    $('#destroy-modal .btn-danger').attr('href', '/admin/courses/' + $(this).attr('cid') + '/destroy')
   })
   $('#previous').change(function(){
     $('.form-search').submit()

@@ -11,8 +11,7 @@
         .alert.alert-success{style: 'width:240px'}
           %a.close{:'data-dismiss' => 'alert'} ×
           Course info successfully updated!
-      = form_for :course, url: '/courses/update', html: { class: 'form-horizontal', id: 'course_form' } do |f|
-        = hidden_field_tag :id, course.id
+      = form_for :course, url: "/admin/courses/#{course.id}/update", html: { class: 'form-horizontal', id: 'course_form' } do |f|
         %fieldset
           .row{style: 'padding-top: 15px'}
             .span6

@@ -5,7 +5,7 @@
   .modal-body
     - organization.courses.each do |course|
       .controls
-        %label.radio= content_tag :input, course.name, type: 'radio', course_id: course.id
+        %label.radio= content_tag :input, "[#{course.id}] #{course.name}", type: 'radio', course_id: course.id
   .modal-footer
     = link_to 'Close', 'javascript:void(0)', class: 'btn', :'data-dismiss' => 'modal'
     = link_to 'Choose', 'javascript:void(0)', id: 'template-choose', class: 'btn btn-success', :'data-dismiss' => 'modal'
@@ -27,7 +27,7 @@
                 %ul
                   - message.last.each do |reason|
                     %li= reason
-          = form_for :course, url: '/courses/create', html: { class: 'form-horizontal', id: 'course_form' } do |f|
+          = form_for :course, url: '/admin/courses/create', html: { class: 'form-horizontal', id: 'course_form' } do |f|
             %fieldset
               %legend{style: 'position:relative'}
                 Create

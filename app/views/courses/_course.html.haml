@@ -26,5 +26,5 @@
         %i.icon-cog>
       = link_to "/courses/#{course.id}/#{course.lowname}/download", title: 'Download Roster' do
         %i.icon-download-alt>
-      = link_to '#destroy-modal', title: 'Destroy', :'data-toggle' => 'modal', class: 'destroy', course: course.name, cid: course.id, lowname: course.lowname do
+      = link_to '#destroy-modal', title: 'Destroy', :'data-toggle' => 'modal', class: 'destroy', course: course.name, cid: course.id do
         %i.icon-trash>

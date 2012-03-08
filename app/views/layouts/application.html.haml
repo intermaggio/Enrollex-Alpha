@@ -21,6 +21,15 @@
           = submit_tag :submit, style: 'display:none'
       .modal-footer
         = content_tag :button, 'Send', class: 'btn btn-success', onclick: "javascript:$('#forgot_form').submit()"
+    #register-modal.modal.hide.fade
+      .modal-header
+        %h3 Account Required
+      .modal-body
+        .modal-center
+          Please
+          = content_tag :button, 'Sign In', class: 'btn btn-success', id: 'signin'
+          Or
+          = content_tag :button, 'Register', class: 'btn btn-success', id: 'register'
     #signup-modal.modal.hide.fade
       .modal-header
         I am an adult signing up for..
@@ -32,10 +41,14 @@
         %a.close{:'data-dismiss' => 'modal'} ×
         %h3 Sign in
       .modal-body
-        = form_tag '/users/auth', style: 'display:inline-block' do
-          = email_field_tag :email, '', placeholder: 'email', autocomplete: 'off'
-          = password_field_tag :password, '', placeholder: 'password', autocomplete: 'off'
-          %input{type: 'submit', style: 'visibility:hidden'}
+        = form_tag '/users/auth', style: 'display:inline-block', class: 'form-horizontal' do
+          .control-group
+            %label Email:
+            .controls= email_field_tag :email, '', placeholder: 'email', autocomplete: 'off'
+          .control-group
+            %label Password:
+            .controls= password_field_tag :password, '', placeholder: 'password', autocomplete: 'off'
+          %input{type: 'submit', style: 'visibility:hidden;position:absolute;top:0'}
       .modal-footer
         = submit_tag :login, class: 'btn btn-success', onclick: "javascript:$('#signin-modal form').submit()"
         = content_tag :button, 'Forgot your password?', class: 'btn', id: 'forgot'
@@ -85,6 +98,20 @@
         setTimeout(function(){
           $('#forgot-modal').modal()
           $('#forgot-modal').modal('show')
+        }, 600)
+      })
+      $('#signin').click(function(){
+        $('#register-modal').modal('hide')
+        setTimeout(function(){
+          $('#signin-modal').modal()
+          $('#signin-modal').modal('show')
+        }, 600)
+      })
+      $('#register').click(function(){
+        $('#register-modal').modal('hide')
+        setTimeout(function(){
+          $('#signup-modal').modal()
+          $('#signup-modal').modal('show')
         }, 600)
       })
     - if flash[:auth_fail]

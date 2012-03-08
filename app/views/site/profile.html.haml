@@ -63,6 +63,13 @@
                   .control-group
                     %label Phone Number:
                     .controls= f.text_field :phone, placeholder: 'phone number', value: current_user.phone
+                  - if current_user.utype == 'campers'
+                    .control-group
+                      %label Emergency Name:
+                      .controls= f.text_field :ename, placeholder: 'emergency name', value: current_user.ename
+                    .control-group
+                      %label Emergency Number:
+                      .controls= f.text_field :enumber, placeholder: 'emergency number', value: current_user.enumber
                   .control-group
                     %label Confirm Password:
                     .controls= password_field_tag :password_confirmation, '', placeholder: 'new password confirmation'

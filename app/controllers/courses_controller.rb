@@ -1,5 +1,9 @@
 class CoursesController < InheritedResources::Base
 
+  def show
+    render 'unpublished' if !course.published
+  end
+
   def unenroll
     user = User.find params[:user_id]
     if current_user == user || current_user.campers.include?(user)

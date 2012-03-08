@@ -1,26 +1,42 @@
 %table.table.table-striped.table-bordered.table-condensed{style: 'border-width:3px'}
   %thead
     %tr
-      %th{style: 'text-align:center', colspan: "#{course.days.count * 2 + 3}"} #{course.name} (#{course.id})
+      %th{style: 'text-align:center', colspan: "#{course.days.count * 2 + 6}"} #{course.name} (#{course.id})
   %thead
     %tr
-      %th{style: 'text-align:center', colspan: "#{course.days.count * 2 + 3}"}= course.date_string
+      %th{style: 'text-align:center', colspan: "#{course.days.count * 2 + 6}"}= course.date_string
   %thead
     %tr
       %th Name
       %th Age
-      %th Phone
-      - course.days.each do |day|
-        %th{colspan: '2'}= day.date.strftime('%-m/%d')
+      - unless defined?(download) && camper.parent
+        %th Parent Name
+        %th Parent Phone
+      - else
+        %th Phone
+      - unless defined?(download)
+        %th Emergency Contact Name
+        %th Emergency Contact Phone
+      - if defined?(download)
+        - course.days.each do |day|
+          %th{colspan: '2'}= day.date.strftime('%-m/%d')
   %tbody
     - course.campers.each do |camper|
       %tr
         %td= camper.name
         %td= age camper.birthday
-        %td= camper.parent && camper.parent.phone || camper.phone
-        - course.days.each do |day|
-          %td
+        - unless defined?(download) && camper.parent
+          %td= camper.parent.name
+          %td= camper.parent.phone
+        - else
+          %td= camper.phone
+        - unless defined?(download)
+          %th= camper.parent.ename
+          %th= camper.parent.ephone
+        - if defined?(download)
+          - course.days.each do |day|
+            %td
           %td
 
 - unless defined?(download)
-  = link_to 'Download', "/courses/#{course.id}/#{course.lowname}/download"
+  = link_to 'Download Roster', "/courses/#{course.id}/#{course.lowname}/download"

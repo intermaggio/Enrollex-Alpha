@@ -24,7 +24,7 @@
     - if organization.admins.include?(current_user)
       = link_to "/admin/courses/#{course.id}", title: 'Edit' do
         %i.icon-cog>
-      = link_to "/courses/#{course.id}/#{course.lowname}/download", title: 'Download Roster' do
+      = link_to "/courses/#{course.id}/#{course.lowname}/roster", title: 'View Roster' do
         %i.icon-download-alt>
       = link_to '#destroy-modal', title: 'Destroy', :'data-toggle' => 'modal', class: 'destroy', course: course.name, cid: course.id do
         %i.icon-trash>

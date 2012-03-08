@@ -104,11 +104,11 @@
                   = ' - '
                   = f.text_field :end_range, value: course.end_range, style: 'display: inline-block; width: 20px'
               .control-group
-                %label Suite/Apt. #
-                .controls= f.text_field :suite, value: course.suite, style: 'width: 20px'
+                %label Suite/Apt:
+                .controls= f.text_field :suite, value: course.suite
               .control-group
-                %label Room #
-                .controls= f.text_field :room, value: course.room, style: 'width: 20px'
+                %label Room:
+                .controls= f.text_field :room, value: course.room
               .control-group
                 %label Important notes
                 .controls= f.text_area :notes, placeholder: 'important notes', value: course.notes, style: 'height: 150px'

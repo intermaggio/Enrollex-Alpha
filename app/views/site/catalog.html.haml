@@ -94,8 +94,25 @@
       return $(c).attr('date')
     }
   })
+  $.tablesorter.addParser({
+    id: 'times',
+    is: function(s){return false},
+    type: 'numeric',
+    format: function(s,t,c) {
+      return $(c).attr('time')
+    }
+  })
+  $('table').tablesorter({
+    headers: {
+      4: { sorter: 'dates' },
+      5: { sorter: 'times' },
+      6: { sorter: 'times' }
+    }
+  })
   $('#all table').tablesorter({
     headers: {
-      4: { sorter: 'dates' }
+      4: { sorter: 'dates' },
+      5: { sorter: 'times' },
+      6: { sorter: 'times' }
     }
   })

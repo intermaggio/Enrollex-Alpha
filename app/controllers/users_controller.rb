@@ -179,7 +179,7 @@ class UsersController < InheritedResources::Base
     cookies[:cm_hash] = nil
     session[:cm_hash] = nil
     session[:cm_user_id] = nil
-    redirect_to request.referrer
+    redirect_to '/'
   end
 
   def signup

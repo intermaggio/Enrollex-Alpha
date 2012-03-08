@@ -7,7 +7,7 @@ class UsersController < InheritedResources::Base
         to: user.email,
         from: 'robot@enrollex.org',
         subject: 'Reset Password',
-        body: "Visit the following link to reset your enrollex password:<br/><br/>http://enrollex.org/users/reset_password?id=#{user.id}&hash=#{user.hash.abs}",
+        body: "Visit the following link to reset your enrollex password:<br/><br/>http://enrollex.org/users/reset_password?id=#{user.id}&hash=#{user.hash.abs}&org=#{organization.id}",
         headers: { 'Content-Type' => 'text/html' },
         via: :smtp,
         via_options: {
@@ -200,7 +200,12 @@ class UsersController < InheritedResources::Base
 
   def reset_password
     user = User.find(params[:id])
-    redirect_to '/' if user.hash.abs != params[:hash].to_i
+    begin
+      org = Organization.find(params[:org])
+      redirect_to "http://#{org.subname}.enrollex.org" if user.hash.abs != params[:hash].to_i
+    rescue
+      redirect_to '/' if user.hash.abs != params[:hash].to_i
+    end
   end
 
 end

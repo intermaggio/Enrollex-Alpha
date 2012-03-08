@@ -29,7 +29,7 @@
   %h1 [##{course.id}] #{course.name}
   .well.description
     - if course.image.present?
-      = image_tag course.image
+      .img= image_tag course.image
     - if course.description.present?
       %h3 Description
       = RedCloth.new(course.description, [:filter_html, :bbcode]).to_html.html_safe
@@ -136,3 +136,6 @@
       - else
         = link_to '#signin-modal', :'data-toggle' => 'modal', class: 'btn btn-primary' do
           %div Register
+
+:javascript
+  $('.img').css('height', $(this).parent().height())

@@ -54,11 +54,12 @@
             %strong
               #{course.range_type.capitalize}s:
             #{course.start_range} - #{course.end_range}
-        %p
-          %strong Enrollment Deadline:
-          = course.deadline.strftime('%B')
-          = course.deadline.strftime('%-m').to_i.ordinalize + ','
-          = course.deadline.strftime('%Y')
+        - if course.deadline
+          %p
+            %strong Enrollment Deadline:
+            = course.deadline.strftime('%B')
+            = course.deadline.strftime('%-m').to_i.ordinalize + ','
+            = course.deadline.strftime('%Y')
         %hr/
         %p
           %strong

@@ -19,6 +19,7 @@ class CoursesController < InheritedResources::Base
     else
       @campers.push current_user
     end
+    redirect_to "/courses/#{course.id}/#{course.lowname}" if @campers == [] || @campers.index(false)
   end
 
   def daily course

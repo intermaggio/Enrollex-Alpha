@@ -95,10 +95,10 @@
           = course.zip
           %br/
           %br/
-          - if course.suite
+          - if course.suite.present?
             Suite: #{course.suite}
             %br/
-          - if course.room
+          - if course.room.present?
             Room: #{course.room}
           - if course.full_address.present?
             %br/

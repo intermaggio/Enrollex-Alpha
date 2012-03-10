@@ -110,18 +110,20 @@ class AdminController < InheritedResources::Base
       day.end_time = daytime['end_time']
       days.push day
     end
-    course.which_days = find_days course
+    course.days.each { |d| days.push d }
+    which_days = find_days course
+    course.which_days = which_days
     course.daily = daily course
-    course.save!
+    course.save if params[:finalize]
     #days = {'sunday' => 0, 'monday' => 1, 'tuesday' => 2, 'wednesday' => 3, 'thursday' => 4, 'friday' => 5, 'saturday' => 6}
-    total = course.which_days.reduce(0) { |sum, day| sum += day.last }
-    rdays = course.which_days.map { |day| day.last > total / 4 && day.first.capitalize || nil }.compact
+    total = which_days.reduce(0) { |sum, day| sum += day.last }
+    rdays = which_days.map { |day| day.last > total / 4 && day.first.capitalize || nil }.compact
     #exception_days = course.which_days.map { |day| day.last <= total / 4 && day.first || nil }.compact
     #course.days.each do |day|
       #day.date.wday ==
     #end
     exceptions = []
-    days = course.days.reorder(:date)
+    days.uniq!.sort_by!(&:date)
     render json: {
       rdays: rdays,
       exceptions: exceptions,

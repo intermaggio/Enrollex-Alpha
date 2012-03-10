@@ -22,8 +22,20 @@
                 %label Description:
                 .controls= f.text_area :description, placeholder: 'description', value: course.description, style: 'height:100px'
               .control-group
+                %label Important notes
+                .controls= f.text_area :notes, placeholder: 'important notes', value: course.notes, style: 'height: 150px'
+              .control-group
                 %label Price:
                 .controls= text_field_tag :price, '', placeholder: 'price', value: course.price / 100
+              .control-group{style: 'position: relative'}
+                - if course.range_type == 'age'
+                  = f.select :range_type, options_for_select({:Ages => :age, :Grades => :grade}), {}, style: 'width: 120px;position: absolute; left: 10px'
+                - else
+                  = f.select :range_type, options_for_select({:Grades => :grade, :Ages => :age}), {}, style: 'width: 120px;position: absolute; left: 10px'
+                .controls
+                  = f.text_field :start_range, value: course.start_range, style: 'display: inline-block; width: 20px'
+                  = ' - '
+                  = f.text_field :end_range, value: course.end_range, style: 'display: inline-block; width: 20px'
               #pics
                 .control-group
                   %label Upload a New Picture:
@@ -94,15 +106,6 @@
               .control-group
                 %label Zip
                 .controls= f.text_field :zip, placeholder: 'zip', value: course.zip
-              .control-group{style: 'position: relative'}
-                - if course.range_type == 'age'
-                  = f.select :range_type, options_for_select({:Ages => :age, :Grades => :grade}), {}, style: 'width: 120px;position: absolute; left: 10px'
-                - else
-                  = f.select :range_type, options_for_select({:Grades => :grade, :Ages => :age}), {}, style: 'width: 120px;position: absolute; left: 10px'
-                .controls
-                  = f.text_field :start_range, value: course.start_range, style: 'display: inline-block; width: 20px'
-                  = ' - '
-                  = f.text_field :end_range, value: course.end_range, style: 'display: inline-block; width: 20px'
               .control-group
                 %label Suite/Apt:
                 .controls= f.text_field :suite, value: course.suite
@@ -110,8 +113,8 @@
                 %label Room:
                 .controls= f.text_field :room, value: course.room
               .control-group
-                %label Important notes
-                .controls= f.text_area :notes, placeholder: 'important notes', value: course.notes, style: 'height: 150px'
+                .controls= link_to 'Preview/Update Map', 'javascript:void(0)', id: 'update_map', class: 'btn btn-primary'
+              #map
           .form-actions= f.submit 'Submit', class: 'btn btn-success'
     #schedule.tab-pane
       #cal_container
@@ -119,7 +122,15 @@
 
 = render partial: 'cal', locals: { course: course, json: @json }
 
+- if course.full_address.present?
+  :javascript
+    $('#map').html("<iframe width='465' height='300' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='http://maps.google.com/maps?daddr=#{course.full_address}&amp;output=embed'></iframe>")
+
 :javascript
+  $('#update_map').click(function(){
+    full_address = $('#course_address').val() + '%20' + $('#course_city').val() + '%20' + $('#course_state').val() + '%20' + $('#course_zip').val()
+    $('#map').html("<iframe width='465' height='300' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='http://maps.google.com/maps?daddr=" + full_address + "&amp;output=embed'></iframe>")
+  })
   $('#schedule-link').click(function(){
     setTimeout(function(){
       $('#time_container').css('left', $('#calendar').offset().left + $('#calendar').width() + 5)

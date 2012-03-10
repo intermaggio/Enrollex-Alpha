@@ -41,8 +41,17 @@
                     %label Description:
                     .controls= f.text_area :description, placeholder: 'description', style: 'height:100px'
                   .control-group
+                    %label Important notes:
+                    .controls= f.text_area :notes, placeholder: 'important notes', style: 'height: 150px'
+                  .control-group
                     %label Price:
                     .controls= text_field_tag :price, '', placeholder: 'price'
+                  .control-group{style: 'position: relative'}
+                    = f.select :range_type, options_for_select({:'Age Range' => :age, :'Grade Range' => :grade}), {}, style: 'width: 120px;position: absolute; left: 10px'
+                    .controls
+                      = f.text_field :start_range, style: 'display: inline-block; width: 20px'
+                      = ' - '
+                      = f.text_field :end_range, style: 'display: inline-block; width: 20px'
                   #pics
                     .control-group
                       %label Upload a Picture:
@@ -92,12 +101,6 @@
                   .control-group
                     %label Zip:
                     .controls= f.text_field :zip, placeholder: 'zip'
-                  .control-group{style: 'position: relative'}
-                    = f.select :range_type, options_for_select({:'Age Range' => :age, :'Grade Range' => :grade}), {}, style: 'width: 120px;position: absolute; left: 10px'
-                    .controls
-                      = f.text_field :start_range, style: 'display: inline-block; width: 20px'
-                      = ' - '
-                      = f.text_field :end_range, style: 'display: inline-block; width: 20px'
                   .control-group
                     %label Suite/Apt:
                     .controls= f.text_field :suite
@@ -105,8 +108,8 @@
                     %label Room:
                     .controls= f.text_field :room
                   .control-group
-                    %label Important notes:
-                    .controls= f.text_area :notes, placeholder: 'important notes', style: 'height: 150px'
+                    .controls= link_to 'Preview/Update Map', 'javascript:void(0)', id: 'update_map', class: 'btn btn-primary'
+                  #map
               .form-actions= f.submit 'Schedule', class: 'btn btn-success'
 
 - if @course
@@ -116,6 +119,10 @@
     })
 
 :javascript
+  $('#update_map').click(function(){
+    full_address = $('#course_address').val() + '%20' + $('#course_city').val() + '%20' + $('#course_state').val() + '%20' + $('#course_zip').val()
+    $('#map').html("<iframe width='465' height='300' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='http://maps.google.com/maps?daddr=" + full_address + "&amp;output=embed'></iframe>")
+  })
   $.validator.addMethod('date', function(value) {
     if (value.replace(/\D/g, '').search(/\d{8}/) == 0) { return true }
     else if (value == '') { return true }

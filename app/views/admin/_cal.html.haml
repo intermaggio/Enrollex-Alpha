@@ -77,8 +77,8 @@
             daytimes = []
             $('#new_content tbody tr').each(function(){
               day = $(this).attr('day') + '-' + $(this).attr('month') + '-' + $(this).attr('year')
-              start = $(this).attr('start')
-              end = $(this).attr('end')
+              start = $(this).find('.start_time_hour').first().val() + ':' + $(this).find('.start_time_minute').first().val()
+              end = $(this).find('.end_time_hour').first().val() + ':' + $(this).find('.end_time_minute').first().val()
               daytimes.push({ day: day, start_time: start, end_time: end })
             })
             $.post(

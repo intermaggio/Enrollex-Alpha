@@ -1,7 +1,7 @@
 class CoursesController < InheritedResources::Base
 
   def show
-    render 'unpublished' if !course.published
+    render 'unpublished' unless course.published || organization.admins.include?(current_user)
   end
 
   def unenroll

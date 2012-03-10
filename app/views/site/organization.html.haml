@@ -8,9 +8,3 @@
       = render partial: 'courses/featured', locals: { course: course }
       - if featured_courses[index+1]
         = render partial: 'courses/featured', locals: { course: featured_courses[index+1] }
-
--# if @fail
-  :javascript
-    $('#signin-modal').modal()
-    $('#signin-modal').modal('show')
-    $('#signin-modal .modal-body').prepend('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a>Signin failed.</div>')

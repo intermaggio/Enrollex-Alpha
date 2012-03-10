@@ -361,10 +361,20 @@
             gen_cal(month - 2, year)
 
       $('#time_container input.hour').keyup ->
-        $(this).val('12') if parseInt($(this).val()) > 12 || isNaN(parseInt($(this).val()))
+        if parseInt($(this).val()) > 12 || parseInt($(this).val()) < 1 || isNaN(parseInt($(this).val()))
+          $(this).attr('style', 'border: thin solid rgb(149, 59, 57)')
+          $('#cal_submit').attr('disabled', 'true').addClass('disabled')
+        else
+          $(this).attr('style', '')
+          $('#cal_submit').removeAttr('disabled').removeClass('disabled')
 
       $('#time_container input.minute').keyup ->
-        $(this).val('59') if parseInt($(this).val()) > 59 || isNaN(parseInt($(this).val()))
+        if parseInt($(this).val()) > 59 || parseInt($(this).val()) < 1 || isNaN(parseInt($(this).val()))
+          $(this).attr('style', 'border: thin solid rgb(149, 59, 57)')
+          $('#cal_submit').attr('disabled', 'true').addClass('disabled')
+        else
+          $(this).attr('style', '')
+          $('#cal_submit').removeAttr('disabled').removeClass('disabled')
 
       if @opts.popup
         $(@element).click =>

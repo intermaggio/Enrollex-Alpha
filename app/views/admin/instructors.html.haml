@@ -6,11 +6,33 @@
 
   .tab-content
     #list.tab-pane.active
-      %dl
-        - instructors.each do |instructor|
-          %dt= instructor.name
-          - instructor.instructing.each do |course|
-            %dd= course.name
+      %table.table.table-striped.table-bordered
+        %thead
+          %th.name
+            First Name
+            .icons
+              = link_to 'javascript:void(0)' do
+                %i.icon-chevron-up.top
+              = link_to 'javascript:void(0)' do
+                %i.icon-chevron-down.bottom
+          %th.name
+            Last Name
+            .icons
+              = link_to 'javascript:void(0)' do
+                %i.icon-chevron-up.top
+              = link_to 'javascript:void(0)' do
+                %i.icon-chevron-down.bottom
+          %th.actions Actions
+        %tbody
+          - instructors.each do |instructor|
+            %tr
+              %td= instructor.first_name
+              %td= instructor.last_name
+              %td.actions
+                = link_to '#' do
+                  %i.icon-cog>
+                = link_to '#' do
+                  %i.icon-trash>
     #create.tab-pane
       .row
         .span6

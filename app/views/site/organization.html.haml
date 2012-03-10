@@ -9,3 +9,10 @@
         = render partial: 'courses/featured', locals: { course: course }
         - if featured_courses[index+1]
           = render partial: 'courses/featured', locals: { course: featured_courses[index+1] }
+
+:javascript
+  $('.course h3').each(function(){
+    while ($(this).height() > 50) {
+      $(this).css('font-size', parseInt($(this).css('font-size'), 10) - 1)
+    }
+  })

@@ -1,10 +1,11 @@
 %h1= organization.welcome_title
 - if organization.welcome_message
   %p= RedCloth.new(organization.welcome_message, [:filter_html, :bbcode]).to_html.html_safe
-%h2 Featured Courses
-- featured_courses.each_with_index do |course, index|
-  - if index % 2 == 0
-    .row
-      = render partial: 'courses/featured', locals: { course: course }
-      - if featured_courses[index+1]
-        = render partial: 'courses/featured', locals: { course: featured_courses[index+1] }
+- if featured_courses.first
+  %h2 Featured Courses
+  - featured_courses.each_with_index do |course, index|
+    - if index % 2 == 0
+      .row
+        = render partial: 'courses/featured', locals: { course: course }
+        - if featured_courses[index+1]
+          = render partial: 'courses/featured', locals: { course: featured_courses[index+1] }

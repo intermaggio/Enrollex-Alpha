@@ -95,11 +95,11 @@
           = course.zip
           %br/
           %br/
-          - if course.suite
-            Suite ##{course.suite}
+          - if course.suite.present?
+            Suite: #{course.suite}
             %br/
-          - if course.room
-            Room ##{course.room}
+          - if course.room.present?
+            Room: #{course.room}
           - if course.full_address.present?
             %br/
             %br/
@@ -111,10 +111,7 @@
     .well.instructor
       - if instructor.image.url
         = image_tag instructor.image
-      - if course.instructors.count > 1
-        %h3 Instructors
-      - else
-        %h3 Instructor
+      %h3 Instructor
       %h5= instructor.name
       %p= instructor.bio
 

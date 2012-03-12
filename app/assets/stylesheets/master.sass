@@ -115,20 +115,31 @@
     display: block
 
 #courses, #list table
+  .full td
+    background-color: #F5BCBC
+  .unpublished td
+    background-color: #BBB
   th
-    position: relative
+    &.id
+      min-width: 40px
+    &.location
+      min-width: 90px
+    &.range
+      min-width: 70px
+    &.start-time, &.end-time
+      min-width: 70px
     &:hover
       cursor: pointer
       .icons a > i
-        opacity: .75
+        opacity: .62
     &.headerSortUp
       .top
-        opacity: .75
+        opacity: .95 !important
     &.headerSortDown
       .bottom
-        opacity: .75
+        opacity: .95 !important
     .icons
-    .icons
+      position: relative
       padding-right: 12px
       margin-left: 4px
       display: inline-block
@@ -137,9 +148,9 @@
         opacity: .25
         filter: alpha(opacity=25)
         &.top
-          top: 4px
-        &.bottom
           bottom: 4px
+        &.bottom
+          bottom: -9px
 
 #new_content
   table

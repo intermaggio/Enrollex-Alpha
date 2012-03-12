@@ -1,6 +1,12 @@
 %table.table.table-striped.table-bordered
   %thead
-    %th.id ID
+    %th.id
+      ID
+      .icons
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-up.top
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-down.bottom
     %th.name
       Name
       .icons
@@ -8,7 +14,13 @@
           %i.icon-chevron-up.top
         = link_to 'javascript:void(0)' do
           %i.icon-chevron-down.bottom
-    %th.range Range
+    %th.range
+      Range
+      .icons
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-up.top
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-down.bottom
     %th.location
       Location
       .icons
@@ -37,7 +49,7 @@
           %i.icon-chevron-up.top
         = link_to 'javascript:void(0)' do
           %i.icon-chevron-down.bottom
-    %th.actions Actions
+    %th.actions{style: "#{current_user && current_user.admin_organizations.include?(organization) && 'min-width:70px' || ''}"} Actions
   %tbody{id: "#{defined?(user) && 'utable' + user.id.to_s || ''}"}
     - if defined?(user)
       = render partial: 'courses/course', collection: user.courses.mirai, locals: { user: user }

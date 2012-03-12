@@ -1,4 +1,4 @@
-%tr{cid: course.id, lowname: course.lowname, class: "course#{course.id}"}
+%tr{cid: course.id, lowname: course.lowname, class: "course#{course.id} #{!course.published && 'unpublished' || ''} #{course.campers.count == course.max_campers && 'full' || ''}"}
   %td= course.id
   %td= course.name
   - if course.start_range

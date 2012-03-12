@@ -16,21 +16,27 @@ class SiteController < ApplicationController
     gclient.authorization.client_secret = GSECRET
     gclient.authorization.update_token!(current_user.ghash)
     gcal = gclient.discovered_api('calendar', 'v3')
-    courses.each do |course|
-      course.days.each do |day|
-        event = {
-          start: { dateTime: day.start_time.change(day: day.date.day, month: day.date.month, year: day.date.year) },
-          end: { dateTime: day.end_time.change(day: day.date.day, month: day.date.month, year: day.date.year) },
-        }
-        rsp = gclient.execute(
-          api_method: gcal.events.insert,
-          parameters: { 'calendarId' => 'c@chrisbolton.me' },
-          body: JSON.dump(event),
-          headers: { 'Content-Type' => 'application/json' }
-        )
+    # verify api
+    if verified
+      courses.each do |course|
+        course.days.each do |day|
+          event = {
+            start: { dateTime: day.start_time.change(day: day.date.day, month: day.date.month, year: day.date.year) },
+            end: { dateTime: day.end_time.change(day: day.date.day, month: day.date.month, year: day.date.year) },
+          }
+          rsp = gclient.execute(
+            api_method: gcal.events.insert,
+            parameters: { 'calendarId' => 'c@chrisbolton.me' },
+            body: JSON.dump(event),
+            headers: { 'Content-Type' => 'application/json' }
+          )
+          # validate response?
+        end
       end
+      render json: { success: true }
+    else
+      render json: { success: false }
     end
-    render nothing: true
   end
 
   def search

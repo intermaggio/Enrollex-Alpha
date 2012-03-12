@@ -27,6 +27,8 @@ class User < ActiveRecord::Base
     end
   end
 
+  serialize :ghash, Hash
+
   mount_uploader :image, UserImage
   validates :image, file_size: { maximum: 5.megabytes.to_i }
 

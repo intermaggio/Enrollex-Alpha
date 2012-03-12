@@ -11,7 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120308053251) do
+ActiveRecord::Schema.define(:version => 20120312050335) do
+
+  create_table "campers", :force => true do |t|
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "user_id"
+    t.text     "health_info"
+    t.date     "birthday"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "street"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+  end
 
   create_table "campers_courses", :force => true do |t|
     t.integer "user_id"
@@ -56,8 +70,8 @@ ActiveRecord::Schema.define(:version => 20120308053251) do
     t.integer  "price"
     t.text     "reg_description"
     t.string   "reg_link"
-    t.boolean  "show_map",        :default => true
     t.integer  "max_campers"
+    t.boolean  "show_map",        :default => true
     t.date     "deadline"
     t.boolean  "deadline_set",    :default => false
     t.string   "suite"
@@ -109,6 +123,11 @@ ActiveRecord::Schema.define(:version => 20120308053251) do
     t.integer "organization_id"
   end
 
+  create_table "organizations_users", :force => true do |t|
+    t.integer "organization_id"
+    t.integer "user_id"
+  end
+
   create_table "users", :force => true do |t|
     t.string   "email",                           :null => false
     t.string   "crypted_password"
@@ -136,6 +155,7 @@ ActiveRecord::Schema.define(:version => 20120308053251) do
     t.integer  "parent_id"
     t.string   "ename"
     t.string   "enumber"
+    t.string   "ghash"
   end
 
   add_index "users", ["remember_me_token"], :name => "index_users_on_remember_me_token"

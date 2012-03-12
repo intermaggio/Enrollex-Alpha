@@ -29,7 +29,6 @@ class SiteController < ApplicationController
           body: JSON.dump(event),
           headers: { 'Content-Type' => 'application/json' }
         )
-        binding.pry
       end
     end
     render nothing: true

@@ -18,13 +18,16 @@
   %td.actions
     = link_to "/courses/#{course.id}/#{course.lowname}", title: 'More Info' do
       %i.icon-info-sign>
+    = link_to 'javascript:void(0)', title: 'Export to gCal' do
+      %i.icon-share>
     - if defined?(user)
       = link_to '#unenroll-modal', title: 'Unenroll', :'data-toggle' => 'modal', class: 'unenroll', cid: course.id, uid: user.id do
         %i.icon-remove-sign>
+    - if organization.admins.include?(current_user) || organization.instructors.include?(current_user)
+      = link_to "/courses/#{course.id}/#{course.lowname}/roster", title: 'View Roster' do
+        %i.icon-download-alt>
     - if organization.admins.include?(current_user)
       = link_to "/admin/courses/#{course.id}", title: 'Edit' do
         %i.icon-cog>
-      = link_to "/courses/#{course.id}/#{course.lowname}/roster", title: 'View Roster' do
-        %i.icon-download-alt>
       = link_to '#destroy-modal', title: 'Destroy', :'data-toggle' => 'modal', class: 'destroy', course: course.name, cid: course.id do
         %i.icon-trash>

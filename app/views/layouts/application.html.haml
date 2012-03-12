@@ -92,6 +92,26 @@
           #footer= RedCloth.new(organization.footer, [:filter_html, :bbcode]).to_html.html_safe
     = yield :scripts
     :javascript
+      $('[placeholder]').focus(function() {
+        var input = $(this);
+        if (input.val() == input.attr('placeholder')) {
+          input.val('');
+          input.removeClass('placeholder');
+        }
+      }).blur(function() {
+        var input = $(this);
+        if (input.val() == '' || input.val() == input.attr('placeholder')) {
+          input.addClass('placeholder');
+          input.val(input.attr('placeholder'));
+        }
+      }).blur().parents('form').submit(function() {
+        $(this).find('[placeholder]').each(function() {
+          var input = $(this);
+          if (input.val() == input.attr('placeholder')) {
+            input.val('');
+          }
+        })
+      });
       $('#banner').click(function(){window.location='/'})
       $('#forgot').click(function(){
         $('#signin-modal').modal('hide')

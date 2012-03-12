@@ -121,6 +121,13 @@
       cursor: pointer
       .icons a > i
         opacity: .75
+    &.headerSortUp
+      .top
+        opacity: .75
+    &.headerSortDown
+      .bottom
+        opacity: .75
+    .icons
     .icons
       padding-right: 12px
       margin-left: 4px
@@ -131,9 +138,6 @@
         filter: alpha(opacity=25)
         &.top
           top: 4px
-        &:hover
-          opacity: .75
-          filter: alpha(opacity=75)
         &.bottom
           bottom: 4px
 

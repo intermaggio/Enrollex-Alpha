@@ -1,8 +1,10 @@
+require 'file_size_validator'
 class Organization < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :subname
 
   mount_uploader :banner, Banner
+  validates :banner, file_size: { maximum: 5.megabytes.to_i }
 
   has_many :courses
   has_and_belongs_to_many :admins, class_name: 'User', join_table: 'organizations_admins'

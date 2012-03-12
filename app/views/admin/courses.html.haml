@@ -4,8 +4,9 @@
     %h3 Existing Courses
   .modal-body
     - organization.courses.each do |course|
-      .controls
-        %label.radio= content_tag :input, "[#{course.id}] #{course.name}", type: 'radio', course_id: course.id
+      .control-group
+        .controls{style: 'float:left;margin-right:8px'}= radio_button_tag :course, course.id
+        %label{style: 'display:inline-block;margin-top:2px'} [#{course.id}] #{course.name}
   .modal-footer
     = link_to 'Close', 'javascript:void(0)', class: 'btn', :'data-dismiss' => 'modal'
     = link_to 'Choose', 'javascript:void(0)', id: 'template-choose', class: 'btn btn-success', :'data-dismiss' => 'modal'
@@ -162,7 +163,7 @@
   })
 
   $('#template-choose').click(function(){
-    var id = $('.radio input:checked').attr('course_id')
+    var id = $('#template-modal input:checked').val()
     $.post(
       '/courses/' + id + '/template',
       {},
@@ -170,6 +171,9 @@
         var fields = ['name', 'description', 'price', 'status', 'featured', 'image', 'address', 'city', 'state', 'zip', 'notes', 'start_range', 'end_range', 'suite', 'room', 'location_name', 'max_campers', 'reg_link', 'reg_description']
         for (var i=0; i < fields.length; i++) {
           element = $('#course_' + fields[i])
+          if (fields[i] == 'price') {
+            element = $('#price')
+          }
           element.val(rsp[fields[i]])
           if (element.attr('type') == 'checkbox' && rsp[fields[i]]) {
             element.attr('checked', 'true')

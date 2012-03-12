@@ -1,3 +1,4 @@
+require 'file_size_validator'
 class User < ActiveRecord::Base
   authenticates_with_sorcery!
 
@@ -27,6 +28,7 @@ class User < ActiveRecord::Base
   end
 
   mount_uploader :image, UserImage
+  validates :image, file_size: { maximum: 5.megabytes.to_i }
 
   has_many :campers, class_name: 'User', foreign_key: 'parent_id'
   belongs_to :parent, class_name: 'User', foreign_key: 'parent_id'

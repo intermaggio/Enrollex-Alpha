@@ -1,3 +1,4 @@
+require 'file_size_validator'
 class Course < ActiveRecord::Base
   def full_address
     "#{self.address} #{self.city} #{self.state} #{self.zip}"
@@ -11,6 +12,7 @@ class Course < ActiveRecord::Base
   validates_presence_of :price
 
   mount_uploader :image, CourseImage
+  validates :image, file_size: { maximum: 5.megabytes.to_i }
 
   scope :featured, where(featured: true)
   scope :published, where(published: true)

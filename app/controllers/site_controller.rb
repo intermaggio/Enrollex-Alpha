@@ -1,17 +1,16 @@
 class SiteController < ApplicationController
 
   def callback
+    session[:courses] = params[:courses]
     creds = env['omniauth.auth'].credentials
     creds['access_token'] = creds.token
     creds.delete(:token)
     current_user.update_attribute(:ghash, creds)
-    redirect_to session[:gomni_redirect]
+    redirect_to '/site/gcal_import'
   end
 
   def gcal_import
-    courses =
-      if params[:courses] then params[:courses].map { |c| Course.find c }
-      else organization.courses.mirai.published end
+    courses = session[:courses].map { |c| Course.find c }
     gclient = Google::APIClient.new
     gclient.authorization.client_id = GKEY
     gclient.authorization.client_secret = GSECRET

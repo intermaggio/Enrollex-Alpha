@@ -16,7 +16,6 @@ class SiteController < ApplicationController
     gclient.authorization.client_secret = GSECRET
     gclient.authorization.update_token!(current_user.ghash)
     gcal = gclient.discovered_api('calendar', 'v3')
-    # verify api
     if verified
       courses.each do |course|
         course.days.each do |day|
@@ -30,7 +29,6 @@ class SiteController < ApplicationController
             body: JSON.dump(event),
             headers: { 'Content-Type' => 'application/json' }
           )
-          # validate response?
         end
       end
       render json: { success: true }

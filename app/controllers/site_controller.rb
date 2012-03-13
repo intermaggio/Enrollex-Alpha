@@ -1,11 +1,12 @@
 class SiteController < ApplicationController
 
   def callback
+    session[:courses] = params[:courses]
     creds = env['omniauth.auth'].credentials
     creds['access_token'] = creds.token
     creds.delete(:token)
     current_user.update_attribute(:ghash, creds)
-    redirect_to session[:gomni_redirect]
+    redirect_to '/site/gcal_import'
   end
 
   def calendar_list
@@ -23,29 +24,31 @@ class SiteController < ApplicationController
   end
 
   def gcal_import
-    courses =
-      if params[:courses] then params[:courses].map { |c| Course.find c }
-      else organization.courses.mirai.published end
+    courses = session[:courses].map { |c| Course.find c }
     gclient = Google::APIClient.new
     gclient.authorization.client_id = GKEY
     gclient.authorization.client_secret = GSECRET
     gclient.authorization.update_token!(current_user.ghash)
     gcal = gclient.discovered_api('calendar', 'v3')
-    courses.each do |course|
-      course.days.each do |day|
-        event = {
-          start: { dateTime: day.start_time.change(day: day.date.day, month: day.date.month, year: day.date.year) },
-          end: { dateTime: day.end_time.change(day: day.date.day, month: day.date.month, year: day.date.year) },
-        }
-        rsp = gclient.execute(
-          api_method: gcal.events.insert,
-          parameters: { 'calendarId' => 'c@chrisbolton.me' },
-          body: JSON.dump(event),
-          headers: { 'Content-Type' => 'application/json' }
-        )
+    if verified
+      courses.each do |course|
+        course.days.each do |day|
+          event = {
+            start: { dateTime: day.start_time.change(day: day.date.day, month: day.date.month, year: day.date.year) },
+            end: { dateTime: day.end_time.change(day: day.date.day, month: day.date.month, year: day.date.year) },
+          }
+          rsp = gclient.execute(
+            api_method: gcal.events.insert,
+            parameters: { 'calendarId' => 'c@chrisbolton.me' },
+            body: JSON.dump(event),
+            headers: { 'Content-Type' => 'application/json' }
+          )
+        end
       end
+      render json: { success: true }
+    else
+      render json: { success: false }
     end
-    render nothing: true
   end
 
   def search

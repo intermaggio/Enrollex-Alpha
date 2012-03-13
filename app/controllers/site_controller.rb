@@ -8,6 +8,20 @@ class SiteController < ApplicationController
     redirect_to session[:gomni_redirect]
   end
 
+  def calendar_list
+    gclient = Google::APIClient.new
+    gclient.authorization.client_id = GKEY
+    gclient.authorization.client_secret = GSECRET
+    gclient.authorization.update_token!(current_user.ghash)
+    gcal = gclient.discovered_api('calendar', 'v3')
+    calendar = gclient.execute(api_method: gcal.calendar_list.list)
+    if calendar.data.respond_to?(:error)
+      render json: { success: false }
+    else
+      render json: { success: true, calendars: calendars.data.items.map { |c| { id: c.id, title: c.summary } } }
+    end
+  end
+
   def gcal_import
     courses =
       if params[:courses] then params[:courses].map { |c| Course.find c }

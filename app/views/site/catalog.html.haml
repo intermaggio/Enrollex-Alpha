@@ -1,3 +1,12 @@
+#calendar-modal.modal.hide.fade
+  .modal-header
+    %a.close{:'data-dismiss' => 'modal'} ×
+    %h3 Choose your calendar
+  .modal-body
+  .modal-footer
+    = link_to 'Close', 'javascript:void(0)', :'data-dismiss' => 'modal', class: 'btn'
+    = link_to 'Select', 'javascript:void(0)', :'data-dismiss' => 'modal', class: 'btn btn-success'
+
 #unenroll-modal.modal.hide.fade
   .modal-header
     %a.close{:'data-dismiss' => 'modal'} ×

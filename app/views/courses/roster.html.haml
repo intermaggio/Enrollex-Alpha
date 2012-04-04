@@ -31,8 +31,12 @@
         - else
           %td= camper.phone
         - unless defined?(download)
-          %th= camper.parent.ename
-          %th= camper.parent.ephone
+          - if camper.parent.ename
+            %th= camper.parent.ename
+            %th= camper.parent.ephone
+          - else
+            %th &mdash;
+            %th &mdash;
         - if defined?(download)
           - course.days.each do |day|
             %td

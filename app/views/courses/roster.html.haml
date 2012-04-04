@@ -9,7 +9,7 @@
     %tr
       %th Name
       %th Age
-      - if camper.parent && !defined?(download)
+      - unless defined?(download)
         %th Parent Name
         %th Parent Phone
       - else

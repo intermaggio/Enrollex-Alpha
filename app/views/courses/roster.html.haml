@@ -31,7 +31,7 @@
         - else
           %td= camper.phone
         - unless defined?(download)
-          - if camper.parent.ename
+          - if camper.parent && camper.parent.ename
             %th= camper.parent.ename
             %th= camper.parent.ephone
           - else

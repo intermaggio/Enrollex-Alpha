@@ -9,7 +9,7 @@
     %tr
       %th Name
       %th Age
-      - unless defined?(download) && camper.parent
+      - unless defined?(download) && !camper.parent
         %th Parent Name
         %th Parent Phone
       - else
@@ -25,7 +25,7 @@
       %tr
         %td= camper.name
         %td= age camper.birthday
-        - unless defined?(download) && camper.parent
+        - unless defined?(download) && !camper.parent
           %td= camper.parent.name
           %td= camper.parent.phone
         - else

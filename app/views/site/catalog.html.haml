@@ -1,3 +1,14 @@
+#google-modal.hide
+
+#calendar-modal.modal.hide.fade
+  .modal-header
+    %a.close{:'data-dismiss' => 'modal'} ×
+    %h3 Choose your calendar
+  .modal-body
+  .modal-footer
+    = link_to 'Close', 'javascript:void(0)', :'data-dismiss' => 'modal', class: 'btn'
+    = link_to 'Select', 'javascript:void(0)', :'data-dismiss' => 'modal', class: 'btn btn-success'
+
 #unenroll-modal.modal.hide.fade
   .modal-header
     %a.close{:'data-dismiss' => 'modal'} ×
@@ -54,6 +65,48 @@
             = render partial: 'site/course_table', locals: { user: camper }
 
 :javascript
+  function closeGcal() {
+    $('#google-modal').bPopup().close()
+    $('#calendar-modal .modal-body').html('')
+    for (var i=0; i < data.calendars.length; i++) {
+      $('#calendar-modal .modal-body').append('<input type="radio" name="calendar" value="' + data.calendars[i].id + '"> ' + data.calendars[i].title + '<br/>')
+    }
+    $('#calendar-modal .modal-body').append('<select id="timezone"></select>')
+    $('#calendar-modal select').append('<option value="-12:00">-12:00</option>').append('<option value="-11:00">-11:00</option>').append('<option value="-10:00">-10:00</option>').append('<option value="-09:00">-09:00</option>').append('<option value="-08:00">-08:00</option>').append('<option value="-07:00">-07:00</option>').append('<option value="-06:00">-06:00</option>').append('<option value="-05:00">-05:00</option>').append('<option value="-04:00">-04:00</option>').append('<option value="-03:00">-03:00</option>').append('<option value="-02:00">-02:00</option>').append('<option value="-01:00">-01:00</option>').append('<option value="-00:00">-00:00</option>').append('<option value="+01:00">+01:00</option>').append('<option value="+02:00">+02:00</option>').append('<option value="+03:00">+03:00</option>').append('<option value="+04:00">+04:00</option>').append('<option value="+05:00">+05:00</option>').append('<option value="+06:00">+06:00</option>').append('<option value="+07:00">+07:00</option>').append('<option value="+08:00">+08:00</option>').append('<option value="+09:00">+09:00</option>').append('<option value="+10:00">+10:00</option>').append('<option value="+11:00">+11:00</option>').append('<option value="+12:00">+12:00</option>').append('<option value="+13:00">+13:00</option>').append('<option value="+14:00">+14:00</option>')
+    $('#timezone').val("#{current_user.timezone}")
+    $('#calendar-modal').modal()
+    $('#calendar-modal').modal('show')
+  }
+  $('.export').click(function(){
+    $.post(
+      '/site/calendar_list',
+      { courses: [$(this).attr('cid')] },
+      function(rsp) {
+        if (rsp.success) {
+          $('#calendar-modal .modal-body').html('')
+          for (var i=0; i < rsp.calendars.length; i++) {
+            $('#calendar-modal .modal-body').append('<input type="radio" name="calendar" value="' + rsp.calendars[i].id + '"> ' + rsp.calendars[i].title + '<br/>')
+          }
+          $('#calendar-modal .modal-body').append('<select id="timezone"></select>')
+          $('#calendar-modal select').append('<option value="-12:00">-12:00</option>').append('<option value="-11:00">-11:00</option>').append('<option value="-10:00">-10:00</option>').append('<option value="-09:00">-09:00</option>').append('<option value="-08:00">-08:00</option>').append('<option value="-07:00">-07:00</option>').append('<option value="-06:00">-06:00</option>').append('<option value="-05:00">-05:00</option>').append('<option value="-04:00">-04:00</option>').append('<option value="-03:00">-03:00</option>').append('<option value="-02:00">-02:00</option>').append('<option value="-01:00">-01:00</option>').append('<option value="-00:00">-00:00</option>').append('<option value="+01:00">+01:00</option>').append('<option value="+02:00">+02:00</option>').append('<option value="+03:00">+03:00</option>').append('<option value="+04:00">+04:00</option>').append('<option value="+05:00">+05:00</option>').append('<option value="+06:00">+06:00</option>').append('<option value="+07:00">+07:00</option>').append('<option value="+08:00">+08:00</option>').append('<option value="+09:00">+09:00</option>').append('<option value="+10:00">+10:00</option>').append('<option value="+11:00">+11:00</option>').append('<option value="+12:00">+12:00</option>').append('<option value="+13:00">+13:00</option>').append('<option value="+14:00">+14:00</option>')
+          $('#timezone').val("#{current_user.timezone}")
+          $('#calendar-modal').modal()
+          $('#calendar-modal').modal('show')
+        } else {
+          $('#google-modal').html('<iframe id="gcal-iframe" src="http://localhost:3000/auth/google_oauth2" width="800" height="600"></iframe>')
+          $('#google-modal').bPopup()
+        }
+      }, 'json'
+    )
+  })
+  $('#calendar-modal .btn-success').click(function(){
+    $.post(
+      '/site/gcal_import',
+      { timezone: $('#timezone').val() },
+      function(rsp) {
+      }, 'json'
+    )
+  })
   $('#unenroll').click(function(){
     $('#unenroll-modal form').submit()
     $('.course' + $(this).attr('cid') + ':last').fadeOut('slow')

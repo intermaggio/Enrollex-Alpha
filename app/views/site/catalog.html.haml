@@ -65,8 +65,8 @@
             = render partial: 'site/course_table', locals: { user: camper }
 
 :javascript
-  function closeGcal(calendars) {
-    console.log(calendars)
+  window.addEventListener('message', function(e) {
+    var calendars = #{session[:calendars].to_json}
     $('#google-modal').bPopup().close()
     $('#calendar-modal .modal-body').html('')
     for (var i=0; i < calendars.length; i++) {
@@ -77,7 +77,7 @@
     $('#timezone').val("#{current_user.timezone}")
     $('#calendar-modal').modal()
     $('#calendar-modal').modal('show')
-  }
+  })
   $('.export').click(function(){
     $.post(
       '/site/calendar_list',
@@ -94,7 +94,7 @@
           $('#calendar-modal').modal()
           $('#calendar-modal').modal('show')
         } else {
-          $('#google-modal').html('<iframe id="gcal-iframe" src="http://localhost:3000/auth/google_oauth2" width="800" height="600"></iframe>')
+          $('#google-modal').html('<iframe id="gcal-iframe" src="http://#{request.domain}/auth/google_oauth2" width="800" height="600"></iframe>')
           $('#google-modal').bPopup()
         }
       }, 'json'

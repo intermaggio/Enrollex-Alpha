@@ -1,2 +1,2 @@
 :javascript
-  window.parent.closeGcal(#{session[:calendars]})
+  window.parent.postMessage('gcal', '*')

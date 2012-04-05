@@ -65,11 +65,12 @@
             = render partial: 'site/course_table', locals: { user: camper }
 
 :javascript
-  function closeGcal() {
+  function closeGcal(calendars) {
+    console.log(calendars)
     $('#google-modal').bPopup().close()
     $('#calendar-modal .modal-body').html('')
-    for (var i=0; i < data.calendars.length; i++) {
-      $('#calendar-modal .modal-body').append('<input type="radio" name="calendar" value="' + data.calendars[i].id + '"> ' + data.calendars[i].title + '<br/>')
+    for (var i=0; i < calendars.length; i++) {
+      $('#calendar-modal .modal-body').append('<input type="radio" name="calendar" value="' + calendars[i].id + '"> ' + calendars[i].title + '<br/>')
     }
     $('#calendar-modal .modal-body').append('<select id="timezone"></select>')
     $('#calendar-modal select').append('<option value="-12:00">-12:00</option>').append('<option value="-11:00">-11:00</option>').append('<option value="-10:00">-10:00</option>').append('<option value="-09:00">-09:00</option>').append('<option value="-08:00">-08:00</option>').append('<option value="-07:00">-07:00</option>').append('<option value="-06:00">-06:00</option>').append('<option value="-05:00">-05:00</option>').append('<option value="-04:00">-04:00</option>').append('<option value="-03:00">-03:00</option>').append('<option value="-02:00">-02:00</option>').append('<option value="-01:00">-01:00</option>').append('<option value="-00:00">-00:00</option>').append('<option value="+01:00">+01:00</option>').append('<option value="+02:00">+02:00</option>').append('<option value="+03:00">+03:00</option>').append('<option value="+04:00">+04:00</option>').append('<option value="+05:00">+05:00</option>').append('<option value="+06:00">+06:00</option>').append('<option value="+07:00">+07:00</option>').append('<option value="+08:00">+08:00</option>').append('<option value="+09:00">+09:00</option>').append('<option value="+10:00">+10:00</option>').append('<option value="+11:00">+11:00</option>').append('<option value="+12:00">+12:00</option>').append('<option value="+13:00">+13:00</option>').append('<option value="+14:00">+14:00</option>')

@@ -1,54 +1,56 @@
 class SiteController < ApplicationController
 
   def callback
-    session[:courses] = params[:courses]
     creds = env['omniauth.auth'].credentials
     creds['access_token'] = creds.token
     creds.delete(:token)
     current_user.update_attribute(:ghash, creds)
-    redirect_to '/site/gcal_import'
+    render layout: false
   end
 
   def calendar_list
-    gclient = Google::APIClient.new
-    gclient.authorization.client_id = GKEY
-    gclient.authorization.client_secret = GSECRET
-    gclient.authorization.update_token!(current_user.ghash)
-    gcal = gclient.discovered_api('calendar', 'v3')
-    calendar = gclient.execute(api_method: gcal.calendar_list.list)
-    if calendar.data.respond_to?(:error)
-      render json: { success: false }
+    session[:courses] = params[:courses]
+    unless !current_user.ghash || current_user.ghash == {}
+      gclient = Google::APIClient.new
+      gclient.authorization.client_id = GKEY
+      gclient.authorization.client_secret = GSECRET
+      gclient.authorization.update_token!(current_user.ghash)
+      gcal = gclient.discovered_api('calendar', 'v3')
+      calendars = gclient.execute(api_method: gcal.calendar_list.list)
+      session[:calendars] = calendars.data.items.map { |c| { id: c.id, title: c.summary } }
+      if calendars.data['error']
+        render json: { success: false }
+      else
+        render json: { success: true, calendars: session[:calendars] }
+      end
     else
-      render json: { success: true, calendars: calendars.data.items.map { |c| { id: c.id, title: c.summary } } }
+      render json: { success: false }
     end
   end
 
   def gcal_import
+    current_user.update_attribute(:timezone, params[:timezone])
     courses = session[:courses].map { |c| Course.find c }
     gclient = Google::APIClient.new
     gclient.authorization.client_id = GKEY
     gclient.authorization.client_secret = GSECRET
     gclient.authorization.update_token!(current_user.ghash)
     gcal = gclient.discovered_api('calendar', 'v3')
-    if verified
-      courses.each do |course|
-        course.days.each do |day|
-          event = {
-            start: { dateTime: day.start_time.change(day: day.date.day, month: day.date.month, year: day.date.year) },
-            end: { dateTime: day.end_time.change(day: day.date.day, month: day.date.month, year: day.date.year) },
-          }
-          rsp = gclient.execute(
-            api_method: gcal.events.insert,
-            parameters: { 'calendarId' => 'c@chrisbolton.me' },
-            body: JSON.dump(event),
-            headers: { 'Content-Type' => 'application/json' }
-          )
-        end
+    courses.each do |course|
+      course.days.each do |day|
+        event = {
+          start: { dateTime: day.start_time.change(day: day.date.day, month: day.date.month, year: day.date.year) },
+          end: { dateTime: day.end_time.change(day: day.date.day, month: day.date.month, year: day.date.year) },
+        }
+        rsp = gclient.execute(
+          api_method: gcal.events.insert,
+          parameters: { 'calendarId' => 'c@chrisbolton.me' },
+          body: JSON.dump(event).gsub('Z', "#{current_user.timezone}"),
+          headers: { 'Content-Type' => 'application/json' }
+        )
       end
-      render json: { success: true }
-    else
-      render json: { success: false }
     end
+    render json: { success: true }
   end
 
   def search

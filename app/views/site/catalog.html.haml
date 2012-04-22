@@ -71,7 +71,7 @@
         '/site/calendar_list',
         {},
         function(rsp) {
-          var calendars = #{session[:calendars].to_json}
+          var calendars = rsp
           $('#google-modal').bPopup().close()
           $('#calendar-modal .modal-body').html('')
           for (var i=0; i < calendars.length; i++) {

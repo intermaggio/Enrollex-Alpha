@@ -16,7 +16,7 @@ class SiteController < ApplicationController
     gcal = gclient.discovered_api('calendar', 'v3')
     calendars = gclient.execute(api_method: gcal.calendar_list.list)
     session[:calendars] = calendars.data.items.map { |c| { id: c.id, title: c.summary } }
-    render nothing: true
+    render json: session[:calendars].to_json
   end
 
   def calendar_list

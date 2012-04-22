@@ -8,6 +8,17 @@ class SiteController < ApplicationController
     render layout: false
   end
 
+  def calendar_session
+    gclient = Google::APIClient.new
+    gclient.authorization.client_id = GKEY
+    gclient.authorization.client_secret = GSECRET
+    gclient.authorization.update_token!(current_user.ghash)
+    gcal = gclient.discovered_api('calendar', 'v3')
+    calendars = gclient.execute(api_method: gcal.calendar_list.list)
+    session[:calendars] = calendars.data.items.map { |c| { id: c.id, title: c.summary } }
+    render nothing: true
+  end
+
   def calendar_list
     session[:courses] = params[:courses]
     unless !current_user.ghash || current_user.ghash == {}

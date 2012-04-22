@@ -29,7 +29,6 @@ class SiteController < ApplicationController
   end
 
   def gcal_import
-    current_user.update_attribute(:timezone, params[:timezone])
     courses = session[:courses].map { |c| Course.find c }
     gclient = Google::APIClient.new
     gclient.authorization.client_id = GKEY
@@ -47,7 +46,7 @@ class SiteController < ApplicationController
         rsp = gclient.execute(
           api_method: gcal.events.insert,
           parameters: { 'calendarId' => 'c@chrisbolton.me' },
-          body: JSON.dump(event).gsub('Z', "#{current_user.timezone}"),
+          body: JSON.dump(event).gsub('Z', "#{organization.timezone}"),
           headers: { 'Content-Type' => 'application/json' }
         )
       end

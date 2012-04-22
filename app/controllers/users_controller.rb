@@ -79,6 +79,7 @@ class UsersController < InheritedResources::Base
   def create_organization
     @user = User.new params[:user]
     @organization = Organization.new params[:organization]
+    @organization.timezone = @organization.timezone.match(/((-|\+)\d{2}:\d{2})/).captures.first
     if @user.save && @organization.save
       auto_login @user
       remember_me!
@@ -93,6 +94,7 @@ class UsersController < InheritedResources::Base
 
   def create_adult
     @user = User.new params[:user]
+    @user.timezone = @user.timezone.match(/((-|\+)\d{2}:\d{2})/).captures.first
     if params[:user][:birthday]
       birthday = params[:user][:birthday].split(/\W/)
       @user.birthday = birthday[1] + '/' + birthday[0] + '/' + birthday[2]

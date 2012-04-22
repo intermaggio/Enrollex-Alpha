@@ -7,7 +7,7 @@
       font-size: 18px
       text-shadow: 0 1px 0 white
 - if course.price >= 50
-  %h2#damount Dollar Amount: $#{course.price / 100 * @campers.size}
+  %h2#damount Dollar Amount: $#{number_with_precision(course.price.to_f / 100 * @campers.size, precision: 2)}
   %h2#thank_you{style: 'display:none'} Thank You!
 
   #payment_complete{style: 'display:none'}

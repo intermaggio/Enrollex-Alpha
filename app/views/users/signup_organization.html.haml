@@ -22,6 +22,9 @@
     .clearfix= f.text_field :first_name, placeholder: 'first name', autocomplete: 'off'
     .clearfix= f.text_field :last_name, placeholder: 'last name', autocomplete: 'off'
     .clearfix= text_field_tag :name, '', id: 'organization_name', name: 'organization[name]', placeholder: 'organization name', autocomplete: 'off'
+    .control-group
+      %label Timezone:
+      .controls= time_zone_select :organization, :timezone, ActiveSupport::TimeZone.us_zones, default: 'Pacific Time (US & Canada)'
     = f.submit :signup, style: 'display:inline'
 
 - if @organization

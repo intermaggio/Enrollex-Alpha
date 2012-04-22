@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120313031818) do
+ActiveRecord::Schema.define(:version => 20120422220014) do
 
   create_table "campers", :force => true do |t|
     t.datetime "created_at",  :null => false
@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(:version => 20120313031818) do
     t.text     "registration_message"
     t.string   "email_subject"
     t.text     "email_message"
+    t.string   "timezone"
   end
 
   create_table "organizations_admins", :force => true do |t|
@@ -156,7 +157,6 @@ ActiveRecord::Schema.define(:version => 20120313031818) do
     t.string   "ename"
     t.string   "enumber"
     t.string   "ghash"
-    t.string   "timezone"
   end
 
   add_index "users", ["remember_me_token"], :name => "index_users_on_remember_me_token"

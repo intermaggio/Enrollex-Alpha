@@ -19,6 +19,9 @@
         .controls
           .input= f.text_field :stripe_publishable, value: organization.stripe_publishable
       .control-group
+        %label Timezone:
+        .controls= time_zone_select :organization, :timezone, ActiveSupport::TimeZone.us_zones, default: 'Pacific Time (US & Canada)'
+      .control-group
         %label Background color:
         .controls
           .input= f.text_field :color, placeholder: '#BFE3CD', value: organization.color

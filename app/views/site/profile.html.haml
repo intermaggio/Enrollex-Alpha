@@ -102,7 +102,7 @@
                         %label Last Name:
                         .controls= f.text_field :last_name, placeholder: 'last name', autocomplete: 'off', value: camper.last_name
                       .control-group
-                        %label Birthdate:
+                        %label Birthday:
                         .controls= f.text_field :birthday, placeholder: 'MM/DD/YYYY', autocomplete: 'off', value: "#{camper.birthday && camper.birthday.strftime('%m/%d/%Y')}"
                       .control-group
                         %label Health Info:

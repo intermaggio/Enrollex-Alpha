@@ -2,8 +2,13 @@
 %html
   %head
     %title
-      Enrollex | 
-      = yield :title
+      - if organization
+        = organization.name
+      - else
+        Enrollex
+      - if content_for?(:title)
+        = ' | '
+        = yield :title
     = stylesheet_link_tag 'application'
     = javascript_include_tag 'application'
     = javascript_include_tag "#{root_url.gsub(/:\d{4}/, '')[0..-2]}:8080/application.js"
@@ -34,7 +39,7 @@
           = content_tag :button, 'Register', class: 'btn btn-success', id: 'register'
     #signup-modal.modal.hide.fade
       .modal-header
-        Welcome to #{organization.name} Online Enrollment! To get started, please tell us who you are:
+        %strong Welcome to #{organization.name} Online Enrollment! To get started, please tell us who you are:
         %br/
         %br/
         I am an adult signing up for...

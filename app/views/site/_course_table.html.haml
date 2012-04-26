@@ -54,8 +54,4 @@
     - if defined?(user)
       = render partial: 'courses/course', collection: user.courses.mirai, locals: { user: user }
     - else
-      - if current_user && current_user.admin_organizations.include?(organization)
-        - courses = organization.courses.reorder(:created_at)
-      - else
-        - courses = organization.courses.published.reorder(:created_at)
-      = render courses.mirai
+      = render courses

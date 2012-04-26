@@ -53,7 +53,10 @@
       %li= link_to 'my enrollments', '#enrollments', :'data-toggle' => 'tab'
 
   .tab-content#courses
-    #all.tab-pane.active= render partial: 'site/course_table'
+    - if defined?(@courses)
+      #all.tab-pane.active= render partial: 'site/course_table', locals: { courses: @courses }
+    - else
+      #all.tab-pane.active= render partial: 'site/course_table'
     - if current_user
       #enrollments.tab-pane
         - if current_user.courses.mirai.first
@@ -68,10 +71,10 @@
   :javascript
     window.addEventListener('message', function(e) {
       $.post(
-        '/site/calendar_list',
+        '/site/calendar_session',
         {},
         function(rsp) {
-          var calendars = #{session[:calendars].to_json}
+          var calendars = rsp
           $('#google-modal').bPopup().close()
           $('#calendar-modal .modal-body').html('')
           for (var i=0; i < calendars.length; i++) {

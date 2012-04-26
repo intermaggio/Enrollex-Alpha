@@ -58,7 +58,7 @@
           %p
             %strong Enrollment Deadline:
             = course.deadline.strftime('%B')
-            = course.deadline.strftime('%-m').to_i.ordinalize + ','
+            = course.deadline.strftime('%-d').to_i.ordinalize + ','
             = course.deadline.strftime('%Y')
         %hr/
         - if course.max_campers

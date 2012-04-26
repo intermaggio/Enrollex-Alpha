@@ -79,7 +79,6 @@ class UsersController < InheritedResources::Base
   def create_organization
     @user = User.new params[:user]
     @organization = Organization.new params[:organization]
-    @organization.timezone = @organization.timezone.match(/((-|\+)\d{2}:\d{2})/).captures.first
     if @user.save && @organization.save
       auto_login @user
       remember_me!

@@ -53,7 +53,10 @@
       %li= link_to 'my enrollments', '#enrollments', :'data-toggle' => 'tab'
 
   .tab-content#courses
-    #all.tab-pane.active= render partial: 'site/course_table'
+    - if defined?(@courses)
+      #all.tab-pane.active= render partial: 'site/course_table', locals: { courses: @courses }
+    - else
+      #all.tab-pane.active= render partial: 'site/course_table'
     - if current_user
       #enrollments.tab-pane
         - if current_user.courses.mirai.first

@@ -1,5 +1,12 @@
 class SiteController < ApplicationController
 
+  def catalog
+    @courses = organization.courses
+    @courses = @courses.mirai if params[:m] == '1'
+    @courses = @courses.search(params[:q]).reorder(:created_at) if params[:q]
+    @courses = @courses.published if !current_user || current_user && !current_user.admin_organizations.include?(organization)
+  end
+
   def callback
     creds = env['omniauth.auth'].credentials
     creds['access_token'] = creds.token

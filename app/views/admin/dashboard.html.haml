@@ -1,2 +1,5 @@
-= link_to 'Course Management', '/admin/courses', class: 'btn btn-info'
-= link_to 'Instructor Management', '/admin/instructors', class: 'btn btn-info'
+= content_for :title, 'Dashboard'
+
+= link_to 'Add Course', '/admin/courses', class: 'btn btn-info'
+= link_to 'Staff Management', '/admin/instructors', class: 'btn btn-info'
+= link_to 'Administrator Console', '/admin/organization', class: 'btn btn-info'

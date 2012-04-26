@@ -35,7 +35,7 @@
     = link_to 'Destroy', 'javascript:void(0)', :'data-dismiss' => 'modal', class: 'btn btn-danger', id: 'destroy', remote: true
 
 #catalog_header
-  %h1 Courses
+  %h1 Course Catalog
   #catalog_header_content
     - if current_user && organization.admins.include?(current_user)
       = link_to 'Add new', '/admin/courses', class: 'btn btn-primary'

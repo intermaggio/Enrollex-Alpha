@@ -9,11 +9,9 @@
     %tr
       %th Name
       %th Age
-      - unless defined?(download) && camper.parent
+      - unless defined?(download)
         %th Parent Name
-        %th Parent Phone
-      - else
-        %th Phone
+      %th Phone
       - unless defined?(download)
         %th Emergency Contact Name
         %th Emergency Contact Phone
@@ -25,14 +23,22 @@
       %tr
         %td= camper.name
         %td= age camper.birthday
-        - unless defined?(download) && camper.parent
-          %td= camper.parent.name
-          %td= camper.parent.phone
+        - unless defined?(download)
+          - if camper.parent
+            %td= camper.parent.name
+            %td= camper.parent.phone
+          - else
+            %td &mdash;
+            %td= camper.phone
         - else
           %td= camper.phone
         - unless defined?(download)
-          %th= camper.parent.ename
-          %th= camper.parent.ephone
+          - if camper.parent && camper.parent.ename
+            %td= camper.parent.ename
+            %td= camper.parent.enumber
+          - else
+            %td &mdash;
+            %td &mdash;
         - if defined?(download)
           - course.days.each do |day|
             %td

@@ -11,7 +11,7 @@
                 %li= reason
       = form_for :user, url: '/users/create_adult', html: { id: 'signup_form', class: 'form-horizontal' } do |f|
         %fieldset
-          %legend Signup
+          %legend Adult Signup
           = f.hidden_field :utype, value: 'self'
           .row{style: 'padding-top: 30px'}
             = hidden_field_tag :type, 'adult'
@@ -26,16 +26,16 @@
                 %label Confirm Password:
                 .controls= password_field_tag :password_confirmation, '', placeholder: 'password confirmation', autocomplete: 'off'
               .control-group
-                %label First Name:
+                %label Your First Name:
                 .controls= f.text_field :first_name, placeholder: 'first name', autocomplete: 'off'
               .control-group
-                %label Last Name:
+                %label Your Last Name:
                 .controls= f.text_field :last_name, placeholder: 'last name', autocomplete: 'off'
               .control-group
-                %label Birthday:
+                %label Your Birthday:
                 .controls= f.text_field :birthday, placeholder: 'MM/DD/YYYY', autocomplete: 'off'
               .control-group
-                %label Gender:
+                %label Your Gender:
                 .controls
                   .radio
                     = f.radio_button :gender, 'm'
@@ -44,7 +44,7 @@
                     = f.radio_button :gender, 'f'
                     Female
               .control-group
-                %label Health Info:
+                %label Your Health Info: (if applicable)
                 .controls= f.text_area :health_info, placeholder: 'Enter any health-related information we should know about here.', autocomplete: 'off', style: 'height: 125px'
             .span6
               .control-group

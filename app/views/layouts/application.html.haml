@@ -34,10 +34,13 @@
           = content_tag :button, 'Register', class: 'btn btn-success', id: 'register'
     #signup-modal.modal.hide.fade
       .modal-header
-        I am an adult signing up for..
+        Welcome to #{organization.name} Online Enrollment! To get started, please tell us who you are:
+        %br/
+        %br/
+        I am an adult signing up for...
       .modal-body
+        = link_to 'My Family', '/signup?type=children', class: 'btn btn-success'
         = link_to 'Myself', '/signup?type=adult', class: 'btn btn-success'
-        = link_to 'Children', '/signup?type=children', class: 'btn btn-success'
     #signin-modal.modal.hide.fade
       .modal-header
         %a.close{:'data-dismiss' => 'modal'} ×

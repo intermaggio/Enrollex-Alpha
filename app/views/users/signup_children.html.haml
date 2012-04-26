@@ -11,7 +11,7 @@
                 %li= reason
       = form_for :user, url: '/users/create_adult', html: { id: 'signup_form', class: 'form-horizontal' } do |f|
         %fieldset
-          %legend Signup
+          %legend Step 1: Adult Signup
           = f.hidden_field :utype, value: 'campers'
           .row{style: 'padding-top: 30px'}
             = hidden_field_tag :type, 'children'

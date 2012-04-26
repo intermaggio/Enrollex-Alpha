@@ -11,7 +11,7 @@
                 %li= reason
       = form_for :camper, url: '/users/create_camper', html: { id: 'signup_form', class: 'form-horizontal' } do |f|
         %fieldset
-          %legend Signup
+          %legend Step 2: Child / Additional Family Member Signup
           = f.hidden_field :utype, value: 'camper'
           .row{style: 'padding-top: 30px'}
             .span6
@@ -38,9 +38,6 @@
                 .controls= f.text_area :health_info, placeholder: 'Enter any health-related information we should know about here.', autocomplete: 'off', style: 'height: 125px'
             .span6
               .control-group
-                %label{style: 'margin-top: -4px'} Same as parent?
-                .controls= check_box_tag :same_address
-              .control-group
                 %label Street:
                 .controls= f.text_field :street, placeholder: 'street name and number', autocomplete: 'off'
               .control-group
@@ -52,6 +49,9 @@
               .control-group
                 %label Zip:
                 .controls= f.text_field :zip, placeholder: 'zip code', autocomplete: 'off'
+              .control-group
+                %label{style: 'margin-top: -4px'} Same as parent?
+                .controls= check_box_tag :same_address
           .form-actions{style: 'text-align:center;padding-left:0'}
             = f.submit "add another #{organization.unit_name}", style: 'display:inline', id: 'submit_another', class: 'btn btn-success'
             = f.submit 'complete signup', style: 'display:inline', id: 'submit_complete', class: 'btn btn-success'

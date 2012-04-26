@@ -1,9 +1,10 @@
-= content_for :title, 'Administrator Console'
+= content_for :title, 'Admin Console'
 
 %h1 Administration Console
 %ul.nav.nav-tabs{:'data-tabs' => 'tabs'}
-  %li.active= link_to 'general', '#general', :'data-toggle' => 'tab'
-  %li= link_to 'signup', '#signup', :'data-toggle' => 'tab'
+  %li.active= link_to 'General', '#general', :'data-toggle' => 'tab'
+  %li= link_to 'Branding', '#branding', :'data-toggle' => 'tab'
+  %li= link_to 'Payment', '#payment', :'data-toggle' => 'tab'
 
 .tab-content
   #general.tab-pane.active
@@ -13,24 +14,23 @@
         Organization info successfully updated!
     = form_for :organization, url: '/admin/update_org', html: { class: 'form form-horizontal' } do |f|
       .control-group
-        %label Stripe Secret:
-        .controls
-          .input= f.text_field :stripe_secret, value: organization.stripe_secret
-      .control-group
-        %label Stripe Publishable:
-        .controls
-          .input= f.text_field :stripe_publishable, value: organization.stripe_publishable
-      .control-group
         %label Timezone:
         .controls= time_zone_select :organization, :timezone, ActiveSupport::TimeZone.us_zones, default: 'Pacific Time (US & Canada)'
-      .control-group
-        %label Background color:
-        .controls
-          .input= f.text_field :color, placeholder: '#BFE3CD', value: organization.color
       .control-group
         %label Camper unit name:
         .controls
           .input= f.text_field :unit_name, placeholder: 'camper, student, etc.', value: organization.unit_name
+      = f.submit :Update, class: 'btn btn-success'
+  #branding.tab-pane
+    - if flash[:notice] == :success
+      .alert.alert-success{style: 'width:275px'}
+        %a.close{:'data-dismiss' => 'alert'} ×
+        Organization info successfully updated!
+    = form_for :organization, url: '/admin/update_org', html: { class: 'form form-horizontal' } do |f|
+      .control-group
+        %label Background color:
+        .controls
+          .input= f.text_field :color, placeholder: '#BFE3CD', value: organization.color
       .control-group
         %label Welcome Message:
         .controls
@@ -64,5 +64,21 @@
           %label Remove image?
           .controls
             .input= f.check_box :remove_banner
-      = f.submit :update, class: 'btn btn-success'
-  #signup.tab-pane
+      = f.submit :Update, class: 'btn btn-success'
+ 
+  #payment.tab-pane
+    - if flash[:notice] == :success
+      .alert.alert-success{style: 'width:275px'}
+        %a.close{:'data-dismiss' => 'alert'} ×
+        Organization info successfully updated!
+    = form_for :organization, url: '/admin/update_org', html: { class: 'form form-horizontal' } do |f|
+      .control-group
+        %label Stripe Secret:
+        .controls
+          .input= f.text_field :stripe_secret, value: organization.stripe_secret
+      .control-group
+        %label Stripe Publishable:
+        .controls
+          .input= f.text_field :stripe_publishable, value: organization.stripe_publishable
+      = f.submit :Update, class: 'btn btn-success'
+ 

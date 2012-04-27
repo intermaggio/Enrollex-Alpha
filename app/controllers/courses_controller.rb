@@ -92,7 +92,7 @@ class CoursesController < InheritedResources::Base
       amount: amount,
       currency: 'usd',
       card: params[:stripeToken],
-      description: current_user.email + ' :: ' + course.lowname
+      description: current_user.email + ' :: [#' + course.id + '] :: ' + course.lowname
     )
     Stripe.api_key =
       if Rails.env == 'production'

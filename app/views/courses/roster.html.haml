@@ -1,7 +1,8 @@
+= content_for :title, "Roster: [#{course.id}] #{course.name}"
 %table.table.table-striped.table-bordered.table-condensed{style: 'border-width:3px'}
   %thead
     %tr
-      %th{style: 'text-align:center', colspan: "#{course.days.count * 2 + 6}"} #{course.name} (#{course.id})
+      %th{style: 'text-align:center', colspan: "#{course.days.count * 2 + 6}"} [#{course.id}] #{course.name}
   %thead
     %tr
       %th{style: 'text-align:center', colspan: "#{course.days.count * 2 + 6}"}= course.date_string

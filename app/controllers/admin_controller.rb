@@ -67,6 +67,21 @@ class AdminController < InheritedResources::Base
 
   def update_org
     organization.update_attributes params[:organization]
+    timezone = (ActiveSupport::TimeZone.find_tzinfo(organization.timezone).current_period.utc_offset / 3600).to_s
+    organization.timezone =
+      if timezone[0] == '-'
+        if timezone.length < 3
+          timezone[0] + '0' + timezone[1] + ':00'
+        else
+          timezone + ':00'
+        end
+      else
+        if timezone.length < 2
+          '+0' + timezone + ':00'
+        else
+          '+' + timezone + ':00'
+        end
+      end
     @org = organization if params[:organization][:banner].present?
     redirect_to request.referer, notice: :success
   end

@@ -20,7 +20,7 @@
       %i.icon-info-sign>
     - if current_user
       = link_to 'javascript:void(0)', title: 'Export to gCal', class: 'export', cid: course.id do
-      %i.icon-share>
+        %i.icon-share>
     - if defined?(user)
       = link_to '#unenroll-modal', title: 'Unenroll', :'data-toggle' => 'modal', class: 'unenroll', cid: course.id, uid: user.id do
         %i.icon-remove-sign>

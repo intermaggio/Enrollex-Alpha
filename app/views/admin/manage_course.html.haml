@@ -4,8 +4,9 @@
 %h1= course.name
 .tabbable
   %ul.nav.nav-tabs{:'data-tabs' => 'tabs'}
-    %li.active= link_to 'info', '#info', :'data-toggle' => 'tab'
-    %li= link_to 'schedule', '#schedule', id: 'schedule-link', :'data-toggle' => 'tab'
+    %li.active= link_to 'Info', '#info', :'data-toggle' => 'tab'
+    %li= link_to 'Schedule', '#schedule', id: 'schedule-link', :'data-toggle' => 'tab'
+    %li= link_to 'Staffing', '#staffing', id: 'staffing-link', :'data-toggle' => 'tab'
   .tab-content
     #info.tab-pane.active
       - if flash[:notice] == :success
@@ -70,20 +71,6 @@
               .control-group
                 %label Custom Registration Instructions:
                 .controls= f.text_area :reg_description, placeholder: 'custom registration instructions', value: course.reg_description, style: 'height:100px'
-              .control-group
-                %label Instructors:
-                .controls
-                  = select :c, :instructor, instructors.all.map{|i|[i.name,i.id]}, prompt: 'Select instructor'
-                  = content_tag :button, 'Add', id: 'add_instructor', class: 'btn'
-              .control-group
-                .controls
-                  #instructors
-                    - course.instructors.each do |i|
-                      %div{id: "instructor#{i.id}", class: 'instructor', iid: "#{i.id}"}
-                        %span.iname= i.name
-                        = hidden_field_tag :"instructor[#{i.id}]", i.id
-                        .iclose
-                          %a ×
             .span6
               .control-group
                 %label Show Map?:
@@ -119,7 +106,23 @@
           .form-actions= f.submit 'Submit', class: 'btn btn-success'
     #schedule.tab-pane
       #cal_container
-      #new_content.hide
+        #new_content.hide
+    #staffing.tab-pane
+      .control-group
+        %label Instructors:
+        .controls
+          = select :c, :instructor, instructors.all.map{|i|[i.name,i.id]}, prompt: 'Select instructor'
+          = content_tag :button, 'Add', id: 'add_instructor', class: 'btn'
+      .control-group
+        .controls
+          #instructors
+            - course.instructors.each do |i|
+              %div{id: "instructor#{i.id}", class: 'instructor', iid: "#{i.id}"}
+                %span.iname= i.name
+                = hidden_field_tag :"instructor[#{i.id}]", i.id
+                .iclose
+                  %a ×
+ 
 
 = render partial: 'cal', locals: { course: course, json: @json }
 

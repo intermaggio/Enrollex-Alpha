@@ -82,6 +82,7 @@ class AdminController < InheritedResources::Base
           '+' + timezone + ':00'
         end
       end
+    organization.save
     @org = organization if params[:organization][:banner].present?
     redirect_to request.referer, notice: :success
   end

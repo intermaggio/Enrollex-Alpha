@@ -1,5 +1,6 @@
 Enrollex::Application.routes.draw do
 
+  get '/dashboard' => 'admin#dashboard'
   get '/signup' => 'users#signup'
   get '/signout' => 'users#signout'
   get '/signup_organization' => 'users#signup_organization'

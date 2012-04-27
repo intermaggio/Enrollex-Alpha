@@ -38,20 +38,20 @@
   %h1 Course Catalog
   #catalog_header_content
     - if current_user && organization.admins.include?(current_user)
-      = link_to 'Add new', '/admin/courses', class: 'btn btn-primary'
+      = link_to 'Add New', '/admin/courses', class: 'btn btn-primary'
     = form_tag "/site/search", class: 'form-search', remote: true do
-      = text_field_tag :q, '', placeholder: 'search', class: 'search-query'
+      = text_field_tag :q, '', placeholder: 'Enter Keywords Here', class: 'search-query'
       = hidden_field_tag :mirai
       = hidden_field_tag :uid
       = submit_tag :Search, class: 'btn btn-info'
     #previous_container
-      Show Past Courses
       = check_box_tag :previous
+      Show Past Courses 
 .tabbable
   %ul.nav.nav-tabs
-    %li.active= link_to 'all', '#all', :'data-toggle' => 'tab'
+    %li.active= link_to 'All Courses', '#all', :'data-toggle' => 'tab'
     - if current_user
-      %li= link_to 'my enrollments', '#enrollments', :'data-toggle' => 'tab'
+      %li= link_to 'My Enrollments', '#enrollments', :'data-toggle' => 'tab'
 
   .tab-content#courses
     - if defined?(@courses)

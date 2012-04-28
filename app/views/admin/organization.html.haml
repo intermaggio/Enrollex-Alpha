@@ -134,7 +134,7 @@
       .control-group
         %label Credit Card:
         .controls
-          - if organization.card
+          - if @card
             #active_card ********#{Stripe::Customer.retrieve(organization.card).active_card.last4}
             = link_to 'Update', '#card', class: 'btn btn-primary', :'data-toggle' => 'modal'
           - else

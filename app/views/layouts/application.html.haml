@@ -77,7 +77,7 @@
                     - if current_user && organization && current_user.admin_organizations.include?(organization)
                       %li
                         .divider-vertical
-                      %li= link_to 'Dashboard', '/dashboard'
+                      %li= link_to 'Admin Dashboard', '/dashboard'
                   - else
                     - if current_user && current_user.admin_organizations
                       %li.dropdown

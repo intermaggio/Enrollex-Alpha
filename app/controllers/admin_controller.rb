@@ -29,6 +29,21 @@ class AdminController < InheritedResources::Base
     results
   end
 
+  def update_card
+    Stripe.api_key =
+      if Rails.env == 'production'
+        'XfaZC4N7Fprblt21L8o91wFmsr0iGnYR'
+      else
+        's6f5O2kuPgMtxRDwA2cZ4RmPhCd8a4rX'
+      end
+    @customer = Stripe::Customer.create(
+      description: organization.name,
+      card: params[:stripeToken]
+    )
+    organization.update_attribute(:card, @customer.id)
+    respond_to :js
+  end
+
   def refund
     Stripe.api_key = organization.stripe_secret
     Stripe::Charge.retrieve(params[:stripe]).refund

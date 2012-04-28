@@ -1,0 +1,4 @@
+$('#card').modal()
+$('#card').modal('hide')
+$('#payment .btn-primary').text('Update')
+$('#active_card').html('********<%= @customer.active_card.last4 %>');

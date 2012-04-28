@@ -86,26 +86,18 @@ class CoursesController < InheritedResources::Base
       course.campers << User.find(camper)
     end
     Stripe.api_key = organization.stripe_secret
-    cut = (params[:amount].to_f * 0.03).to_i
-    amount = params[:amount].to_i - cut
     stripe = Stripe::Charge.create(
-      amount: amount,
+      amount: params[:amount],
       currency: 'usd',
       card: params[:stripeToken],
-      description: current_user.email + ' :: [#' + course.id.to_s + '] :: ' + course.lowname
+      description: "#{current_user.email} :: [##{course.id}] :: #{course.lowname}"
     )
-    Stripe.api_key =
-      if Rails.env == 'production'
-        'XfaZC4N7Fprblt21L8o91wFmsr0iGnYR'
-      else
-        's6f5O2kuPgMtxRDwA2cZ4RmPhCd8a4rX'
-      end
-    stripe = Stripe::Charge.create(
-      amount: cut < 50 ? 50 : cut,
-      currency: 'usd',
-      card: params[:stripeToken],
-      description: current_user.email + ' :: ' + course.lowname
-    )
+    #Stripe.api_key =
+      #if Rails.env == 'production'
+        #'XfaZC4N7Fprblt21L8o91wFmsr0iGnYR'
+      #else
+        #'s6f5O2kuPgMtxRDwA2cZ4RmPhCd8a4rX'
+      #end
     params[:campers].each do |camper|
       CampersCourses.where(user_id: camper, course_id: course.id).first.update_attribute(:stripe_id, stripe.id)
     end

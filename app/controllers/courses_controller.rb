@@ -92,14 +92,8 @@ class CoursesController < InheritedResources::Base
       card: params[:stripeToken],
       description: "#{current_user.email} :: [##{course.id}] :: #{course.lowname}"
     )
-    #Stripe.api_key =
-      #if Rails.env == 'production'
-        #'XfaZC4N7Fprblt21L8o91wFmsr0iGnYR'
-      #else
-        #'s6f5O2kuPgMtxRDwA2cZ4RmPhCd8a4rX'
-      #end
     params[:campers].each do |camper|
-      CampersCourses.where(user_id: camper, course_id: course.id).first.update_attribute(:stripe_id, stripe.id)
+      CampersCourses.where(user_id: camper, course_id: course.id).first.update_attributes(stripe_id: stripe.id, charged_at: Time.now, org_id: organization.id)
     end
     Pony.mail(
       to: current_user.email,

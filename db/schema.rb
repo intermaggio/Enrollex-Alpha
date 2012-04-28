@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120428175357) do
+ActiveRecord::Schema.define(:version => 20120428203136) do
 
   create_table "campers", :force => true do |t|
     t.datetime "created_at",  :null => false
@@ -28,9 +28,12 @@ ActiveRecord::Schema.define(:version => 20120428175357) do
   end
 
   create_table "campers_courses", :force => true do |t|
-    t.integer "user_id"
-    t.integer "course_id"
-    t.string  "stripe_id"
+    t.integer  "user_id"
+    t.integer  "course_id"
+    t.string   "stripe_id"
+    t.datetime "created_at"
+    t.datetime "charged_at"
+    t.integer  "org_id"
   end
 
   create_table "charges", :force => true do |t|
@@ -118,6 +121,7 @@ ActiveRecord::Schema.define(:version => 20120428175357) do
     t.text     "email_message"
     t.string   "timezone"
     t.string   "card"
+    t.integer  "last_charge"
   end
 
   create_table "organizations_admins", :force => true do |t|

@@ -43,7 +43,7 @@
                   %label Upload a New Picture:
                   .controls= f.file_field :image
               .control-group
-                %label Maximum number of enrollments:
+                %label Max Enrollments:
                 .controls= f.text_field :max_campers, placeholder: 'maximum number of enrollments', value: course.max_campers
               .control-group
                 %label Registration Deadline:
@@ -66,10 +66,10 @@
                   - else
                     = f.check_box :featured
               .control-group
-                %label Custom Registration Link:
+                %label Custom Reg Link:
                 .controls= f.text_field :reg_link, placeholder: 'custom registration link', value: course.reg_link
               .control-group
-                %label Custom Registration Instructions:
+                %label Custom Reg Instructions:
                 .controls= f.text_area :reg_description, placeholder: 'custom registration instructions', value: course.reg_description, style: 'height:100px'
             .span6
               .control-group

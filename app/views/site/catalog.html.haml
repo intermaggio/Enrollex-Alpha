@@ -69,8 +69,8 @@
             = render partial: 'site/course_table', locals: { user: camper }
 
 - if current_user
-  :javascript
-    window.addEventListener('message', function(e) {
+  - if flash[:cal]
+    :javascript
       $.post(
         '/site/calendar_session',
         {},
@@ -85,7 +85,7 @@
           $('#calendar-modal').modal('show')
         }, 'json'
       )
-    })
+  :javascript
     $('.export').click(function(){
       $.post(
         '/site/calendar_list',
@@ -99,8 +99,7 @@
             $('#calendar-modal').modal()
             $('#calendar-modal').modal('show')
           } else {
-            $('#google-modal').html('<iframe id="gcal-iframe" src="http://#{request.domain}/auth/google_oauth2" width="800" height="600"></iframe>')
-            $('#google-modal').bPopup()
+            window.location = "http://#{request.domain}/auth/google_oauth2"
           }
         }, 'json'
       )

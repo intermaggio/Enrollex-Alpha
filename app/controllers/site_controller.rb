@@ -1,10 +1,14 @@
 class SiteController < ApplicationController
 
   def catalog
-    @courses = organization.courses
-    @courses = @courses.mirai if params[:m] == '1'
-    @courses = @courses.search(params[:q]).reorder(:created_at) if params[:q]
-    @courses = @courses.published if !current_user || current_user && !current_user.admin_organizations.include?(organization)
+    unless request.subdomain.present?
+      redirect_to "http://#{session[:subdomain]}.#{request.domain}/catalog", flash: { cal: true }
+    else
+      @courses = organization.courses
+      @courses = @courses.mirai if params[:m] == '1'
+      @courses = @courses.search(params[:q]).reorder(:created_at) if params[:q]
+      @courses = @courses.published if !current_user || current_user && !current_user.admin_organizations.include?(organization)
+    end
   end
 
   def callback
@@ -12,7 +16,7 @@ class SiteController < ApplicationController
     creds['access_token'] = creds.token
     creds.delete(:token)
     current_user.update_attribute(:ghash, creds)
-    render layout: false
+    redirect_to '/catalog'
   end
 
   def calendar_session
@@ -28,6 +32,7 @@ class SiteController < ApplicationController
 
   def calendar_list
     session[:courses] = params[:courses]
+    session[:subdomain] = organization.subname
     unless !current_user.ghash || current_user.ghash == {}
       gclient = Google::APIClient.new
       gclient.authorization.client_id = GKEY

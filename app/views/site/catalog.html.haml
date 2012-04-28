@@ -107,7 +107,7 @@
     $('#calendar-modal .btn-success').click(function(){
       $.post(
         '/site/gcal_import',
-        {},
+        { calendar: $('#calendar-modal input[name=calendar]:checked').val() },
         function(rsp) {
         }, 'json'
       )

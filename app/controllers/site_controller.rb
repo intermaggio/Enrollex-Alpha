@@ -68,7 +68,7 @@ class SiteController < ApplicationController
         }
         rsp = gclient.execute(
           api_method: gcal.events.insert,
-          parameters: { 'calendarId' => 'c@chrisbolton.me' },
+          parameters: { 'calendarId' => params[:calendar] },
           body: JSON.dump(event).gsub('Z', "#{organization.timezone}"),
           headers: { 'Content-Type' => 'application/json' }
         )

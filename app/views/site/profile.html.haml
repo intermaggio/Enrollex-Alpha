@@ -73,7 +73,7 @@
                       .controls= f.text_field :enumber, placeholder: 'emergency number', value: current_user.enumber
                   .control-group
                     %label Confirm Password:
-                    .controls= password_field_tag :password_confirmation, '', placeholder: 'new password confirmation'
+                    .controls= password_field_tag :password_confirmation, '', placeholder: 'new password'
               .form-actions{style: 'width:719px'}= f.submit 'Submit', class: 'btn btn-success'
         #campers{class: "tab-pane #{flash[:notice] == 'success' && 'active' || ''}"}
           - if flash[:notice] == 'success'

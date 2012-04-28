@@ -112,7 +112,7 @@
         %label Instructors:
         .controls
           = select :c, :instructor, instructors.all.map{|i|[i.name,i.id]}, prompt: 'Select instructor'
-          = content_tag :button, 'Add', id: 'add_instructor', class: 'btn'
+          = content_tag :button, 'Add', id: 'add_instructor', class: 'btn', style:'margin-bottom:9px;'
       .control-group
         .controls
           #instructors

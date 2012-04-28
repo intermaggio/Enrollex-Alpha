@@ -75,27 +75,27 @@
             <select id="end">
               <option value="AM">AM</option>
               <option value="PM">PM</option>
-            </select>
-            <br />
-            <br />
-            Individual class times can
-            <br />
-            be edited in the next step.
-          </div>' +
+            </select>' +
           (if @opts.preset_data.length > 0
             '<div id="date-selection" style="text-align:left">
                <div id="date-selection-header" style="text-align:center">
-                 Apply this time to:
+                 <br />
+                 <strong>Apply this time to:</strong>
                </div>
                <input id="new-dates" type="radio" name="date-selection" checked="checked"> Newly-selected dates only<br/>
                <input id="all-dates" type="radio" name="date-selection"> All dates
              </div>'
            else
              '') +
+            '<br />
+            Individual class times can
+            <br />
+            be edited in the next step.
+          </div>'+
           (unless @opts.persistent_time
             '<button class="btn btn-success">Schedule</button>'
-           else
-             '<dl style="width:150px"></dl>') +
+          else
+            '<dl style="width:150px"></dl>') +
         '</div>
       '
 

@@ -76,6 +76,11 @@
               <option value="AM">AM</option>
               <option value="PM">PM</option>
             </select>
+            <br />
+            <br />
+            Individual class times can
+            <br />
+            be edited in the next step.
           </div>' +
           (if @opts.preset_data.length > 0
             '<div id="date-selection" style="text-align:left">

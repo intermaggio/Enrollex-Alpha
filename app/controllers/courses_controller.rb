@@ -92,7 +92,7 @@ class CoursesController < InheritedResources::Base
       amount: amount,
       currency: 'usd',
       card: params[:stripeToken],
-      description: current_user.email + ' :: [#' + course.id + '] :: ' + course.lowname
+      description: current_user.email + ' :: [#' + course.id.to_s + '] :: ' + course.lowname
     )
     Stripe.api_key =
       if Rails.env == 'production'
@@ -101,7 +101,7 @@ class CoursesController < InheritedResources::Base
         's6f5O2kuPgMtxRDwA2cZ4RmPhCd8a4rX'
       end
     stripe = Stripe::Charge.create(
-      amount: cut,
+      amount: cut < 50 ? 50 : cut,
       currency: 'usd',
       card: params[:stripeToken],
       description: current_user.email + ' :: ' + course.lowname

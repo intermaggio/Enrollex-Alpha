@@ -1,7 +1,7 @@
 = render partial: 'time_confirm'
 = content_for :title, 'Edit Course'
 
-%h1= course.name
+%h1= "[#" + course.id.to_s + "] " + course.name
 .tabbable
   %ul.nav.nav-tabs{:'data-tabs' => 'tabs'}
     %li.active= link_to 'Info', '#info', :'data-toggle' => 'tab'

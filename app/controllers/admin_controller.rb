@@ -133,6 +133,7 @@ class AdminController < InheritedResources::Base
     if !params[:finalize] && params[:start][:hour] != 'NaN'
       course.default_start = params[:start][:hour] + ':' + params[:start][:min]
       course.default_end = params[:end][:hour] + ':' + params[:end][:min]
+      course.save
     end
     course.days.destroy_all
     days = []

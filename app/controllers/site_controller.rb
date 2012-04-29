@@ -65,7 +65,7 @@ class SiteController < ApplicationController
           end: { dateTime: day.end_time.change(day: day.date.day, month: day.date.month, year: day.date.year) },
           summary: "[#{course.id}] #{course.name}",
           description: "#{course.description.gsub(/<[\/\w]*>/, '')}\n\nImportant Notes:\n#{course.notes}\n\nLocation:\n#{course.location_name}",
-          location: course.full_address
+          location: course.full_address || ''
         }
         rsp = gclient.execute(
           api_method: gcal.events.insert,

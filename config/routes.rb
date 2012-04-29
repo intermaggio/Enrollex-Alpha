@@ -7,6 +7,7 @@ Enrollex::Application.routes.draw do
 
   get '/signup/:action' => 'users'
 
+  match '/admin/organization' => 'admin#org'
   post '/courses/:id/:action' => 'courses'
   get '/courses/:id/:lowname' => 'courses#show'
   get '/courses/:id/:lowname/:action' => 'courses'

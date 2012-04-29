@@ -176,8 +176,9 @@ class AdminController < InheritedResources::Base
     @json = course.days.reorder(:date).map {|d| { day: (d.date.to_time.to_i.to_s + '000').to_i, start_time: (d.start_time.to_i.to_s + '000').to_i, end_time: (d.end_time.to_i.to_s + '000').to_i } }.to_json
   end
 
-  def organization
+  def org
     Stripe.api_key = organization.stripe_secret if !organization.card
+    render 'organization'
   end
 
 end

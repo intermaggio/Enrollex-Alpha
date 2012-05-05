@@ -14,6 +14,7 @@ class InstructorsController < InheritedResources::Base
 
   def update
     User.find(params[:id]).update_attributes(params[:user])
+    redirect_to '/admin/instructors'
   end
 
   def edit

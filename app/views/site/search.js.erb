@@ -1,1 +1,2 @@
 $('#all tbody').html('<%= (escape_javascript @html).html_safe %>')
+$('#all table').trigger('update')

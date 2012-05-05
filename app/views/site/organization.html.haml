@@ -13,8 +13,8 @@
           .showcase-caption
             %h3 [##{course.id}] #{course.name}
             .description{style: 'max-height:56px;overflow:auto'}= RedCloth.new(course.description, [:filter_html, :bbcode]).to_html.html_safe
-            .register= link_to 'More info', "/courses/#{course.id}/#{course.lowname}", class: 'btn btn-primary'
-            .price
+            .register{style: 'display:inline-block'}= link_to 'More info', "/courses/#{course.id}/#{course.lowname}", class: 'btn btn-primary'
+            .price{style: 'display:inline-block'}
               %strong $#{course.price / 100}
     :javascript
       $('#showcase').awShowcase({

@@ -14,6 +14,7 @@ Enrollex::Application.routes.draw do
   match '/admin/courses/create' => 'admin#create'
   match '/admin/courses/:id' => 'admin#manage_course'
   match '/admin/courses/:id/:action' => 'admin'
+  match '/admin/instructors/:id(/:action)' => 'instructors'
 
   match '/auth/:provider/callback' => 'site#callback'
 

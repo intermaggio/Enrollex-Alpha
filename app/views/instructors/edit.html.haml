@@ -1,0 +1,56 @@
+= content_for :title, "Staff | #{instructor.name}"
+
+%h1= instructor.name
+#edit.tab-pane
+  .row
+    .span6
+      - if @user
+        %ul
+        - @user.errors.messages.each do |message|
+          %li
+            = message.first
+            %ul
+              - message.last.each do |reason|
+                %li= reason
+      = form_for :user, url: "/admin/instructors/#{instructor.id}/update", html: { class: 'form-horizontal', id: 'instructor_form', remote: true } do |f|
+        %fieldset
+          %legend Edit
+          .control-group
+            %label First Name:
+            .controls= f.text_field :first_name, placeholder: 'first name', value: instructor.first_name
+          .control-group
+            %label Last Name:
+            .controls= f.text_field :last_name, placeholder: 'last name', value: instructor.last_name
+          .control-group
+            %label Phone Number:
+            .controls= f.text_field :phone, placeholder: 'ten-digit phone number', value: instructor.phone
+          .control-group
+            %label Email:
+            .controls= f.text_field :email, placeholder: 'email', value: instructor.email
+          .control-group
+            %label Bio:
+            .controls= f.text_area :bio, placeholder: 'bio', style: 'height: 150px', value: instructor.bio
+          .control-group
+            %label Headshot:
+            .controls= f.file_field :image
+          .control-group
+            %label Course Assignments:
+            .controls
+              - organization.courses.each do |course|
+                %label.checkbox
+                  = check_box_tag :"courses[#{course.id}]"
+                  = course.name
+          .form-actions= f.submit :submit, class: 'btn btn-success', value: 'Submit'
+
+:javascript
+  $('#instructor_form').validate({
+    rules: {
+      'user[first_name]': { required: true },
+      'user[last_name]': { required: true },
+      'user[email]': { required: true }
+    }
+  })
+
+  $('.field_with_errors input').each(function(){
+    $(this).parent().parent().addClass('error')
+  })

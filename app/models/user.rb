@@ -6,6 +6,11 @@ class User < ActiveRecord::Base
     self.update_attribute(:email, "camper#{Time.now.to_i.to_s + self.parent_id.to_s}@enrollex.org") if self.utype == 'camper'
   end
 
+  after_validation do
+    self.phone.gsub!(/[^\d]/, '')
+    self.phone = self.phone[1..-1] if self.phone.length > 10
+  end
+
   after_create do
     unless self.salt || self.utype == 'camper'
       Pony.mail(

@@ -1,4 +1,14 @@
 = content_for :title, 'Staff Management'
+
+#destroy-modal.modal.hide.fade
+  .modal-header
+    %a.close{:'data-dismiss' => 'modal'} ×
+    %h3
+  .modal-body
+  .modal-footer
+    = link_to "Yeah, he's no good.", 'javascript:void(0)', class: 'btn btn-danger', remote: true
+    = link_to 'No way!', 'javascript:void(0)', :'data-dismiss' => 'modal', class: 'btn'
+
 %h1 Staff Management
 .tabbable
   %ul.nav.nav-tabs{:'data-tabs' => 'tabs'}
@@ -26,13 +36,13 @@
           %th.actions Actions
         %tbody
           - instructors.each do |instructor|
-            %tr
+            %tr{id: "instructor#{instructor.id}", iid: instructor.id}
               %td= instructor.first_name
               %td= instructor.last_name
               %td.actions
-                = link_to '#' do
+                = link_to "/admin/instructors/#{instructor.id}/edit", title: 'Edit' do
                   %i.icon-cog>
-                = link_to '#' do
+                = link_to '#destroy-modal', title: 'Remove', class: 'destroy', name: instructor.name, iid: instructor.id, :'data-toggle' => 'modal' do
                   %i.icon-trash>
     #create.tab-pane
       .row
@@ -83,6 +93,11 @@
     })
 
 :javascript
+  $('.actions a').tipTip({ delay: 200 })
+  $('.destroy').click(function(){
+    $('#destroy-modal h3').text('Remove ' + $(this).attr('name') + '?')
+    $('#destroy-modal .btn-danger').attr('href', '/admin/instructors/' + $(this).attr('iid') + '/destroy')
+  })
   $('#instructor_form').validate({
     rules: {
       'user[first_name]': { required: true },

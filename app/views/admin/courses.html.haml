@@ -13,106 +13,99 @@
     = link_to 'Choose', 'javascript:void(0)', id: 'template-choose', class: 'btn btn-success', :'data-dismiss' => 'modal'
 
 %h1 New Course
-.tabbable
-  %ul.nav.nav-tabs{:'data-tabs' => 'tabs'}
-    %li.active= link_to 'Info', '#create', id: 'create-link', :'data-toggle' => 'tab'
-
-  .tab-content
-    #create.tab-pane.active
-      .row
-        .span12
-          - if @course
+#create
+  .row
+    .span12
+      - if @course
+        %ul
+        - @course.errors.messages.each do |message|
+          %li
+            = message.first
             %ul
-            - @course.errors.messages.each do |message|
-              %li
-                = message.first
-                %ul
-                  - message.last.each do |reason|
-                    %li= reason
-          = form_for :course, url: '/admin/courses/create', html: { class: 'form-horizontal', id: 'course_form' } do |f|
-            %fieldset
-              %legend{style: 'position:relative'}
-                Create
-                %div{style: 'position:absolute;top:-3px;left:80px'}= link_to 'Choose template..', '#template-modal', class: 'btn btn-info', :'data-toggle' => 'modal'
-              .row{style: 'padding-top: 15px'}
-                .span6
-                  .control-group
-                    %label Name:
-                    .controls= f.text_field :name, placeholder: 'name'
-                  .control-group
-                    %label Description:
-                    .controls= f.text_area :description, placeholder: 'description', style: 'height:100px'
-                  .control-group
-                    %label Important notes:
-                    .controls= f.text_area :notes, placeholder: 'important notes', style: 'height: 150px'
-                  .control-group
-                    %label Price:
-                    .controls= text_field_tag :price, '', placeholder: 'price'
-                  .control-group{style: 'position: relative'}
-                    = f.select :range_type, options_for_select({:'Age Range' => :age, :'Grade Range' => :grade}), {}, style: 'width: 120px;position: absolute; left: 10px'
-                    .controls
-                      = f.text_field :start_range, style: 'display: inline-block; width: 20px'
-                      = ' - '
-                      = f.text_field :end_range, style: 'display: inline-block; width: 20px'
-                  #pics
-                    .control-group
-                      %label Upload a Picture:
-                      .controls= f.file_field :image
-                  .control-group
-                    %label Status text:
-                    .controls= f.text_field :status, placeholder: 'status text'
-                  .control-group
-                    %label Max Enrollments:
-                    .controls= f.text_field :max_campers, placeholder: 'max number of enrollments'
-                  .control-group
-                    %label Registration Deadline:
-                    .controls= f.text_field :deadline, placeholder: 'MM/DD/YYYY'
-                  .control-group
-                    %label Publish?:
-                    .controls= f.check_box :published
-                  .control-group
-                    %label Featured?:
-                    .controls= f.check_box :featured
-                  .control-group
-                    %label Custom Reg Link:
-                    .controls= f.text_field :reg_link, placeholder: 'custom registration link'
-                  .control-group
-                    %label Custom Reg Instructions:
-                    .controls= f.text_area :reg_description, placeholder: 'registration instructions', style: 'height:100px'
-                  .control-group
-                    %label Instructors:
-                    .controls
-                      = select :c, :instructor, instructors.all.map{|i|[i.name,i.id]}, prompt: 'Select instructor'
-                      = content_tag :button, 'Add', id: 'add_instructor', class: 'btn'
-                  .control-group
-                    .controls
-                      #instructors
-                .span6
-                  .control-group
-                    %label Location Name:
-                    .controls= f.text_field :location_name, placeholder: 'location name'
-                  .control-group
-                    %label Address:
-                    .controls= f.text_field :address, placeholder: 'address'
-                  .control-group
-                    %label City:
-                    .controls= f.text_field :city, placeholder: 'city'
-                  .control-group
-                    %label State:
-                    .controls= f.text_field :state, placeholder: 'state'
-                  .control-group
-                    %label Zip:
-                    .controls= f.text_field :zip, placeholder: 'zip'
-                  .control-group
-                    %label Suite/Apt:
-                    .controls= f.text_field :suite
-                  .control-group
-                    %label Room:
-                    .controls= f.text_field :room
-                  .control-group
-                    .controls= link_to 'Preview/Update Map', 'javascript:void(0)', id: 'update_map', class: 'btn btn-primary'
-                  #map
-              .form-actions= f.submit 'Schedule', class: 'btn btn-success'
+              - message.last.each do |reason|
+                %li= reason
+      = form_for :course, url: '/admin/courses/create', html: { class: 'form-horizontal', id: 'course_form' } do |f|
+        %fieldset
+          %div{style: 'position:relative;'}= link_to 'Choose Template..', '#template-modal', class: 'btn btn-info', :'data-toggle' => 'modal'
+          .row{style: 'padding-top: 40px'}
+            .span6
+              .control-group
+                %label Name:
+                .controls= f.text_field :name, placeholder: 'name'
+              .control-group
+                %label Description:
+                .controls= f.text_area :description, placeholder: 'description', style: 'height:100px'
+              .control-group
+                %label Important notes:
+                .controls= f.text_area :notes, placeholder: 'important notes', style: 'height: 150px'
+              .control-group
+                %label Price:
+                .controls= text_field_tag :price, '', placeholder: 'price'
+              .control-group{style: 'position: relative'}
+                = f.select :range_type, options_for_select({:'Age Range' => :age, :'Grade Range' => :grade}), {}, style: 'width: 120px;position: absolute; left: 10px'
+                .controls
+                  = f.text_field :start_range, style: 'display: inline-block; width: 20px'
+                  = ' - '
+                  = f.text_field :end_range, style: 'display: inline-block; width: 20px'
+              #pics
+                .control-group
+                  %label Upload a Picture:
+                  .controls= f.file_field :image
+              .control-group
+                %label Status text:
+                .controls= f.text_field :status, placeholder: 'status text'
+              .control-group
+                %label Max Enrollments:
+                .controls= f.text_field :max_campers, placeholder: 'max number of enrollments'
+              .control-group
+                %label Registration Deadline:
+                .controls= f.text_field :deadline, placeholder: 'MM/DD/YYYY'
+              .control-group
+                %label Publish?:
+                .controls= f.check_box :published
+              .control-group
+                %label Featured?:
+                .controls= f.check_box :featured
+              .control-group
+                %label Custom Reg Link:
+                .controls= f.text_field :reg_link, placeholder: 'custom registration link'
+              .control-group
+                %label Custom Reg Instructions:
+                .controls= f.text_area :reg_description, placeholder: 'registration instructions', style: 'height:100px'
+              .control-group
+                %label Instructors:
+                .controls
+                  = select :c, :instructor, instructors.all.map{|i|[i.name,i.id]}, prompt: 'Select instructor'
+                  = content_tag :button, 'Add', id: 'add_instructor', class: 'btn'
+              .control-group
+                .controls
+                  #instructors
+            .span6
+              .control-group
+                %label Location Name:
+                .controls= f.text_field :location_name, placeholder: 'location name'
+              .control-group
+                %label Address:
+                .controls= f.text_field :address, placeholder: 'address'
+              .control-group
+                %label City:
+                .controls= f.text_field :city, placeholder: 'city'
+              .control-group
+                %label State:
+                .controls= f.text_field :state, placeholder: 'state'
+              .control-group
+                %label Zip:
+                .controls= f.text_field :zip, placeholder: 'zip'
+              .control-group
+                %label Suite/Apt:
+                .controls= f.text_field :suite
+              .control-group
+                %label Room:
+                .controls= f.text_field :room
+              .control-group
+                .controls= link_to 'Preview/Update Map', 'javascript:void(0)', id: 'update_map', class: 'btn btn-primary'
+              #map
+          .form-actions= f.submit 'Schedule', class: 'btn btn-success'
 
 - if @course
   :javascript
@@ -127,7 +120,7 @@
   })
   $.validator.addMethod('date', function(value) {
     if (value.replace(/\D/g, '').search(/\d{8}/) == 0) { return true }
-    else if (value == '') { return true }
+    else if (value == '' || value == 'MM/DD/YYYY') { return true }
     else { return false }
   }, 'Please enter a properly formatted date. (MM/DD/YYYY)')
   $('#course_form').validate({

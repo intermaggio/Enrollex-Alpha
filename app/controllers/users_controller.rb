@@ -53,10 +53,10 @@ class UsersController < InheritedResources::Base
       remember_me!
       user.change_password! params[:pass]
       user.save
-      #cookies[:cm_user_id] = user.id
-      #cookies[:cm_hash] = user.salt.to_i(36)
-      #session[:cm_user_id] = cookies[:cm_user_id]
-      #session[:cm_hash] = cookies[:cm_hash]
+      cookies[:cm_user_id] = user.id
+      cookies[:cm_hash] = user.salt.to_i(36)
+      session[:cm_user_id] = cookies[:cm_user_id]
+      session[:cm_hash] = cookies[:cm_hash]
     end
     redirect_to '/'
   end
@@ -178,10 +178,10 @@ class UsersController < InheritedResources::Base
   def auth
     if user = login(params[:email], params[:password], true)
       remember_me!
-      #cookies[:cm_user_id] = user.id
-      #cookies[:cm_hash] = user.salt.to_i(36)
-      #session[:cm_user_id] = cookies[:cm_user_id]
-      #session[:cm_hash] = cookies[:cm_hash]
+      cookies[:cm_user_id] = user.id
+      cookies[:cm_hash] = user.salt.to_i(36)
+      session[:cm_user_id] = cookies[:cm_user_id]
+      session[:cm_hash] = cookies[:cm_hash]
       redirect_to request.referrer
     else
       redirect_to request.referrer, flash: { auth_fail: true }
@@ -190,10 +190,10 @@ class UsersController < InheritedResources::Base
 
   def signout
     logout
-    #cookies[:cm_user_id] = nil
-    #cookies[:cm_hash] = nil
-    #session[:cm_hash] = nil
-    #session[:cm_user_id] = nil
+    cookies[:cm_user_id] = nil
+    cookies[:cm_hash] = nil
+    session[:cm_hash] = nil
+    session[:cm_user_id] = nil
     redirect_to '/'
   end
 

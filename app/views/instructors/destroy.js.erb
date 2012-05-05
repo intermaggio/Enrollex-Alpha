@@ -1,0 +1,5 @@
+$('#destroy-modal').modal()
+$('#destroy-modal').modal('hide')
+$('#instructor<%=params[:id]%>').fadeOut('slow')
+$('#instructor<%=params[:id]%>').delay(600).remove()
+$('#list table').trigger('update')

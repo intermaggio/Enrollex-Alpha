@@ -1,6 +1,15 @@
 = render partial: 'time_confirm'
 = content_for :title, 'Edit Course'
 
+#remove-instructor.modal.hide.fade
+  .modal-header
+    %a.close{:'data-dismiss' => 'modal'} ×
+    %h3
+  .modal-body
+  .modal-footer
+    = link_to "Yeah, he's no good.", 'javascript:void(0)', class: 'btn btn-danger', remote: true
+    = link_to 'No way!', 'javascript:void(0)', :'data-dismiss' => 'modal', class: 'btn'
+
 - if params[:tab]
   :javascript
     var tab = '#{params[:tab]}'
@@ -129,12 +138,40 @@
       .control-group
         .controls
           #instructors
-            - course.instructors.each do |i|
-              %div{id: "instructor#{i.id}", class: 'instructor', iid: "#{i.id}"}
-                %span.iname= i.name
-                = hidden_field_tag :"instructor[#{i.id}]", i.id
-                .iclose{style: 'display:inline-block'}
-                  %a ×
+            %table.table.table-striped.table-bordered
+              %thead
+                %tr
+                  %th.name
+                    First Name
+                    .icons
+                      = link_to 'javascript:void(0)' do
+                        %i.icon-chevron-up.top
+                      = link_to 'javascript:void(0)' do
+                        %i.icon-chevron-down.bottom
+                  %th.name
+                    Last Name
+                    .icons
+                      = link_to 'javascript:void(0)' do
+                        %i.icon-chevron-up.top
+                      = link_to 'javascript:void(0)' do
+                        %i.icon-chevron-down.bottom
+                  %th.actions Actions
+                  %th Status
+              %tbody
+                - course.instructors.each do |instructor|
+                  %tr{id: "instructor#{instructor.id}"}
+                    %td= instructor.first_name
+                    %td= instructor.last_name
+                    %td.actions
+                      = link_to 'javascript:void(0)' do
+                        %i.icon-cog
+                      = link_to '#remove-instructor', :'data-toggle' => 'modal', class: 'remove-instructor', name: instructor.name, iid: instructor.id do
+                        %i.icon-trash
+                    %td
+                      - if InstructorsCourses.where(course_id: course.id, user_id: instructor.id).first.accepted
+                        %span.label.label-info Accepted
+                      - else
+                        %span.label.label-inverse Pending
 
 = render partial: 'cal', locals: { course: course, json: @json }
 
@@ -158,12 +195,35 @@
     iname = $('#c_instructor option:selected').text()
     id = $('#c_instructor').val()
     if ( $('#instructor' + id).length == 0 && iname != 'Select instructor') {
-      $('#instructors').append('<div id="instructor' + id + '" class="instructor"></div>')
-      $('#instructor' + id).append('<span class="iname">' + iname + '</span>')
-      $('#instructor' + id).append('<input type="hidden" name="instructor[' + id + ']" value="' + id + '">')
-      $('#instructor' + id).append('<div style="display:inline-block" class="iclose"><a>×</a></div>')
+      $.post(
+        '/admin/courses/#{course.id}/add_instructor',
+        { iid: id },
+        function(html) {
+          $('#instructors table tbody').append(html)
+        },
+        'html'
+      )
     }
     return false
+  })
+
+  $('.remove-instructor').click(function(){
+    $('#remove-instructor h3').text('Really remove ' + $(this).attr('name') + '?')
+    $('#remove-instructor .btn-danger').attr('iid', $(this).attr('iid'))
+  })
+
+  $('#remove-instructor .btn-danger').click(function(){
+    var iid = $(this).attr('iid')
+    $.post(
+      '/admin/courses/#{course.id}/remove_instructor',
+      { iid: iid },
+      function(rsp) {
+        $('#remove-instructor').modal()
+        $('#remove-instructor').modal('hide')
+        $('#instructor' + iid).fadeOut('slow', function(){$(this).remove()})
+      },
+      'json'
+    )
   })
 
   $('.instructor .iclose a').live('click', function(){

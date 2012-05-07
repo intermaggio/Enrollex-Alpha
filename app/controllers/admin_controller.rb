@@ -49,6 +49,18 @@ class AdminController < InheritedResources::Base
     Stripe::Charge.retrieve(params[:stripe]).refund
   end
 
+  def add_instructor
+    @instructor = User.find params[:iid]
+    @instructor.instructing << course
+    render layout: false
+  end
+
+  def remove_instructor
+    @instructor = User.find params[:iid]
+    @instructor.instructing.delete course
+    render json: { success: true }
+  end
+
   def destroy
     course = Course.find(params[:id])
     @id = course.id

@@ -123,7 +123,7 @@
                         .controls= f.text_field :zip, placeholder: 'zip code', autocomplete: 'off', value: camper.zip
                   .form-actions{style: 'width:719px'}
                     = f.submit 'Submit', class: 'btn btn-success'
-          = link_to 'Add new camper', 'javascript:void(0)', id: 'add'
+          = link_to 'Add Family Member', 'javascript:void(0)', id: 'add'
 
 :javascript
   $.validator.addMethod('birthday', function(value) {

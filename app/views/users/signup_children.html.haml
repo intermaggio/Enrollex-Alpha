@@ -56,7 +56,7 @@
               .control-group
                 %label Emergency Contact Number:
                 .controls= f.text_field :enumber, placeholder: 'emergency contact number', autocomplete: 'off'
-          .form-actions{style: 'text-align:center;padding-left:0'}= f.submit "add #{organization.unit_name}", style: 'display:inline', id: 'submit', class: 'btn btn-success'
+          .form-actions{style: 'text-align:center;padding-left:0'}= f.submit "Add Family Member", style: 'display:inline', id: 'submit', class: 'btn btn-success'
 
 :javascript
   $.validator.addMethod('phone_number', function(value) {

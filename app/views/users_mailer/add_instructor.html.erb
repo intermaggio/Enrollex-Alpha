@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+      Hey there, <%= @instructor.name %>!
+      <p />
+      You have a new course assignment pending for <%= @course.organization.name %>:
+      <p />
+      Please visit <%= @course.organization.name %>.enrollex.org/profile and click "View My Shifts" to accept or reject this assignment. 
+      <p />
+      <strong>This assignment will expire in FIVE SECOND!</strong> <%# @course.organization.instructorShiftExpiryHours %>
+  </body>
+</html>

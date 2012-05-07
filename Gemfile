@@ -13,6 +13,7 @@ group :assets do
   gem 'uglifier'
 end
 
+gem 'newrelic_rpm'
 gem 'jquery-rails'
 gem 'haml'
 gem 'airbrake'

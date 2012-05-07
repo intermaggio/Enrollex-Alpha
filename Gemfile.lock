@@ -111,6 +111,7 @@ GEM
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-ssh (2.3.0)
+    newrelic_rpm (3.3.4.1)
     nokogiri (1.5.2)
     oauth (0.4.5)
     oauth2 (0.5.2)
@@ -223,6 +224,7 @@ DEPENDENCIES
   inherited_resources
   jquery-rails
   juggernaut
+  newrelic_rpm
   omniauth
   omniauth-google-oauth2
   pdfkit

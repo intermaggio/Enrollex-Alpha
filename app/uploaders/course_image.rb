@@ -7,10 +7,12 @@ class CourseImage < CarrierWave::Uploader::Base
     "#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
-  process resize_to_fit: [180, 180]
-
   version :small do
     process resize_to_fit: [75, 75]
+  end
+
+  version :large do
+    process resize_to_fit: [180, 180]
   end
 
   version :slider do

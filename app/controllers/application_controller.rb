@@ -27,15 +27,17 @@ class ApplicationController < ActionController::Base
   end
 
   def auth_from_cookie
-    if session[:cm_user_id].present? && !cookies[:cm_user_id]
-      cookies[:cm_user_id] = session[:cm_user_id]
-      cookies[:cm_hash] = session[:cm_hash]
-    end
-    if cookies[:cm_user_id].present?
-      begin
-        user = User.find cookies[:cm_user_id]
-        auto_login(user) if cookies[:cm_hash].to_i == user.salt.to_i(36)
-      rescue
+    unless current_user
+      if session[:cm_user_id].present? && !cookies[:cm_user_id]
+        cookies[:cm_user_id] = session[:cm_user_id]
+        cookies[:cm_hash] = session[:cm_hash]
+      end
+      if cookies[:cm_user_id].present?
+        begin
+          user = User.find cookies[:cm_user_id]
+          auto_login(user) if cookies[:cm_hash].to_i == user.salt.to_i(36)
+        rescue
+        end
       end
     end
   end

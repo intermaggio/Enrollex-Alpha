@@ -12,7 +12,7 @@
             %ul
               - message.last.each do |reason|
                 %li= reason
-      = form_for :user, url: "/admin/instructors/#{instructor.id}/update", html: { class: 'form-horizontal', id: 'instructor_form', remote: true } do |f|
+      = form_for :user, url: "/admin/instructors/#{instructor.id}/update", html: { class: 'form-horizontal', id: 'instructor_form' } do |f|
         %fieldset
           %legend Edit
           .control-group

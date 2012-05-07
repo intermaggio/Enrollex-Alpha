@@ -52,7 +52,8 @@ class AdminController < InheritedResources::Base
   def add_instructor
     @instructor = User.find params[:iid]
     @instructor.instructing << course
-    render layout: false
+    UsersMailer.add_instructor(@instructor, course).deliver
+    render partial: 'instructors/instructor', object: @instructor, locals: { course: course, instructor: @instructor }
   end
 
   def remove_instructor

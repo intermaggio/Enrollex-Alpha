@@ -159,19 +159,7 @@
                   %th Status
               %tbody
                 - course.instructors.each do |instructor|
-                  %tr{id: "instructor#{instructor.id}"}
-                    %td= instructor.first_name
-                    %td= instructor.last_name
-                    %td.actions
-                      = link_to 'javascript:void(0)' do
-                        %i.icon-cog
-                      = link_to '#remove-instructor', :'data-toggle' => 'modal', class: 'remove-instructor', name: instructor.name, iid: instructor.id do
-                        %i.icon-trash
-                    %td
-                      - if InstructorsCourses.where(course_id: course.id, user_id: instructor.id).first.accepted
-                        %span.label.label-info Accepted
-                      - else
-                        %span.label.label-inverse Pending
+                  = render partial: 'instructors/instructor', object: instructor, locals: { course: course, instructor: instructor }
 
 = render partial: 'cal', locals: { course: course, json: @json }
 
@@ -207,12 +195,12 @@
     return false
   })
 
-  $('.remove-instructor').click(function(){
+  $('.remove-instructor').live('click', function(){
     $('#remove-instructor h3').text('Really remove ' + $(this).attr('name') + '?')
     $('#remove-instructor .btn-danger').attr('iid', $(this).attr('iid'))
   })
 
-  $('#remove-instructor .btn-danger').click(function(){
+  $('#remove-instructor .btn-danger').live('click', function(){
     var iid = $(this).attr('iid')
     $.post(
       '/admin/courses/#{course.id}/remove_instructor',

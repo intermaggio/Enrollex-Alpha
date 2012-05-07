@@ -93,6 +93,10 @@ ActiveRecord::Schema.define(:version => 20120505031327) do
   create_table "instructors_courses", :force => true do |t|
     t.integer "course_id"
     t.integer "user_id"
+<<<<<<< Updated upstream
+=======
+    t.string  "status",    :default => "pending"
+>>>>>>> Stashed changes
   end
 
   create_table "instructors_organizations", :force => true do |t|

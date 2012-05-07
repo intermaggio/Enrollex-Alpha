@@ -5,4 +5,10 @@ class UsersMailer < ActionMailer::Base
     mail to: to, subject: 'blah'
   end
 
+  def add_instructor(instructor, course)
+    @instructor = instructor
+    @course = course
+    mail from: 'robot@enrollex.org', to: instructor.email, subject: 'New Course Assignment Pending'
+  end
+
 end

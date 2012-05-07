@@ -123,7 +123,7 @@ class AdminController < InheritedResources::Base
     end
     if @course.save
       organization.courses << @course
-      redirect_to "/admin/courses/#{@course.id}/schedule"
+      redirect_to "/admin/courses/#{@course.id}?tab=schedule"
     else
       render 'admin/courses'
     end

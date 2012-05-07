@@ -87,6 +87,13 @@
         .controls
           .input= f.text_field :welcome_title, placeholder: 'welcome title', value: organization.welcome_title
       .control-group
+        %label Home Page Slider
+        .controls
+          - if organization.slider
+            .input= f.check_box :slider, checked: 'checked'
+          - else
+            .input= f.check_box :slider
+      .control-group
         %label Organization Description:
         .controls
           .input= f.text_area :welcome_message, placeholder: 'welcome message', value: organization.welcome_message, style: 'height:100px'

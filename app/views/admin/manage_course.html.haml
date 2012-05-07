@@ -1,14 +1,27 @@
 = render partial: 'time_confirm'
 = content_for :title, 'Edit Course'
 
+- if params[:tab]
+  :javascript
+    var tab = '#{params[:tab]}'
+- else
+  :javascript
+    var tab = 'info'
+
+:javascript
+  $(document).ready(function(){
+    $('#' + tab + '-link').addClass('active')
+    $('#' + tab).addClass('active')
+  })
+
 %h1= "[#" + course.id.to_s + "] " + course.name
 .tabbable
   %ul.nav.nav-tabs{:'data-tabs' => 'tabs'}
-    %li.active= link_to 'Info', '#info', :'data-toggle' => 'tab'
-    %li= link_to 'Schedule', '#schedule', id: 'schedule-link', :'data-toggle' => 'tab'
-    %li= link_to 'Staffing', '#staffing', id: 'staffing-link', :'data-toggle' => 'tab'
+    %li#info-link= link_to 'Info', '#info', :'data-toggle' => 'tab'
+    %li#schedule-link= link_to 'Schedule', '#schedule', id: 'schedule-link', :'data-toggle' => 'tab'
+    %li#staffing-link= link_to 'Staffing', '#staffing', id: 'staffing-link', :'data-toggle' => 'tab'
   .tab-content
-    #info.tab-pane.active
+    #info.tab-pane
       - if flash[:notice] == :success
         .alert.alert-success{style: 'width:240px'}
           %a.close{:'data-dismiss' => 'alert'} ×
@@ -120,7 +133,7 @@
               %div{id: "instructor#{i.id}", class: 'instructor', iid: "#{i.id}"}
                 %span.iname= i.name
                 = hidden_field_tag :"instructor[#{i.id}]", i.id
-                .iclose
+                .iclose{style: 'display:inline-block'}
                   %a ×
 
 = render partial: 'cal', locals: { course: course, json: @json }
@@ -148,7 +161,7 @@
       $('#instructors').append('<div id="instructor' + id + '" class="instructor"></div>')
       $('#instructor' + id).append('<span class="iname">' + iname + '</span>')
       $('#instructor' + id).append('<input type="hidden" name="instructor[' + id + ']" value="' + id + '">')
-      $('#instructor' + id).append('<div class="iclose"><a>×</a></div>')
+      $('#instructor' + id).append('<div style="display:inline-block" class="iclose"><a>×</a></div>')
     }
     return false
   })

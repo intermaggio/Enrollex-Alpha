@@ -113,7 +113,7 @@
                     '/courses/#{course.id}/update_times',
                     { date_string: $('#date_string').val() },
                     function(){
-                      window.location = '/catalog'
+                      window.location = '/admin/courses/#{course.id}?tab=staffing'
                     },
                     'json'
                   )

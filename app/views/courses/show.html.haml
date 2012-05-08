@@ -30,7 +30,7 @@
   %h1 [##{course.id}] #{course.name}
   .well.description
     - if course.image.present?
-      .img= image_tag course.image
+      .img= image_tag course.image.large.url
     - if course.description.present?
       %h3 Description
       = RedCloth.new(course.description, [:filter_html, :bbcode]).to_html.html_safe

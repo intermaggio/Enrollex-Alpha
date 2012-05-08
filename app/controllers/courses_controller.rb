@@ -76,7 +76,7 @@ class CoursesController < InheritedResources::Base
   def enroll
     params[:campers].each do |camper|
       user = User.find camper
-      course.campers << user if current_user.campers.include?(user)
+      course.campers << user if current_user.campers.include?(user) || current_user == user
     end
     render nothing: true
   end

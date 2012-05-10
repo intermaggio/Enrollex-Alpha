@@ -31,15 +31,9 @@
             %label Bio:
             .controls= f.text_area :bio, placeholder: 'bio', style: 'height: 150px', value: instructor.bio
           .control-group
-            %label Headshot:
+            %label Picture:
             .controls= f.file_field :image
           .control-group
-            %label Course Assignments:
-            .controls
-              - organization.courses.each do |course|
-                %label.checkbox
-                  = check_box_tag :"courses[#{course.id}]"
-                  = course.name
           .form-actions= f.submit :submit, class: 'btn btn-success', value: 'Submit'
 
 :javascript

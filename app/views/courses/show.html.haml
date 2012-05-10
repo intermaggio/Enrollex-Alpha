@@ -61,21 +61,23 @@
             = course.deadline.strftime('%B')
             = course.deadline.strftime('%-d').to_i.ordinalize + ','
             = course.deadline.strftime('%Y')
-        %hr/
-        - if course.max_campers
-          %p
-            %strong
-              Max. Enrollments:
-            #{course.max_campers}
-        %p
-          %strong
-            Currently Enrolled:
-          #{course.campers.count || '0'}
-        - if course.max_campers
-          %p
-            %strong
-              Spots Left:
-            #{course.max_campers - course.campers.count}
+        - if !course.reg_link.present?
+          %hr/
+          - if course.max_campers
+            %p
+              %strong
+                Max. Enrollments:
+              #{course.max_campers}
+          - if course.max_campers
+            %p
+              %strong
+                Currently Enrolled:
+              #{course.campers.count || '0'}
+          - if course.max_campers
+            %p
+              %strong
+                Spots Left:
+              #{course.max_campers - course.campers.count}
       .span6.last
         %h3 Dates & Times
         %ul.unstyled

@@ -60,7 +60,7 @@
             .controls= password_field_tag :password, '', placeholder: 'password', autocomplete: 'off'
           %input{type: 'submit', style: 'visibility:hidden;position:absolute;top:0'}
       .modal-footer
-        = submit_tag :login, class: 'btn btn-success', onclick: "javascript:$('#signin-modal form').submit()"
+        = submit_tag :'Sign In',  class: 'btn btn-success', onclick: "javascript:$('#signin-modal form').submit()"
         = content_tag :button, 'Forgot your password?', class: 'btn', id: 'forgot'
     - unless request.path =~ /\/course\/\w*\/register/
       .container

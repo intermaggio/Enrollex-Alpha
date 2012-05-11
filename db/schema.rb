@@ -11,27 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120507191131) do
-
-  create_table "campers", :force => true do |t|
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-    t.integer  "user_id"
-    t.text     "health_info"
-    t.date     "birthday"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "street"
-    t.string   "city"
-    t.string   "state"
-    t.string   "zip"
-  end
+ActiveRecord::Schema.define(:version => 20120511225741) do
 
   create_table "campers_courses", :force => true do |t|
     t.integer  "user_id"
     t.integer  "course_id"
     t.string   "stripe_id"
-    t.datetime "created_at"
     t.datetime "charged_at"
     t.integer  "org_id"
   end
@@ -73,8 +58,8 @@ ActiveRecord::Schema.define(:version => 20120507191131) do
     t.integer  "price"
     t.text     "reg_description"
     t.string   "reg_link"
-    t.integer  "max_campers"
     t.boolean  "show_map",        :default => true
+    t.integer  "max_campers"
     t.date     "deadline"
     t.boolean  "deadline_set",    :default => false
     t.string   "suite"
@@ -104,10 +89,10 @@ ActiveRecord::Schema.define(:version => 20120507191131) do
   create_table "organizations", :force => true do |t|
     t.string   "name"
     t.text     "desc"
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
+    t.datetime "created_at",                                               :null => false
+    t.datetime "updated_at",                                               :null => false
     t.string   "subname"
-    t.string   "unit_name",            :default => "camper"
+    t.string   "unit_name",                  :default => "camper"
     t.string   "signup_options"
     t.string   "banner"
     t.string   "banner_height"
@@ -123,17 +108,15 @@ ActiveRecord::Schema.define(:version => 20120507191131) do
     t.string   "timezone"
     t.string   "card"
     t.integer  "last_charge"
-    t.boolean  "slider",               :default => false
+    t.boolean  "slider",                     :default => false
+    t.string   "catalogDisplayName",         :default => "Course Catalog"
+    t.integer  "instructorShiftExpiryHours", :default => 24
+    t.boolean  "showEnrollments",            :default => true
   end
 
   create_table "organizations_admins", :force => true do |t|
     t.integer "user_id"
     t.integer "organization_id"
-  end
-
-  create_table "organizations_users", :force => true do |t|
-    t.integer "organization_id"
-    t.integer "user_id"
   end
 
   create_table "users", :force => true do |t|

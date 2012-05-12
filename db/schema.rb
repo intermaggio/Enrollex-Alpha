@@ -13,25 +13,10 @@
 
 ActiveRecord::Schema.define(:version => 20120512063205) do
 
-  create_table "campers", :force => true do |t|
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-    t.integer  "user_id"
-    t.text     "health_info"
-    t.date     "birthday"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "street"
-    t.string   "city"
-    t.string   "state"
-    t.string   "zip"
-  end
-
   create_table "campers_courses", :force => true do |t|
     t.integer  "user_id"
     t.integer  "course_id"
     t.string   "stripe_id"
-    t.datetime "created_at"
     t.datetime "charged_at"
     t.integer  "org_id"
   end
@@ -73,8 +58,8 @@ ActiveRecord::Schema.define(:version => 20120512063205) do
     t.integer  "price"
     t.text     "reg_description"
     t.string   "reg_link"
-    t.integer  "max_campers"
     t.boolean  "show_map",        :default => true
+    t.integer  "max_campers"
     t.date     "deadline"
     t.boolean  "deadline_set",    :default => false
     t.string   "suite"

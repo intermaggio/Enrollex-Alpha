@@ -50,8 +50,10 @@
         = link_to 'javascript:void(0)' do
           %i.icon-chevron-down.bottom
     %th.actions{style: "#{current_user && current_user.admin_organizations.include?(organization) && 'min-width:90px' || ''}"} Actions
+    - if defined?(instructing)
+      %th Status
   %tbody{id: "#{defined?(user) && 'utable' + user.id.to_s || ''}"}
     - if defined?(user)
       = render partial: 'courses/course', collection: user.courses.mirai, locals: { user: user }
     - else
-      = render courses
+      = render partial: 'courses/course', collection: courses, locals: { instructing: defined?(instructing) }

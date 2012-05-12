@@ -4,10 +4,18 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   </head>
   <body>
-      Hey there, <%= @instructor.name %>!
-      <p />
-      You have a new course assignment pending for <%= @course.organization.name %>. Please visit http://<%= @course.organization.name %>.enrollex.org/profile and click "View My Shifts" to accept or reject this assignment. 
-      <p />
+      Hey there, <%= @instructor.name %>! You have a new course assignment pending for <%= @course.organization.name %>:
+      <br/><br/>
+      Course Name: <%= @course.name %><br/>
+      Location: <%= @course.location_name %><br/>
+      Dates: <%= @course.date_string %><br/>
+      <br/>
+      Visit the following link to accept:
+      http://<%= @course.organization.subname %>.enrollex.org/courses/<%= @course.id %>/<%= @course.lowname %>/accept?uuid=<%= @uuid %>
+      <br/><br/>
+      And you can go here for more info:
+      http://<%= @course.organization.subname %>.enrollex.org/catalog?tab=shifts
+      <br/><br/>
       <strong>Please respond in <%= @course.organization.instructorShiftExpiryHours %> hours or your priority for this shift will be forfeit.
   </body>
 </html>

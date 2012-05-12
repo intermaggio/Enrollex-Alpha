@@ -30,6 +30,14 @@ class CoursesController < InheritedResources::Base
     end
   end
 
+  def accept
+    link = InstructorsCourses.where(course_id: course.id, user_id: current_user.id).first
+    if link && link.uuid == params[:uuid]
+      link.update_attribute(:status, 'accepted')
+    end
+    render nothing: true
+  end
+
   def download
     kit = PDFKit.new(render_to_string('courses/roster', layout: false, locals: { download: true }), page_size: 'Letter')
     kit.stylesheets << "#{Rails.root}/app/assets/stylesheets/bootstrap.css"

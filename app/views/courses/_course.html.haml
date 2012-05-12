@@ -32,7 +32,7 @@
         %i.icon-cog>
       = link_to '#destroy-modal', title: 'Destroy', :'data-toggle' => 'modal', class: 'destroy', course: course.name, cid: course.id do
         %i.icon-trash>
-  - if instructing
+  - if defined?(instructing) && instructing
     %td
       - case InstructorsCourses.where(course_id: course.id, user_id: current_user.id).first.status
         - when 'accepted'

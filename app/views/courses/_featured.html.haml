@@ -3,7 +3,7 @@
     %h3 [##{course.id}] #{course.name}
     .content
       = RedCloth.new(course.description, [:filter_html, :bbcode]).to_html.html_safe
-      .register= link_to 'More info', "/courses/#{course.id}/#{course.lowname}", class: 'btn btn-primary'
+      .register= link_to 'More Info', "/courses/#{course.id}/#{course.lowname}", class: 'btn btn-primary'
       .price
         %strong= '$' + (course.price / 100).to_s
     .image= image_tag course.image.large.url || '/images/no-image.jpg'

@@ -10,11 +10,11 @@
           .showcase-content
             .showcase-content-wrapper= image_tag course.image.slider.url || '/images/no-image-slider.jpg'
           .showcase-caption
-            %h3 [##{course.id}] #{course.name}
+            %h3 [##{course.id}] #{course.name} at #{course.location_name}
             .description{style: 'max-height:56px;overflow:auto'}= RedCloth.new(course.description, [:filter_html, :bbcode]).to_html.html_safe
-            .register{style: 'display:inline-block'}= link_to 'More info', "/courses/#{course.id}/#{course.lowname}", class: 'btn btn-primary'
             .price{style: 'display:inline-block'}
-              %strong $#{course.price / 100}
+              %strong $#{course.price / 100} | #{course.date_string}
+            .register{style: 'display:inline-block'}= link_to 'More Info', "/courses/#{course.id}/#{course.lowname}", class: 'btn btn-primary'
     :javascript
       $('#showcase').awShowcase({
         content_width: 700,

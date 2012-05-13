@@ -2,10 +2,12 @@
   .course
     %h3 [##{course.id}] #{course.name}
     .content
+      %strong At #{course.location_name} | #{course.date_string}
+      %hr{ style: 'margin:3px' }
       = RedCloth.new(course.description, [:filter_html, :bbcode]).to_html.html_safe
-      .register= link_to 'More Info', "/courses/#{course.id}/#{course.lowname}", class: 'btn btn-primary'
       .price
-        %strong= '$' + (course.price / 100).to_s
+        %strong= 'Cost: $' + (course.price / 100).to_s
+      .register= link_to 'More Info', "/courses/#{course.id}/#{course.lowname}", class: 'btn btn-primary'
     .image= image_tag course.image.large.url || '/images/no-image.jpg'
     - if course.status.present?
       .label-container

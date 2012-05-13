@@ -1,20 +1,25 @@
 %h1 Billing Center
-%table.table.table-striped.table-bordered
-  %thead
-    %th Date
-    %th Description
-    %th Amount
-    %th Stripe ID
-  %tbody
-    - if @charges
-      - @charges.each do |charges|
-        - charges.each do |charge|
+- if @charges
+  %select
+    - @charges.each do |charges|
+      %option{value: charges[:seed]}= charges[:month]
+  - @charges.each_with_index do |charges, index|
+    %table.table.table-striped.table-bordered{id: "seed_#{charges[:seed]}", style: "display:#{index == 0 && '' || 'none'}"}
+      %thead
+        %th Date
+        %th Description
+        %th Amount
+        %th Stripe ID
+      %tbody
+        - charges[:charges].each do |charge|
           %tr
             %td= charge[:charged_at]
             %td= charge[:description]
             %td= number_with_precision charge[:amount], precision: 2
             %td= charge[:stripe_id]
 
-=# @charges
-%br/
-=# organization.org_charges
+:javascript
+  $('select').change(function(){
+    $('table').css('display', 'none')
+    $('#seed_' + $(this).val()).css('display', '')
+  })

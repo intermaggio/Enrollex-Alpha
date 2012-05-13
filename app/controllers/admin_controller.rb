@@ -198,17 +198,29 @@ class AdminController < InheritedResources::Base
   end
 
   def billingcenter
+    if Rails.env == 'staging'
+      Stripe.api_key = 'tbRPrJWI1ZLEdH07M4TPAPjpvxCVyhwi'
+    else
+      Stripe.api_key = organization.stripe_secret
+    end
     @charges = []
     12.times { |i|
       seed = Time.now.utc - i.month
       end_date = seed - seed.mday.days + 1.month
       start_date = end_date - end_date.mday.days + 1.day
-      @charges.push CampersCourses.where(org_id: organization.id).within(start_date, end_date).map do |charge|
-        amount = Stripe::Charge.retrieve(charge.stripe_id).amount
-        course = Course.find(charge.course_id)
-        { stripe_id: charge.stripe_id, charged_at: charge.charged_at, amount: amount.to_f / 100, description: course.name }
+      charges = CampersCourses.where(org_id: organization.id).within(start_date, end_date)
+      if charges.first
+        @charges.push(
+          { month: seed.strftime('%B %Y'),
+            seed: seed.to_i,
+            charges: charges.map{|charge|
+              amount = Stripe::Charge.retrieve(charge.stripe_id).amount * 0.021
+              course = Course.find(charge.course_id)
+              { stripe_id: charge.stripe_id, charged_at: charge.charged_at, amount: amount.to_f / 100, description: course.name, month: seed.strftime('%B %Y'), seed: seed.to_i }
+            }
+          })
       end
-    }.compact
+    }
   end
 
 end

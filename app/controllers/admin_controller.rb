@@ -206,7 +206,7 @@ class AdminController < InheritedResources::Base
     @charges = organization.org_charges.map do |charge|
       #transaction_data = Stripe::Charge.retrieve(charge.stripe_id)
       course = Course.find(charge.course_id)
-      { stripe_id: charge.stripe_id, created_at: charge.created_at, amount: charge.amount.to_f / 100, description: course.name }
+      { stripe_id: charge.stripe_id, charged_at: charge.charged_at, amount: charge.amount.to_f / 100, description: course.name }
     end
   end
 

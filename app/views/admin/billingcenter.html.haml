@@ -9,7 +9,7 @@
     - if @charges
       - @charges.each do |charge|
         %tr
-          %td= charge[:created_at]
+          %td= charge[:charged_at]
           %td= charge[:description]
           %td= number_with_precision charge[:amount], precision: 2
           %td= charge[:stripe_id]

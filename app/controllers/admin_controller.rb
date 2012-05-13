@@ -198,10 +198,15 @@ class AdminController < InheritedResources::Base
   end
 
   def billingcenter
-    Stripe.api_key = organization.stripe_secret
+    if Rails.env == 'staging'
+      Stripe.api_key = 'tbRPrJWI1ZLEdH07M4TPAPjpvxCVyhwi'
+    else
+      Stripe.api_key = organization.stripe_secret
+    end
     @charges = organization.org_charges.map do |charge|
-      transaction_data = Stripe::Charge.retrieve(charge.stripe_id)
-      { stripe_id: charge.stripe_id, created_at: charge.created_at, amount: transaction_data.amount.to_f / 100, description: transaction_data.description }
+      #transaction_data = Stripe::Charge.retrieve(charge.stripe_id)
+      course = Course.find(charge.course_id)
+      { stripe_id: charge.stripe_id, created_at: charge.created_at, amount: charge.amount.to_f / 100, description: course.name }
     end
   end
 

@@ -98,7 +98,9 @@
                       %li= link_to 'Register', '/signup_organization'
         #content= yield
         - if organization && organization.footer
-          #footer= RedCloth.new(organization.footer, [:filter_html, :bbcode]).to_html.html_safe
+          #footer
+            = RedCloth.new(organization.footer, [:filter_html, :bbcode]).to_html.html_safe
+            Powered by Enrollex 1.1
     :plain
       <script type="text/javascript">
        var _gaq = _gaq || [];

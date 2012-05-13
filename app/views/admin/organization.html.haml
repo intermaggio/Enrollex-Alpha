@@ -76,7 +76,7 @@
         .controls
           .input= f.text_field :instructorShiftExpiryHours, placeholder: '0-72 hours', value: organization.instructorShiftExpiryHours
       .control-group
-        %label Show Enrollment Numbers Publicly?
+        %label Make Enrollment Numbers Public?
         .controls
           - if organization.showEnrollments
             .input= f.check_box :showEnrollments, checked: 'checked'

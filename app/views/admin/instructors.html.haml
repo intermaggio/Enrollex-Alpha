@@ -77,13 +77,6 @@
               .control-group
                 %label Headshot:
                 .controls= f.file_field :image
-              .control-group
-                %label Course Assignments:
-                .controls
-                  - organization.courses.each do |course|
-                    %label.checkbox
-                      = check_box_tag :"courses[#{course.id}]"
-                      = course.name
               .form-actions= f.submit :submit, class: 'btn btn-success', value: 'Submit'
 
 - if @user

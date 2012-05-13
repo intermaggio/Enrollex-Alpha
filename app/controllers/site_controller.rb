@@ -58,6 +58,7 @@ class SiteController < ApplicationController
     gclient.authorization.client_secret = GSECRET
     gclient.authorization.update_token!(current_user.ghash)
     gcal = gclient.discovered_api('calendar', 'v3')
+    error = false; message = ''
     courses.each do |course|
       course.days.each do |day|
         event = {
@@ -73,9 +74,18 @@ class SiteController < ApplicationController
           body: JSON.dump(event).gsub('Z', "#{organization.timezone}"),
           headers: { 'Content-Type' => 'application/json' }
         )
+        json = JSON.parse rsp.response.env[:body]
+        if json['error']
+          error = true
+          message = json['error']['errors'][0]['message']
+        end
       end
     end
-    render json: { success: true }
+    if error
+      render json: { success: false, message: message }
+    else
+      render json: { success: true }
+    end
   end
 
   def search

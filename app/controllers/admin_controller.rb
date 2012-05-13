@@ -198,7 +198,7 @@ class AdminController < InheritedResources::Base
   end
 
   def billingcenter
-    if Rails.env == 'staging'
+    if Rails.env != 'production'
       Stripe.api_key = 'tbRPrJWI1ZLEdH07M4TPAPjpvxCVyhwi'
     else
       Stripe.api_key = organization.stripe_secret

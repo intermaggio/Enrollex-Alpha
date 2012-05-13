@@ -1,3 +1,4 @@
+%h1 Billing Center
 %table.table.table-striped.table-bordered
   %thead
     %th Date
@@ -5,13 +6,13 @@
     %th Amount
     %th Stripe ID
   %tbody
-    - @charges.each do |charge|
+    -# @charges.each do |charge|
       %tr
         %td= charge[:created_at]
         %td= charge[:description]
         %td= charge[:amount]
         %td= charge[:stripe_id]
 
-= @charges
+=# @charges
 %br/
-= organization.org_charges
+=# organization.org_charges

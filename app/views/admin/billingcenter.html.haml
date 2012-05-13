@@ -25,8 +25,19 @@
               %td -$#{number_with_precision charge[:stripe_fee], precision: 2}
               %td= charge[:user_email]
               %td= charge[:stripe_id]
-      %h2 Total Processed This Month: #{number_with_precision charges[:total_amount_month], precision: 2}
-      %h2 Total Fees This Month: #{number_with_precision charges[:total_fee_month], precision: 2}
+      %h2
+        Total Processed in #{charges[:month]}:
+        %span{style: 'font-size:16px; color:green'}
+          $#{number_with_precision charges[:total_amount_month], precision: 2}
+      %h2
+        Total Fees in #{charges[:month]}:
+        %span{style: 'font-size:16px; color:red'}
+          \-$#{number_with_precision charges[:total_fee_month], precision: 2}
+      %h2
+        Total Net in #{charges[:month]}:
+        %span{style: 'font-size:16px; color:green'}
+          $#{number_with_precision charges[:total_net_month], precision: 2}
+
 
 :javascript
   $('select').change(function(){

@@ -24,8 +24,7 @@
     .modal-footer
       = link_to 'Close', 'javascript:void(0)', class: 'btn', :'data-dismiss' => 'modal'
       - if course.reg_link.present?
-        = link_to 'Go', course.reg_link, class: 'btn btn-success'
-
+        = link_to 'Go', course.reg_link, target: '_blank', class: 'btn btn-success'
 #course_info
   %h1 [##{course.id}] #{course.name}
   .well.description

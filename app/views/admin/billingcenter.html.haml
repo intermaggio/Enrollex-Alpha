@@ -22,7 +22,7 @@
               %td= charge[:description]
               %td $#{number_with_precision charge[:amount], precision: 2}
               %td -$#{number_with_precision charge[:enrollex_fee], precision: 3}
-              %td -$#{number_with_precision charge[:stripe_fee], precision: 3}
+              %td -$#{number_with_precision charge[:stripe_fee], precision: 2}
               %td= charge[:user_email]
               %td= charge[:stripe_id]
       %h2 Total Processed This Month: #{number_with_precision charges[:total_amount_month], precision: 2}

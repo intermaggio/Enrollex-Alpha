@@ -1,54 +1,54 @@
 %table.table.table-striped.table-bordered.catalogtable
   %thead
     %th.id
+      .icons
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-up.top
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-down.bottom
       ID
-      .icons
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-up.top
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-down.bottom
     %th.name
+      .icons
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-up.top
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-down.bottom
       Name
-      .icons
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-up.top
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-down.bottom
     %th.range
+      .icons
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-up.top
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-down.bottom
       Range
-      .icons
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-up.top
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-down.bottom
     %th.location
+      .icons
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-up.top
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-down.bottom
       Location
-      .icons
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-up.top
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-down.bottom
     %th.dates
+      .icons
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-up.top
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-down.bottom
       Dates
-      .icons
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-up.top
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-down.bottom
     %th.start-time
+      .icons
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-up.top
+        = link_to 'javascript:void(0)' do
+          %i.icon-chevron-down.bottom
       Starts
-      .icons
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-up.top
-        = link_to 'javascript:void(0)' do
-          %i.icon-chevron-down.bottom
     %th.end-time
-      Ends
       .icons
         = link_to 'javascript:void(0)' do
           %i.icon-chevron-up.top
         = link_to 'javascript:void(0)' do
           %i.icon-chevron-down.bottom
+      Ends
     %th.actions{style: "#{current_user && current_user.admin_organizations.include?(organization) && 'min-width:90px' || ''}"} Actions
     - if defined?(instructing) && instructing
       %th Status

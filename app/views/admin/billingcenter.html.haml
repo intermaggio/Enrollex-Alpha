@@ -5,22 +5,31 @@
     - @charges.each do |charges|
       %option{value: charges[:seed]}= charges[:month]
   - @charges.each_with_index do |charges, index|
-    %table.table.table-striped.table-bordered{id: "seed_#{charges[:seed]}", style: "display:#{index == 0 && '' || 'none'}"}
-      %thead
-        %th Date
-        %th Description
-        %th Amount
-        %th Stripe ID
-      %tbody
-        - charges[:charges].each do |charge|
-          %tr
-            %td= charge[:charged_at]
-            %td= charge[:description]
-            %td= number_with_precision charge[:amount], precision: 2
-            %td= charge[:stripe_id]
+    .billingDisplay{id: "seed_#{charges[:seed]}", style: "display:#{index == 0 && '' || 'none'}"}
+      %table.table.table-striped.table-bordered
+        %thead
+          %th Date
+          %th Description
+          %th Amount
+          %th Enrollex Fee
+          %th Stripe Fee
+          %th User Email
+          %th Stripe ID
+        %tbody
+          - charges[:charges].each do |charge|
+            %tr
+              %td= charge[:charged_at]
+              %td= charge[:description]
+              %td $#{number_with_precision charge[:amount], precision: 2}
+              %td -$#{number_with_precision charge[:enrollex_fee], precision: 3}
+              %td -$#{number_with_precision charge[:stripe_fee], precision: 3}
+              %td= charge[:user_email]
+              %td= charge[:stripe_id]
+      %h2 Total Processed This Month: #{number_with_precision charges[:total_amount_month], precision: 2}
+      %h2 Total Fees This Month: #{number_with_precision charges[:total_fee_month], precision: 2}
 
 :javascript
   $('select').change(function(){
-    $('table').css('display', 'none')
+    $('.billingDisplay').css('display', 'none')
     $('#seed_' + $(this).val()).css('display', '')
   })

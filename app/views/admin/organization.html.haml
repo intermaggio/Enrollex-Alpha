@@ -68,10 +68,6 @@
         %label Timezone:
         .controls= time_zone_select :organization, :timezone, ActiveSupport::TimeZone.us_zones, default: 'Pacific Time (US & Canada)'
       .control-group
-        %label Camper unit name:
-        .controls
-          .input= f.text_field :unit_name, placeholder: 'camper, student, etc.', value: organization.unit_name
-      .control-group
         %label Catalog Display Name:
         .controls
           .input= f.text_field :catalogDisplayName, placeholder: 'course catalog', value: organization.catalogDisplayName

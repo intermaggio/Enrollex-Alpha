@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120512063205) do
+ActiveRecord::Schema.define(:version => 20120513110608) do
 
   create_table "campers_courses", :force => true do |t|
     t.integer  "user_id"
@@ -87,6 +87,13 @@ ActiveRecord::Schema.define(:version => 20120512063205) do
     t.integer "organization_id"
   end
 
+  create_table "org_charges", :force => true do |t|
+    t.string   "stripe_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "organization_id"
+  end
+
   create_table "organizations", :force => true do |t|
     t.string   "name"
     t.text     "desc"
@@ -118,11 +125,6 @@ ActiveRecord::Schema.define(:version => 20120512063205) do
   create_table "organizations_admins", :force => true do |t|
     t.integer "user_id"
     t.integer "organization_id"
-  end
-
-  create_table "organizations_users", :force => true do |t|
-    t.integer "organization_id"
-    t.integer "user_id"
   end
 
   create_table "users", :force => true do |t|

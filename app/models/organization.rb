@@ -7,6 +7,7 @@ class Organization < ActiveRecord::Base
   validates :banner, file_size: { maximum: 5.megabytes.to_i }
 
   has_many :courses
+  has_many :org_charges
   has_and_belongs_to_many :admins, class_name: 'User', join_table: 'organizations_admins'
   has_and_belongs_to_many :instructors, class_name: 'User', join_table: 'instructors_organizations'
 

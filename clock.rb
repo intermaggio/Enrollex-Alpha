@@ -12,6 +12,7 @@ handler do |job|
             start_date = end_date - end_date.mday.days + 1.day
             transactions = CampersCourses.where(org_id: organization.id).within(start_date, end_date).map{|c| c.stripe_id}.uniq
             if transactions.present?
+              transactions.each{|stripe_id| organization.org_charges.create(stripe_id: stripe_id)}
               amount = transactions.map{|id| Stripe::Charge.retrieve(id).amount}.reduce(:+) * 0.021
               Stripe.api_key =
                 if Rails.env == 'production'
@@ -19,7 +20,7 @@ handler do |job|
                 else
                   's6f5O2kuPgMtxRDwA2cZ4RmPhCd8a4rX'
                 end
-              stripe = Stripe::Charge.create(
+              Stripe::Charge.create(
                 amount: amount.round,
                 currency: 'usd',
                 customer: organization.card,

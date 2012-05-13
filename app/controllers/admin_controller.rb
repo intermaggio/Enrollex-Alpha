@@ -197,4 +197,12 @@ class AdminController < InheritedResources::Base
     render 'organization'
   end
 
+  def billingcenter
+    Stripe.api_key = organization.stripe_secret
+    @charges = organization.org_charges.map do |charge|
+      transaction_data = Stripe::Charge.retrieve(charge.stripe_id)
+      { stripe_id: charge.stripe_id, created_at: charge.created_at, amount: transaction_data.amount.to_f / 100, description: transaction_data.description }
+    end
+  end
+
 end

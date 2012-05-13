@@ -36,7 +36,9 @@ handler do |job|
               )
               organization.update_attribute(:last_charge, start_date.month)
             end
-            UsersMailer.monthlyInvoice(amount, organization).deliver
+            organization.admins.each do |admin|
+              UsersMailer.monthlyInvoice(admin.email, amount.to_f / 100, organization).deliver
+            end
           end
         end
       end

@@ -12,4 +12,10 @@ class UsersMailer < ActionMailer::Base
     mail to: instructor.email, subject: 'New Course Assignment Pending'
   end
 
+  def monthlyInvoice(email, amount, organization)
+    @amount = amount
+    @organization = organization
+    mail from: 'robot@enrollex.org', to: email, subject: 'Your Monthly Enrollex Invoice'
+  end
+
 end

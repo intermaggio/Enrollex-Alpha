@@ -5,7 +5,15 @@
   </head>
   <body>
       Howdy, <%= @organization.name %>!
-      <br/><br/>
-      Your monthly invoice from Enrollex amounts to $BEELION.
+      <p />
+      Your monthly invoice from Enrollex amounts to <%= @amount %>. This amount has been charged to your credit card as a lump sum. This amount does not include Stripes fees, which are charged at the time of the transaction.
+      <p />
+      To see an itemized list of all charges, please visit the Billing Center at: http://<%= @organization.name %>.enrollex.org/admin/billingcenter
+      <p />
+      Questions? Please contact <strong>support@enrollex.org</strong>
+      <p />
+      Thanks!
+      <p />
+      -The Enrollex Team
   </body>
 </html>

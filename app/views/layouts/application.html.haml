@@ -18,7 +18,7 @@
       body { background-color: #{organization.color} }
   %body
     - if organization && organization.banner && organization.banner.url.present?
-      #banner{style: "cursor:pointer;background:url(#{organization.banner})no-repeat center;height:#{organization.banner_height}px;display:block"}
+      #banner{style: "cursor:pointer; background:url(#{organization.banner}) no-repeat center; height:#{organization.banner_height}px;"}
     #forgot-modal.modal.hide.fade
       .modal-header
         %h3 Forgot Password

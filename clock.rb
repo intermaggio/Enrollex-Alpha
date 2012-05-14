@@ -3,6 +3,13 @@ include Clockwork
 
 handler do |job|
   case job
+    when 'instructor.expiry.check'
+      InstructorsCourses.where(status: 'pending').each do |link|
+        course = Course.find link.course_id
+        if Time.now.utc > link.created_at.utc + course.organization.instructorShiftExpiryHours
+          link.update_attribute(:status, 'forfeited')
+        end
+      end
     when 'organization.charge'
       if Time.now.utc.day == 1 || Rails.env != 'production'
         Organization.all.each do |organization|
@@ -38,4 +45,5 @@ handler do |job|
   end
 end
 
-every 1.day, 'organization.charge'
+every 1.hour, 'instructor.expiry.check'
+every 1.day,  'organization.charge'

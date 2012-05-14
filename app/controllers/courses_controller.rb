@@ -32,11 +32,18 @@ class CoursesController < InheritedResources::Base
 
   def accept
     link = InstructorsCourses.where(course_id: course.id, user_id: current_user.id).first
-    if link && link.uuid == params[:uuid]
-      link.update_attribute(:status, 'accepted')
-      render inline: 'Accepted!'
-    else
-      render nothing: true
+    if link
+      course = Course.find link.course_id
+      if link.uuid == params[:uuid]
+        if Time.now.utc > link.created_at.utc + course.organization.instructorShiftExpiryHours
+          render inline: 'Link has expired.'
+        else
+          link.update_attribute(:status, 'accepted')
+          render inline: 'Accepted!'
+        end
+      else
+        render nothing: true
+      end
     end
   end
 

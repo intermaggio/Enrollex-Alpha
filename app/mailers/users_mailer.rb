@@ -1,5 +1,5 @@
 class UsersMailer < ActionMailer::Base
-  default from: 'turfbot@myturf.com', content_type: 'text/html'
+  default from: 'robot@enrollex.org', content_type: 'text/html'
 
   def reset_password to
     mail to: to, subject: 'blah'
@@ -9,7 +9,7 @@ class UsersMailer < ActionMailer::Base
     @instructor = instructor
     @course = course
     @uuid = uuid
-    mail from: 'robot@enrollex.org', to: instructor.email, subject: 'New Course Assignment Pending'
+    mail to: instructor.email, subject: 'New Course Assignment Pending'
   end
 
 end

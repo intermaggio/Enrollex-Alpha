@@ -1,4 +1,18 @@
 = content_for :title, organization.catalogDisplayName
+
+- if params[:tab]
+  :javascript
+    var tab = '#{params[:tab]}'
+- else
+  :javascript
+    var tab = 'all'
+
+:javascript
+  $(document).ready(function(){
+    $('#' + tab + '-link').addClass('active')
+    $('#' + tab).addClass('active')
+  })
+
 #google-modal.hide
 
 #calendar-modal.modal.hide.fade
@@ -49,14 +63,14 @@
       Show Past Courses
 .tabbable
   %ul.nav.nav-tabs
-    %li.active= link_to 'All Courses', '#all', :'data-toggle' => 'tab'
+    %li#all-link= link_to 'All Courses', '#all', :'data-toggle' => 'tab'
     - if current_user
-      %li= link_to 'My Enrollments', '#enrollments', :'data-toggle' => 'tab'
+      %li#enrollments-link= link_to 'My Enrollments', '#enrollments', :'data-toggle' => 'tab'
       - if current_user.instructing.first
-        %li= link_to 'My Shifts', '#shifts', :'data-toggle' => 'tab'
+        %li#shifts-link= link_to 'My Shifts', '#shifts', :'data-toggle' => 'tab'
 
   .tab-content#courses
-    #all.tab-pane.active= render partial: 'site/course_table', locals: { courses: @courses }
+    #all.tab-pane= render partial: 'site/course_table', locals: { courses: @courses }
     - if current_user
       #enrollments.tab-pane
         - if current_user.courses.mirai.first

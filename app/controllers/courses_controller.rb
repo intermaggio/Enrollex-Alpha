@@ -34,8 +34,10 @@ class CoursesController < InheritedResources::Base
     link = InstructorsCourses.where(course_id: course.id, user_id: current_user.id).first
     if link && link.uuid == params[:uuid]
       link.update_attribute(:status, 'accepted')
+      render inline: 'Accepted!'
+    else
+      render nothing: true
     end
-    render nothing: true
   end
 
   def download

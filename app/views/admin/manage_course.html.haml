@@ -27,8 +27,8 @@
 .tabbable
   %ul.nav.nav-tabs{:'data-tabs' => 'tabs'}
     %li#info-link= link_to 'Info', '#info', :'data-toggle' => 'tab'
-    %li#schedule-link= link_to 'Schedule', '#schedule', id: 'schedule-link', :'data-toggle' => 'tab'
-    %li#staffing-link= link_to 'Staffing', '#staffing', id: 'staffing-link', :'data-toggle' => 'tab'
+    %li#schedule-link= link_to 'Schedule', '#schedule', :'data-toggle' => 'tab'
+    %li#staffing-link= link_to 'Staffing', '#staffing', :'data-toggle' => 'tab'
   .tab-content
     #info.tab-pane
       - if flash[:notice] == :success

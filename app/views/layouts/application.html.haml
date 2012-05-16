@@ -89,6 +89,7 @@
                             %li= link_to org.name, 'http://' + org.name + '.' + request.domain
                 %ul.nav.pull-right
                   - if logged_in?
+                    %li{style: 'padding: 10px 10px 11px 10px; color: #FFFFFF;'}= "Welcome back, #{current_user.first_name}!"
                     %li= link_to 'Sign Out', '/signout'
                   - else
                     %li= link_to 'Sign In', '#signin-modal', :'data-toggle' => 'modal'

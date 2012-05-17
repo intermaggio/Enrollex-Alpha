@@ -125,7 +125,9 @@
         '/site/gcal_import',
         { calendar: $('#calendar-modal input[name=calendar]:checked').val() },
         function(rsp) {
-          if (!rsp.success) {
+          if (rsp.success) {
+            alert('Success!')
+          } else {
             alert(rsp.message)
           }
         }, 'json'

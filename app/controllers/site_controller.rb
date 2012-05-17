@@ -97,6 +97,17 @@ class SiteController < ApplicationController
     end
   end
 
+  def search_courses(courses, query)
+    query.split(' ').each_with_index do |q, i|
+      if i == 0
+        courses = courses.search(q)
+      else
+        courses += courses.search(q)
+      end
+    end
+    courses.uniq.sort_by(&:created_at)
+  end
+
   def fetch_courses(uid, mirai, query)
     begin
       user = User.find uid
@@ -104,14 +115,14 @@ class SiteController < ApplicationController
       courses = user.courses.where(organization_id: organization.id)
       if courses.first
         courses = courses.mirai if mirai == 'true'
-        courses = courses.search(query).reorder(:created_at)
+        courses = search_courses(courses, query)
         html[user.id] = render_to_string courses
       end
       user.campers.each do |camper|
         courses = camper.courses.where(organization_id: organization.id)
         if courses.first
           courses = courses.mirai if mirai == 'true'
-          courses = courses.search(query).reorder(:created_at)
+          courses = search_courses(courses, query)
           html[camper.id] = render_to_string courses
         end
       end
@@ -119,8 +130,8 @@ class SiteController < ApplicationController
     rescue
       courses = organization.courses
       courses = courses.mirai if mirai == 'true'
-      courses = courses.search(query).reorder(:created_at)
       courses = courses.published if !current_user || current_user && !current_user.admin_organizations.include?(organization)
+      courses = search_courses(courses, query)
       html = render_to_string courses
       return html, :all
     end

@@ -157,9 +157,12 @@
     }
     if ( $('#previous:checked').length > 0 ) {
       $('#mirai').val('false')
+      mirai = 0
     } else {
       $('#mirai').val('true')
+      mirai = 1
     }
+    history.pushState(null, null, '?q=' + $('#q').val() + '&m=' + mirai)
   })
   $('#previous').change(function(){
     $('.form-search').submit()

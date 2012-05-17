@@ -5,7 +5,7 @@ class UsersMailer < ActionMailer::Base
     mail to: to, subject: 'blah'
   end
 
-  def instructorNotificationEmail(instructor, course, uuid)
+  def instructorNotification(instructor, course, uuid)
     @instructor = instructor
     @course = course
     @uuid = uuid

@@ -15,7 +15,6 @@ handler do |job|
         Organization.all.each do |organization|
           if !organization.last_charge || organization.last_charge < Time.now.utc.month - 1 || Rails.env != 'production'
             Stripe.api_key = organization.stripe_secret
-            amount = nil
             end_date = Time.now.utc - Time.now.utc.mday.days + 1.month
             start_date = end_date - end_date.mday.days + 1.day
             transactions = CampersCourses.where(org_id: organization.id).within(start_date, end_date).map{|c| c.stripe_id}.uniq

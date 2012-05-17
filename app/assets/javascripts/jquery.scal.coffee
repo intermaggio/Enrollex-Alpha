@@ -391,7 +391,7 @@
         $('#time_container').appendTo( $(@element) )
         $('#calendar').css('display', 'inline-block').css('position', 'relative')
         $('#time_container').css('top', $('#calendar').offset().top)
-        $('#time_container').css('left', $('#calendar').offset().left + $('#calendar').width() + 5)
+        $('#time_container').css('left', $('#calendar').offset().left + $('#calendar').width() + 339)
         $('#time_container').fadeIn(0) if @opts.persistent_time
 
   $.fn[pluginName] = (options) ->

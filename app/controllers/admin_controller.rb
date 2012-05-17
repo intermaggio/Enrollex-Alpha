@@ -54,7 +54,7 @@ class AdminController < InheritedResources::Base
     @instructor.instructing << course
     uuid = UUID.new.generate
     InstructorsCourses.where(course_id: course.id, user_id: @instructor.id).first.update_attributes(uuid: uuid, created_at: Time.now)
-    UsersMailer.instructorNotificationEmail(@instructor, course, uuid).deliver
+    UsersMailer.instructorNotification(@instructor, course, uuid).deliver
     render partial: 'instructors/instructor', object: @instructor, locals: { course: course, instructor: @instructor }
   end
 

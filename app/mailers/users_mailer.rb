@@ -1,10 +1,6 @@
 class UsersMailer < ActionMailer::Base
   default from: 'robot@enrollex.org', content_type: 'text/html'
 
-  def reset_password to
-    mail to: to, subject: 'blah'
-  end
-
   def instructorNotification(instructor, course, uuid)
     @instructor = instructor
     @course = course
@@ -15,7 +11,12 @@ class UsersMailer < ActionMailer::Base
   def monthlyInvoice(email, amount, organization)
     @amount = amount
     @organization = organization
-    mail from: 'robot@enrollex.org', to: email, subject: 'Your Monthly Enrollex Invoice'
+    mail to: email, subject: 'Your Monthly Enrollex Invoice'
+  end
+
+  def stripeError(email, error)
+    @error = error
+    mail to: email, subject: 'Monthly charge failed'
   end
 
 end

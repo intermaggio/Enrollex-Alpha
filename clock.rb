@@ -27,16 +27,22 @@ handler do |job|
                 else
                   's6f5O2kuPgMtxRDwA2cZ4RmPhCd8a4rX'
                 end
-              Stripe::Charge.create(
-                amount: amount.round,
-                currency: 'usd',
-                customer: organization.card,
-                description: "#{organization.name} for #{start_date.strftime("%B")}"
-              )
-              organization.update_attribute(:last_charge, start_date.month)
-            end
-            organization.admins.each do |admin|
-              UsersMailer.monthlyInvoice(admin.email, amount.to_f / 100, organization).deliver
+              begin
+                Stripe::Charge.create(
+                  amount: amount.round,
+                  currency: 'usd',
+                  customer: organization.card,
+                  description: "#{organization.name} for #{start_date.strftime("%B")}"
+                )
+                organization.update_attribute(:last_charge, start_date.month)
+                organization.admins.each do |admin|
+                  UsersMailer.monthlyInvoice(admin.email, amount.to_f / 100, organization).deliver
+                end
+              rescue Exception => @e
+                organization.admins.each do |admin|
+                  UsersMailer.stripeError(admin.email, @e).deliver
+                end
+              end
             end
           end
         end

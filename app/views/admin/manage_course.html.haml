@@ -4,11 +4,11 @@
 #remove-instructor.modal.hide.fade
   .modal-header
     %a.close{:'data-dismiss' => 'modal'} ×
-    %h3
+    %h3 Are you sure you want to remove this instructor?
   .modal-body
   .modal-footer
-    = link_to "Yeah, he's no good.", 'javascript:void(0)', class: 'btn btn-danger', remote: true
-    = link_to 'No way!', 'javascript:void(0)', :'data-dismiss' => 'modal', class: 'btn'
+    = link_to "Yes", 'javascript:void(0)', class: 'btn btn-danger', remote: true
+    = link_to 'No', 'javascript:void(0)', :'data-dismiss' => 'modal', class: 'btn'
 
 - if params[:tab]
   :javascript

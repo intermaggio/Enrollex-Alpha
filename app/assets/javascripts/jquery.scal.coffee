@@ -15,7 +15,7 @@
     popup: true,
     persistent_time: false,
     preset_data: [],
-    default_times: { start_hour: '', start_min: '', end_hour: '', end_min: '' },
+    default_times: { start_hour: '', start_min: '', start_offset: 'AM', end_hour: '', end_min: '', end_offset: 'AM' },
     submit: ->
 
   class Plugin
@@ -330,11 +330,13 @@
             _.flatten(daytimes),
             {
               hour: start_hour,
-              min: $('#time_container #start_min').val()
+              min: $('#time_container #start_min').val(),
+              offset: $('#time_container #start').val()
             },
             {
               hour: end_hour,
-              min: $('#time_container #end_min').val()
+              min: $('#time_container #end_min').val(),
+              offset: $('#time_container #end').val()
             }
           )
         else
@@ -389,9 +391,10 @@
       else
         $('#calendar').appendTo( $(@element) )
         $('#time_container').appendTo( $(@element) )
-        $('#calendar').css('display', 'inline-block').css('position', 'relative')
-        $('#time_container').css('top', $('#calendar').offset().top)
-        $('#time_container').css('left', $('#calendar').offset().left + $('#calendar').width() + 339)
+        $('#time_container #start').val( @opts.default_times.start_offset )
+        $('#time_container #end').val( @opts.default_times.end_offset )
+        $('#calendar').css('display', 'inline-block')
+        $('#time_container').css('left', $('#calendar').offset().left + $('#calendar').width() + 342)
         $('#time_container').fadeIn(0) if @opts.persistent_time
 
   $.fn[pluginName] = (options) ->

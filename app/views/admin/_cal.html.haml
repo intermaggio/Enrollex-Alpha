@@ -16,7 +16,7 @@
     popup: false,
     persistent_time: true,
     preset_data: parsed_json,
-    default_times: { start_hour: '#{course.default_start && course.default_start.strftime('%I')}', start_min: '#{course.default_start && course.default_start.strftime('%M')}', end_hour: '#{course.default_end && course.default_end.strftime('%I')}', end_min: '#{course.default_end && course.default_end.strftime('%M')}' },
+    default_times: { start_hour: '#{course.default_start && course.default_start.strftime('%I')}', start_min: '#{course.default_start && course.default_start.strftime('%M')}', start_offset: '#{course.default_start_offset}', end_hour: '#{course.default_end && course.default_end.strftime('%I')}', end_min: '#{course.default_end && course.default_end.strftime('%M')}', end_offset: '#{course.default_end_offset}' },
     submit: function(daytimes, start, end) {
       $.post(
         '/admin/courses/#{course.id}/schedule_course',
@@ -56,7 +56,7 @@
             $('#' + month + ' #day' + day + ' td.start').append('<input style="width:20px" class="start_time_hour" type="text" value="' + start_time_hour + '">')
             $('#' + month + ' #day' + day + ' td.start').append('<div>:</div>')
             $('#' + month + ' #day' + day + ' td.start').append('<input style="width:20px" class="start_time_minute" type="text" value="' + start_time_minute + '">')
-            $('#' + month + ' #day' + day + ' td.start').append('<select class="start_offset" style="width:60px;margin-left:5px"> <option value="' + start_offset + '">' + start_offset + '</option> <option value="' + start_offset2 + '">' + start_offset2 + '</option> </select>')
+            $('#' + month + ' #day' + day + ' td.start').append('<select class="start_time_offset" style="width:60px;margin-left:5px"> <option value="' + start_offset + '">' + start_offset + '</option> <option value="' + start_offset2 + '">' + start_offset2 + '</option> </select>')
             $('#' + month + ' #day' + day + ' td.start').append('<div class="to">To</div>')
             $('#' + month + ' #day' + day + ' td.end').append('<input class="end_time_hour" style="width:20px" type="text" value="' + end_time_hour + '">')
             $('#' + month + ' #day' + day + ' td.end').append('<div>:</div>')
@@ -77,8 +77,24 @@
             daytimes = []
             $('#new_content tbody tr').each(function(){
               day = $(this).attr('day') + '-' + $(this).attr('month') + '-' + $(this).attr('year')
-              start = $(this).find('.start_time_hour').first().val() + ':' + $(this).find('.start_time_minute').first().val()
-              end = $(this).find('.end_time_hour').first().val() + ':' + $(this).find('.end_time_minute').first().val()
+              start_offset = $(this).find('.start_time_offset').first().val()
+              start_hour = parseInt($(this).find('.start_time_hour').first().val())
+              if (start_offset == 'PM' && start_hour < 12) {
+                start = (start_hour + 12) + ':' + $(this).find('.start_time_minute').first().val()
+              } else if (start_offset == 'AM' && start_hour == 12) {
+                start = '00:' + $(this).find('.start_time_minute').first().val()
+              } else {
+                start = start_hour + ':' + $(this).find('.start_time_minute').first().val()
+              }
+              end_offset = $(this).find('.end_time_offset').first().val()
+              end_hour = parseInt($(this).find('.end_time_hour').first().val())
+              if (end_offset == 'PM' && end_hour < 12) {
+                end = (end_hour + 12) + ':' + $(this).find('.end_time_minute').first().val()
+              } else if (end_offset == 'AM' && end_hour == 12) {
+                end = '00:' + $(this).find('.end_time_minute').first().val()
+              } else {
+                end = end_hour + ':' + $(this).find('.end_time_minute').first().val()
+              }
               daytimes.push({ day: day, start_time: start, end_time: end })
             })
             $.post(

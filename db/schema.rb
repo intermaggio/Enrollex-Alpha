@@ -11,12 +11,27 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120514002416) do
+ActiveRecord::Schema.define(:version => 20120531044624) do
+
+  create_table "campers", :force => true do |t|
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "user_id"
+    t.text     "health_info"
+    t.date     "birthday"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "street"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+  end
 
   create_table "campers_courses", :force => true do |t|
     t.integer  "user_id"
     t.integer  "course_id"
     t.string   "stripe_id"
+    t.datetime "created_at"
     t.datetime "charged_at"
     t.integer  "org_id"
   end
@@ -29,8 +44,8 @@ ActiveRecord::Schema.define(:version => 20120514002416) do
 
   create_table "courses", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
     t.string   "image"
     t.text     "description"
     t.boolean  "featured"
@@ -52,18 +67,20 @@ ActiveRecord::Schema.define(:version => 20120514002416) do
     t.text     "time_exceptions"
     t.time     "default_start"
     t.time     "default_end"
-    t.string   "date_string",     :default => ""
+    t.string   "date_string",          :default => ""
     t.date     "published_at"
     t.date     "start_date"
     t.integer  "price"
     t.text     "reg_description"
     t.string   "reg_link"
-    t.boolean  "show_map",        :default => true
     t.integer  "max_campers"
+    t.boolean  "show_map",             :default => true
     t.date     "deadline"
-    t.boolean  "deadline_set",    :default => false
+    t.boolean  "deadline_set",         :default => false
     t.string   "suite"
     t.string   "room"
+    t.string   "default_start_offset"
+    t.string   "default_end_offset"
   end
 
   create_table "days", :force => true do |t|
@@ -78,7 +95,6 @@ ActiveRecord::Schema.define(:version => 20120514002416) do
   create_table "instructors_courses", :force => true do |t|
     t.integer  "course_id"
     t.integer  "user_id"
-    t.boolean  "accepted",   :default => false
     t.string   "status",     :default => "pending"
     t.string   "uuid"
     t.datetime "created_at"
@@ -130,6 +146,11 @@ ActiveRecord::Schema.define(:version => 20120514002416) do
   create_table "organizations_admins", :force => true do |t|
     t.integer "user_id"
     t.integer "organization_id"
+  end
+
+  create_table "organizations_users", :force => true do |t|
+    t.integer "organization_id"
+    t.integer "user_id"
   end
 
   create_table "users", :force => true do |t|

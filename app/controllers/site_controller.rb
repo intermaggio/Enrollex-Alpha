@@ -16,6 +16,7 @@ class SiteController < ApplicationController
     creds['access_token'] = creds.token
     creds.delete(:token)
     current_user.update_attribute(:ghash, creds)
+    binding.pry
     redirect_to '/catalog'
   end
 
@@ -23,6 +24,7 @@ class SiteController < ApplicationController
     gclient = Google::APIClient.new
     gclient.authorization.client_id = GKEY
     gclient.authorization.client_secret = GSECRET
+    binding.pry
     gclient.authorization.update_token!(current_user.ghash)
     gcal = gclient.discovered_api('calendar', 'v3')
     calendars = gclient.execute(api_method: gcal.calendar_list.list)
@@ -33,7 +35,7 @@ class SiteController < ApplicationController
   def calendar_list
     session[:courses] = params[:courses]
     session[:subdomain] = organization.subname
-    unless !current_user.ghash || current_user.ghash == {}
+    if session[:ghash] || current_user && current_user.ghash || current_user && !current_user.ghash == {}
       gclient = Google::APIClient.new
       gclient.authorization.client_id = GKEY
       gclient.authorization.client_secret = GSECRET

@@ -84,68 +84,67 @@
       #shifts.tab-pane
         = render partial: 'site/course_table', locals: { courses: current_user.instructing, instructing: true }
 
-- if current_user
-  - if flash[:cal]
-    :javascript
-      $.post(
-        '/site/calendar_session',
-        {},
-        function(rsp) {
-          var calendars = rsp
-          $('#google-modal').bPopup().close()
+- if flash[:cal]
+  :javascript
+    $.post(
+      '/site/calendar_session',
+      {},
+      function(rsp) {
+        var calendars = rsp
+        $('#google-modal').bPopup().close()
+        $('#calendar-modal .modal-body').html('')
+        for (var i=0; i < calendars.length; i++) {
+          $('#calendar-modal .modal-body').append('<input type="radio" name="calendar" value="' + calendars[i].id + '"> ' + calendars[i].title + '<br/>')
+        }
+        $('#calendar-modal').modal()
+        $('#calendar-modal').modal('show')
+      }, 'json'
+    )
+:javascript
+  $('.export').click(function(){
+    $.post(
+      '/site/calendar_list',
+      { courses: [$(this).attr('cid')] },
+      function(rsp) {
+        if (rsp.success) {
           $('#calendar-modal .modal-body').html('')
-          for (var i=0; i < calendars.length; i++) {
-            $('#calendar-modal .modal-body').append('<input type="radio" name="calendar" value="' + calendars[i].id + '"> ' + calendars[i].title + '<br/>')
+          for (var i=0; i < rsp.calendars.length; i++) {
+            $('#calendar-modal .modal-body').append('<input type="radio" name="calendar" value="' + rsp.calendars[i].id + '"> ' + rsp.calendars[i].title + '<br/>')
           }
           $('#calendar-modal').modal()
           $('#calendar-modal').modal('show')
-        }, 'json'
-      )
-  :javascript
-    $('.export').click(function(){
-      $.post(
-        '/site/calendar_list',
-        { courses: [$(this).attr('cid')] },
-        function(rsp) {
-          if (rsp.success) {
-            $('#calendar-modal .modal-body').html('')
-            for (var i=0; i < rsp.calendars.length; i++) {
-              $('#calendar-modal .modal-body').append('<input type="radio" name="calendar" value="' + rsp.calendars[i].id + '"> ' + rsp.calendars[i].title + '<br/>')
-            }
-            $('#calendar-modal').modal()
-            $('#calendar-modal').modal('show')
-          } else {
-            window.location = "http://#{request.domain}/auth/google_oauth2"
-          }
-        }, 'json'
-      )
-    })
-    $('#calendar-modal .btn-success').click(function(){
-      $.post(
-        '/site/gcal_import',
-        { calendar: $('#calendar-modal input[name=calendar]:checked').val() },
-        function(rsp) {
-          if (rsp.success) {
-            alert('Success!')
-          } else {
-            alert(rsp.message)
-          }
-        }, 'json'
-      )
-    })
-    $('#unenroll').click(function(){
-      $('#unenroll-modal form').submit()
-      $('.course' + $(this).attr('cid') + ':last').fadeOut('slow')
-    })
-    $('.unenroll').live('click', function(){
-      $('#unenroll-modal form').attr('action', '/courses/' + $(this).attr('cid') + '/unenroll')
-      $('#unenroll-modal #user_id').val($(this).attr('uid'))
-      $('#unenroll').attr('cid', $(this).attr('cid'))
-    })
-    $('.destroy').live('click', function(){
-      $('#destroy-modal span').text(' ' + $(this).attr('course'))
-      $('#destroy-modal .btn-danger').attr('href', '/admin/courses/' + $(this).attr('cid') + '/destroy')
-    })
+        } else {
+          window.location = "http://#{request.domain}/auth/google_oauth2"
+        }
+      }, 'json'
+    )
+  })
+  $('#calendar-modal .btn-success').click(function(){
+    $.post(
+      '/site/gcal_import',
+      { calendar: $('#calendar-modal input[name=calendar]:checked').val() },
+      function(rsp) {
+        if (rsp.success) {
+          alert('Success!')
+        } else {
+          alert(rsp.message)
+        }
+      }, 'json'
+    )
+  })
+  $('#unenroll').click(function(){
+    $('#unenroll-modal form').submit()
+    $('.course' + $(this).attr('cid') + ':last').fadeOut('slow')
+  })
+  $('.unenroll').live('click', function(){
+    $('#unenroll-modal form').attr('action', '/courses/' + $(this).attr('cid') + '/unenroll')
+    $('#unenroll-modal #user_id').val($(this).attr('uid'))
+    $('#unenroll').attr('cid', $(this).attr('cid'))
+  })
+  $('.destroy').live('click', function(){
+    $('#destroy-modal span').text(' ' + $(this).attr('course'))
+    $('#destroy-modal .btn-danger').attr('href', '/admin/courses/' + $(this).attr('cid') + '/destroy')
+  })
 
 :javascript
   $('.actions a').tipTip({ delay: 200 })

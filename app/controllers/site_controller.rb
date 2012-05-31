@@ -15,7 +15,8 @@ class SiteController < ApplicationController
     creds = env['omniauth.auth'].credentials
     creds['access_token'] = creds.token
     creds.delete(:token)
-    current_user.update_attribute(:ghash, creds)
+    session[:ghash] = creds
+    current_user.update_attribute(:ghash, creds) if logged_in?
     binding.pry
     redirect_to '/catalog'
   end
@@ -24,8 +25,11 @@ class SiteController < ApplicationController
     gclient = Google::APIClient.new
     gclient.authorization.client_id = GKEY
     gclient.authorization.client_secret = GSECRET
-    binding.pry
-    gclient.authorization.update_token!(current_user.ghash)
+    if logged_in?
+      gclient.authorization.update_token!(current_user.ghash)
+    else
+      gclient.authorization.update_token!(session[:ghash])
+    end
     gcal = gclient.discovered_api('calendar', 'v3')
     calendars = gclient.execute(api_method: gcal.calendar_list.list)
     session[:calendars] = calendars.data.items.map { |c| { id: c.id, title: c.summary } }
@@ -35,11 +39,15 @@ class SiteController < ApplicationController
   def calendar_list
     session[:courses] = params[:courses]
     session[:subdomain] = organization.subname
-    if session[:ghash] || current_user && current_user.ghash || current_user && !current_user.ghash == {}
+    if session[:ghash] || logged_in? && (current_user.ghash || !current_user.ghash == {})
       gclient = Google::APIClient.new
       gclient.authorization.client_id = GKEY
       gclient.authorization.client_secret = GSECRET
-      gclient.authorization.update_token!(current_user.ghash)
+      if logged_in?
+        gclient.authorization.update_token!(current_user.ghash)
+      else
+        gclient.authorization.update_token!(session[:ghash])
+      end
       gcal = gclient.discovered_api('calendar', 'v3')
       calendars = gclient.execute(api_method: gcal.calendar_list.list)
       session[:calendars] = calendars.data.items.map { |c| { id: c.id, title: c.summary } }
@@ -58,7 +66,11 @@ class SiteController < ApplicationController
     gclient = Google::APIClient.new
     gclient.authorization.client_id = GKEY
     gclient.authorization.client_secret = GSECRET
-    gclient.authorization.update_token!(current_user.ghash)
+    if logged_in?
+      gclient.authorization.update_token!(current_user.ghash)
+    else
+      gclient.authorization.update_token!(session[:ghash])
+    end
     gcal = gclient.discovered_api('calendar', 'v3')
     error = false; message = ''
     courses.each do |course|

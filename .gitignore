@@ -17,5 +17,6 @@ config/database.yml
 public/uploads
 public/organization
 public/assets
+public/assets-compiled
 public/course
 public/user

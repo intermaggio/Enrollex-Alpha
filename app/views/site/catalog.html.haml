@@ -52,7 +52,7 @@
   %h1 #{organization.catalogDisplayName}
   #catalog_header_content
     - if current_user && organization.admins.include?(current_user)
-      = link_to 'Add New', '/admin/courses', class: 'btn btn-primary'
+      = link_to 'Add New', '/admin/add_course', class: 'btn btn-primary'
     = form_tag "/site/search", class: 'form-search', remote: true do
       = text_field_tag :q, '', placeholder: 'Enter Keywords Here', class: 'search-query'
       = hidden_field_tag :mirai

@@ -199,6 +199,11 @@ class AdminController < InheritedResources::Base
     render 'organization'
   end
 
+  def usermanagement
+      # "usermanagement" is the file name this function applies to
+      @users = User.all
+  end
+
   def billingcenter
     if Rails.env != 'production'
       Stripe.api_key = 'tbRPrJWI1ZLEdH07M4TPAPjpvxCVyhwi'
@@ -209,6 +214,8 @@ class AdminController < InheritedResources::Base
     12.times { |i|
       total_amount_month = 0
       total_fee_month = 0
+      total_enrollex_month = 0
+      total_stripe_month = 0
       seed = Time.now.utc - i.month
       end_date = seed - seed.mday.days + 1.month
       start_date = end_date - end_date.mday.days + 1.day
@@ -231,10 +238,14 @@ class AdminController < InheritedResources::Base
                   user.email
                 end
               total_amount_month += amount.to_f / 100
+              total_stripe_month += stripe_fee
+              total_enrollex_month += enrollex_fee
               total_fee_month += enrollex_fee + stripe_fee
               { stripe_id: charge.stripe_id, charged_at: charge.charged_at, amount: amount.to_f / 100, enrollex_fee: enrollex_fee, description: course.name, month: seed.strftime('%B %Y'), seed: seed.to_i, user_email: email, stripe_fee: stripe_fee }
             },
             total_fee_month: total_fee_month,
+            total_stripe_month: total_stripe_month,
+            total_enrollex_month: total_enrollex_month,
             total_amount_month: total_amount_month,
             total_net_month: total_amount_month - total_fee_month
           })

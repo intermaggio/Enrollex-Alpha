@@ -30,9 +30,13 @@
         %span{style: 'font-size:16px; color:green'}
           $#{number_with_precision charges[:total_amount_month], precision: 2}
       %h2
-        Total Fees in #{charges[:month]}:
+        Total Enrollex (Invoice) Fees in #{charges[:month]}:
         %span{style: 'font-size:16px; color:red'}
-          \-$#{number_with_precision charges[:total_fee_month], precision: 2}
+          \-$#{number_with_precision charges[:total_enrollex_month], precision: 2}
+      %h2
+        Total Stripe (Instant) Fees in #{charges[:month]}:
+        %span{style: 'font-size:16px; color:red'}
+          \-$#{number_with_precision charges[:total_stripe_month], precision: 2}
       %h2
         Total Net in #{charges[:month]}:
         %span{style: 'font-size:16px; color:green'}

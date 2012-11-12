@@ -36,6 +36,7 @@
     - if course.notes.present?
       %h3 Important Notes
       = RedCloth.new(course.notes, [:filter_html, :bbcode]).to_html.html_safe
+    = course.default_start
   .well.general-info
     .row-fluid
       .span6.first

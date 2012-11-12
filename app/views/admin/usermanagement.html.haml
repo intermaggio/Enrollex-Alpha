@@ -1,21 +1,28 @@
 = content_for :title, 'User Management'
 %h1 User Management
 - if @users
-  %table.table.table-striped.table-bordered
-    %th First Name
-    %th Last Name
-    %th Email
-    %th Edit
-    %tbody
-    - @users.each do |user|
-      - if !user.parent
-        %tr
-          %td= user[:first_name]
-          %td= user[:last_name]
-          %td= user[:email]
-          %td
-            = link_to "/admin/users/6", title: 'This is a test' do
-              %i.icon-cog
+  .tabbable
+    %ul.nav.nav-tags{:'data-tabs' => 'tabs'}
+      %li#general-link= link_to 'General', '#general', :'data-toggle' => 'tab'
+      %li#staffmanagement-link= link_to 'Staff Management', '#staffmanagement', :'data-toggle' => 'tab'
+    .tab-content
+      #general.tab-pane
+        %table.table.table-striped.table-bordered
+          %th First Name
+          %th Last Name
+          %th Email
+          %th Edit
+          %tbody
+          - @users.each do |user|
+            - if !user.parent
+              %tr
+                %td= user[:first_name]
+                %td= user[:last_name]
+                %td= user[:email]
+                %td
+                  = link_to "/admin/users/6", title: 'This is a test' do
+                    %i.icon-cog
+      #staffmanagement.tab-pane
 
 :javascript
   $('select').change(function(){

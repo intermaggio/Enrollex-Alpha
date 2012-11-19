@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121111223919) do
+ActiveRecord::Schema.define(:version => 20121113152324) do
 
   create_table "campers_courses", :force => true do |t|
     t.integer  "user_id"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20121111223919) do
     t.string   "default_start_offset"
     t.string   "default_end_offset"
     t.boolean  "is_template",          :default => false
+    t.string   "template_name"
   end
 
   create_table "days", :force => true do |t|

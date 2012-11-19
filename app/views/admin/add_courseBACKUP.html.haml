@@ -1,35 +1,14 @@
 = content_for :title, 'Add Course'
-
-#template-save-modal.modal.hide.fade
-  .modal-header
-    %a.close{:'data-dismiss' => 'modal'} x
-    %h3 Save As Template
-  .modal-body
-    = text_field_tag :template_name, 'Enter Template Name'
-  .modal-footer= content_tag :button, 'Confirm', class: 'btn btn-success'
-
-#template-manage-modal.modal.hide.fade
+#template-modal.modal.hide.fade
   .modal-header
     %a.close{:'data-dismiss' => 'modal'} ×
-    %h3 Select a Template
+    %h3 Existing Courses
   .modal-body
-    %table.table.table-striped.table-bordered
-      %th ?
-      %th{style: 'width:430px'} Template Name
-      %th Actions
-      %tbody
-      - organization.courses.each do |course|
-        - if course.is_template
-          %tr
-            %td= radio_button_tag :course, course.id
-            %td #{course.template_name}
-            %td.actions
-              = link_to '', title: 'Overwrite Template' do
-                %i.icon-ok-circle>
-              = link_to '', title: 'Load Template' do
-                %i.icon-edit>
-              = link_to '', title: 'Remove Template' do
-                %i.icon-remove-sign>
+    - organization.courses.each do |course|
+      - if course.is_template
+        .control-group
+          .controls{style: 'float:left;margin-right:8px'}= radio_button_tag :course, course.id
+          %label{style: 'display:inline-block;margin-top:2px'} [#{course.id}] #{course.name}
   .modal-footer
     = link_to 'Close', 'javascript:void(0)', class: 'btn', :'data-dismiss' => 'modal'
     = link_to 'Choose', 'javascript:void(0)', id: 'template-choose', class: 'btn btn-success', :'data-dismiss' => 'modal'
@@ -48,7 +27,7 @@
                 %li= reason
       = form_for :course, url: '/admin/courses/create', html: { class: 'form-horizontal', id: 'course_form' } do |f|
         %fieldset
-          %div{style: 'position:relative;'}= link_to 'Choose Template..', '#template-manage-modal', class: 'btn btn-info', :'data-toggle' => 'modal'
+          %div{style: 'position:relative;'}= link_to 'Choose Template..', '#template-modal', class: 'btn btn-info', :'data-toggle' => 'modal'
           .row{style: 'padding-top: 40px'}
             .span6
               .control-group
@@ -118,9 +97,11 @@
                 .controls= f.text_field :room
               .control-group
                 .controls= link_to 'Preview/Update Map', 'javascript:void(0)', id: 'update_map', class: 'btn btn-primary'
+              .control-group
+                %label List as template?
+                .controls= f.check_box :is_template
               #map
           .form-actions= f.submit 'Schedule', class: 'btn btn-success'
-          %div{style: 'position:relative;'}= link_to 'Save as Template..', '#template-save-modal', class: 'btn btn-info', :'data-toggle' => 'modal'
 
 - if @course
   :javascript
@@ -176,8 +157,8 @@
     }, 600)
   })
 
-  $('#template-manage').click(function(){
-    var id = $('#template-manage-modal input:checked').val()
+  $('#template-choose').click(function(){
+    var id = $('#template-modal input:checked').val()
     $.post(
       '/courses/' + id + '/template',
       {},
